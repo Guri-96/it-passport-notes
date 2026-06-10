@@ -1,0 +1,1998 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ストラテジ攻略ノート｜ITパスポート</title>
+<style>
+:root{
+  color-scheme: light;
+  --ink:#2b3a42;
+  --red:#b73a2e;
+  --red-soft:#fbeeec;
+  --blue:#3a6ea5;
+  --paper:#fdfbf3;
+  --grid:rgba(125,160,195,.22);
+  --card:#fffefa;
+  --line:#d9d2bf;
+  --green:#3c7a4e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:22px 22px;
+  line-height:1.9;
+  font-size:16px;
+}
+.wrap{max-width:820px;margin:0 auto;padding:18px 16px 80px;}
+header.top{
+  text-align:center;
+  padding:18px 10px 14px;
+  margin-bottom:18px;
+  border-bottom:3px double var(--line);
+}
+h1.title{
+  font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;
+  font-size:30px;
+  letter-spacing:.18em;
+  color:var(--ink);
+}
+.subtitle{font-size:13px;color:#7a7261;letter-spacing:.25em;margin-top:2px;}
+.progressline{margin-top:10px;font-size:13px;color:#6b6253;}
+.bar{height:8px;background:#eee7d6;border-radius:4px;overflow:hidden;max-width:360px;margin:6px auto 0;border:1px solid var(--line);}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#c8553d,var(--red));width:0%;transition:width .5s;}
+.banner{background:#fff4e0;border:1px solid #e0c890;border-radius:8px;padding:10px 14px;font-size:13px;margin-bottom:14px;}
+.card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:10px;
+  box-shadow:0 2px 6px rgba(90,80,50,.08);
+  margin-bottom:20px;
+  overflow:hidden;
+}
+.card-h{
+  padding:12px 18px;
+  border-bottom:1px solid var(--line);
+  background:linear-gradient(180deg,#faf6e9,#f5efdd);
+  display:flex;align-items:center;justify-content:space-between;gap:8px;
+}
+.card-h .ch-name{
+  font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+  font-size:19px;font-weight:700;letter-spacing:.08em;
+}
+.card-h .ch-no{font-size:12px;color:#8a8268;display:block;letter-spacing:.2em;}
+.unit-row{
+  display:flex;align-items:center;gap:12px;
+  padding:13px 18px;
+  border-bottom:1px dashed #e3dcc8;
+  cursor:pointer;
+  transition:background .15s;
+  -webkit-tap-highlight-color:rgba(183,58,46,.08);
+}
+.unit-row:hover{background:#faf5e6;}
+.unit-row:last-child{border-bottom:none;}
+.unit-no{
+  flex:0 0 auto;width:30px;height:30px;border-radius:50%;
+  background:#efe8d4;color:#6b6253;font-size:14px;
+  display:flex;align-items:center;justify-content:center;font-weight:700;
+}
+.unit-name{flex:1 1 auto;font-size:15.5px;}
+.unit-state{flex:0 0 auto;min-width:48px;text-align:center;}
+.arrow{color:#b9b09a;font-size:14px;}
+.locked{cursor:default;opacity:.55;}
+.locked:hover{background:transparent;}
+.soon{font-size:11px;color:#9a9078;border:1px solid #cfc6ad;border-radius:4px;padding:1px 7px;}
+.testrow{background:#fbf7ec;}
+.stamp{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:40px;height:40px;border-radius:50%;
+  border:2.5px solid rgba(183,58,46,.85);
+  color:rgba(183,58,46,.92);
+  font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+  font-weight:700;font-size:17px;
+  transform:rotate(-12deg);
+  background:radial-gradient(circle at 35% 30%, rgba(183,58,46,.10), rgba(183,58,46,.03));
+  box-shadow:inset 0 0 0 1px rgba(183,58,46,.25);
+  letter-spacing:0;
+  user-select:none;
+}
+.stamp.big{width:84px;height:84px;font-size:30px;border-width:4px;}
+.stamp.anim{animation:stampIn .45s cubic-bezier(.2,1.6,.4,1) both;}
+@keyframes stampIn{
+  0%{transform:rotate(-12deg) scale(2.4);opacity:0;}
+  60%{transform:rotate(-12deg) scale(.92);opacity:1;}
+  100%{transform:rotate(-12deg) scale(1);opacity:1;}
+}
+.btn{
+  display:inline-block;border:none;cursor:pointer;
+  font-family:inherit;font-size:15px;font-weight:700;
+  padding:12px 26px;border-radius:8px;
+  background:var(--red);color:#fff;
+  box-shadow:0 2px 0 #8e2c22;
+  transition:transform .08s, box-shadow .08s;
+  -webkit-tap-highlight-color:transparent;
+}
+.btn:active{transform:translateY(2px);box-shadow:0 0 0 #8e2c22;}
+.btn.sub{background:#fff;color:var(--ink);border:1.5px solid #c9c0a8;box-shadow:0 2px 0 #c9c0a8;}
+.btn.blue{background:var(--blue);box-shadow:0 2px 0 #2a5078;}
+.btn:disabled{opacity:.45;cursor:default;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0 6px;}
+.backlink{
+  display:inline-block;margin-bottom:14px;font-size:14px;color:var(--blue);
+  cursor:pointer;text-decoration:none;border-bottom:1px dashed var(--blue);
+}
+/* ---- 講義 ---- */
+.lecture{padding:22px 22px 26px;}
+.lec-head{margin-bottom:6px;}
+.lec-ch{font-size:12.5px;color:#8a8268;letter-spacing:.15em;}
+.lec-title{
+  font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+  font-size:24px;font-weight:700;letter-spacing:.05em;
+  border-bottom:3px double var(--line);padding-bottom:8px;margin-bottom:4px;
+  display:flex;align-items:center;justify-content:space-between;gap:10px;
+}
+.lec-meta{font-size:12.5px;color:#9a9078;margin-bottom:14px;}
+.lecture h3.sec{
+  font-size:17.5px;margin:30px 0 10px;
+  padding:6px 12px;border-left:5px solid var(--red);
+  background:linear-gradient(90deg,#f8f2e2,transparent);
+  font-weight:700;letter-spacing:.04em;
+}
+.lecture p{margin:10px 0;}
+.lecture ul,.lecture ol{margin:8px 0 12px 24px;}
+.lecture li{margin:5px 0;}
+.kw{color:var(--red);font-weight:700;}
+.ex{
+  background:#f3f7fb;border:1px solid #c9d8e6;border-radius:8px;
+  padding:12px 16px;margin:14px 0;font-size:15px;
+}
+.ex-t{font-weight:700;color:var(--blue);font-size:13.5px;margin-bottom:4px;letter-spacing:.08em;}
+.pt{
+  background:var(--red-soft);border:1px solid #e3b9b2;border-radius:8px;
+  padding:12px 16px;margin:14px 0;font-size:15px;
+}
+.pt-t{font-weight:700;color:var(--red);font-size:13.5px;margin-bottom:4px;letter-spacing:.08em;}
+.why{
+  background:#eef5ef;border:1px solid #b5cdb8;border-left:5px solid var(--green);border-radius:8px;
+  padding:12px 16px;margin:14px 0;font-size:15px;
+}
+.why-t{font-weight:700;color:var(--green);font-size:13.5px;margin-bottom:4px;letter-spacing:.08em;}
+.tbl{border-collapse:collapse;width:100%;margin:12px 0;font-size:14.5px;background:#fff;}
+.tbl th,.tbl td{border:1px solid #cfc6ad;padding:7px 10px;text-align:left;vertical-align:top;}
+.tbl th{background:#f5efdd;font-weight:700;white-space:nowrap;}
+/* ---- 質問コーナー ---- */
+.qa{
+  margin-top:34px;padding:16px 18px;
+  border:1.5px dashed #b9ab84;border-radius:10px;background:#fbf8ee;
+}
+.qa-t{font-weight:700;margin-bottom:6px;font-size:15.5px;}
+.qa-note{font-size:13px;color:#7a7261;margin-bottom:10px;}
+.qa textarea{
+  width:100%;min-height:74px;border:1px solid #c9c0a8;border-radius:8px;
+  padding:10px;font-family:inherit;font-size:15px;background:#fff;resize:vertical;
+}
+.qa .btn{margin-top:10px;}
+.ai-ans{
+  margin-top:14px;padding:12px 16px;background:#fff;border:1px solid #c9d8e6;
+  border-radius:8px;font-size:15px;white-space:pre-wrap;
+}
+.done-area{text-align:center;margin-top:30px;padding-top:18px;border-top:1px solid var(--line);}
+.done-stamp-wrap{min-height:96px;display:flex;align-items:center;justify-content:center;margin-bottom:8px;}
+.undo{font-size:12.5px;color:#9a9078;cursor:pointer;text-decoration:underline;}
+/* ---- テスト ---- */
+.test-pane{padding:24px 22px 28px;}
+.t-head{font-size:13px;color:#8a8268;letter-spacing:.1em;margin-bottom:4px;}
+.t-q{font-size:16.5px;font-weight:700;margin:10px 0 18px;line-height:1.8;}
+.choices{display:flex;flex-direction:column;gap:10px;}
+.choice{
+  text-align:left;background:#fff;border:1.5px solid #c9c0a8;border-radius:8px;
+  padding:12px 14px;font-size:15px;font-family:inherit;cursor:pointer;line-height:1.7;
+  transition:background .12s,border-color .12s;
+}
+.choice:hover{background:#faf5e6;}
+.choice .cno{font-weight:700;color:var(--blue);margin-right:8px;}
+.choice.sel-ok{border-color:var(--green);background:#eef7f0;}
+.choice.sel-ng{border-color:var(--red);background:var(--red-soft);}
+.choice.reveal{border-color:var(--green);background:#eef7f0;}
+.choice:disabled{cursor:default;}
+.judge{font-size:20px;font-weight:700;margin:16px 0 6px;}
+.judge.ok{color:var(--green);}
+.judge.ng{color:var(--red);}
+.expl{
+  background:#f8f4e8;border:1px solid var(--line);border-radius:8px;
+  padding:12px 16px;font-size:14.5px;margin:10px 0 16px;
+}
+.expl b{color:var(--red);}
+.result-box{text-align:center;padding:10px 0;}
+.score{font-size:42px;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;margin:8px 0;}
+.score small{font-size:18px;}
+.rv-tag{display:inline-block;font-size:12px;color:#fff;background:var(--blue);border-radius:4px;padding:2px 8px;margin-left:8px;vertical-align:middle;}
+/* ---- toast ---- */
+#toast{
+  position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);
+  background:rgba(43,58,66,.95);color:#fff;padding:10px 20px;border-radius:8px;
+  font-size:14px;opacity:0;pointer-events:none;transition:all .25s;max-width:90%;
+  z-index:50;
+}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+footer{margin-top:30px;text-align:center;font-size:12px;color:#a89e84;}
+@media (max-width:480px){
+  body{font-size:15px;}
+  h1.title{font-size:24px;}
+  .lecture{padding:18px 14px 22px;}
+  .test-pane{padding:18px 14px 22px;}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="app"></div>
+  <footer>ストラテジ攻略ノート ─ ITパスポート試験 ストラテジ系（シラバス準拠・全3章15単元）</footer>
+</div>
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* =====================================================
+   データ定義
+===================================================== */
+const CHAPTERS = [
+  { id:1, name:"企業と法務", ready:true, units:[
+    { id:"u11", no:"①", title:"企業活動と経営組織" },
+    { id:"u12", no:"②", title:"業務分析とデータ利活用" },
+    { id:"u13", no:"③", title:"会計・財務" },
+    { id:"u14", no:"④", title:"知的財産権" },
+    { id:"u15", no:"⑤", title:"セキュリティ・労働・取引の法律" },
+    { id:"u16", no:"⑥", title:"標準化とガイドライン" },
+    { id:"u17", no:"⑦", title:"補講：その他の法律と技術者倫理" }
+  ]},
+  { id:2, name:"経営戦略", ready:true, units:[
+    { id:"u21", no:"①", title:"経営戦略マネジメント" },
+    { id:"u22", no:"②", title:"マーケティング" },
+    { id:"u23", no:"③", title:"ビジネス戦略と目標・評価" },
+    { id:"u24", no:"④", title:"技術戦略マネジメント" },
+    { id:"u25", no:"⑤", title:"ビジネスインダストリ" },
+    { id:"u26", no:"⑥", title:"補講：成長戦略・生産システム・AI活用" }
+  ]},
+  { id:3, name:"システム戦略", ready:true, units:[
+    { id:"u31", no:"①", title:"情報システム戦略とDX" },
+    { id:"u32", no:"②", title:"業務プロセスの改善" },
+    { id:"u33", no:"③", title:"ソリューションビジネス" },
+    { id:"u34", no:"④", title:"システム企画と調達" },
+    { id:"u35", no:"⑤", title:"補講：システム活用促進と評価" }
+  ]}
+];
+
+const LECTURES = {
+  u11: `
+<p>最初の単元は「そもそも企業とは何をする組織なのか」という話です。抽象的に聞こえますが、ITパスポートでは毎回のように出題される定番分野。身近な会社を思い浮かべながら読めば、暗記ではなく「そりゃそうだよね」という納得で覚えられます。</p>
+
+<h3 class="sec">1. 企業活動の目的 ── 利益だけではない</h3>
+<p>企業の第一の目的は、製品やサービスを提供して<span class="kw">利益</span>を上げ、事業を継続することです。ただし現代の企業は「儲かれば何でもよい」とは考えません。企業が何のために存在するのかを示した基本方針を<span class="kw">経営理念</span>と呼びます。近年はこれを<span class="kw">MVV</span>という3点セットで掲げる企業が増えています。<b>ミッション</b>（果たすべき使命・存在意義）、<b>ビジョン</b>（目指す将来の姿）、<b>バリュー</b>（大切にする価値観・行動指針）の頭文字で、令和7年度の本試験では「ビジョンとして示すものはどれか」という形で出題されました。「使命→姿→価値観」の対応で覚えましょう。</p>
+<div class="ex"><div class="ex-t">具体例</div>無印良品（良品計画）の「役に立つ」、トヨタの「幸せを量産する」など、多くの企業がウェブサイトの会社概要に経営理念を掲げています。就職活動で企業研究をしたときに見た「企業理念」「ミッション」がまさにこれです。</div>
+<p>企業を取り巻く利害関係者を<span class="kw">ステークホルダー</span>といいます。株主だけでなく、顧客、従業員、取引先、地域社会まで含む広い概念です。試験では「株主だけを指す」という誤りの選択肢がよく出ます。</p>
+<p>そして、企業が利益追求だけでなく環境や社会へ配慮し、説明責任を果たすべきだという考え方が<span class="kw">CSR</span>（企業の社会的責任）です。関連して次の用語もセットで覚えましょう。</p>
+<ul>
+<li><span class="kw">SDGs</span>：国連が定めた2030年までの「持続可能な開発目標」。17のゴールから成り、企業活動でも重視されます。</li>
+<li><span class="kw">ESG投資</span>：環境（Environment）・社会（Social）・ガバナンス（Governance）に配慮する企業を選んで投資すること。投資家側から企業に良い行動を促す仕組みです。</li>
+<li><span class="kw">グリーンIT</span>：IT機器の省エネ化や、ITを使った社会の省エネ（ペーパーレス、テレビ会議による移動削減など）。</li>
+</ul>
+<div class="why"><div class="why-t">なぜ？ ── 企業はなぜ利益以外まで求められるのか</div>
+企業は、従業員（社会が育てた人材）、道路や電力（社会のインフラ）、自然環境といった<b>社会の資源を借りて</b>活動しています。だから「儲けたが、環境を壊し、人を使い捨てた」では社会からの信頼を失い、長期的には顧客も人材も離れて存続できなくなります。さらに近年は<b>ESG投資</b>の普及で「社会に配慮しない企業にはお金が集まらない」という資金面の仕組みまでできました。つまりCSRは「余裕があればやる慈善活動」ではなく、<b>企業が長く存続するための条件</b>になっているのです。試験で「CSR＝利益を増やすための宣伝活動」「法律で義務づけられた範囲だけ守ればよい」といった選択肢が出たら、この理屈から誤りと判断できます。</div>
+<p>また、企業経営を健全に保つ仕組みとして<span class="kw">コーポレートガバナンス</span>（企業統治）があります。経営者が暴走したり不正をしたりしないよう、株主や社外取締役が経営を監視する仕組みです。法令や規則を守って活動することは<span class="kw">コンプライアンス</span>（法令遵守）、経営状況などの情報を外部へ公開することは<span class="kw">ディスクロージャー</span>（情報開示）といいます。</p>
+<div class="why"><div class="why-t">なぜ？ ── 経営者を「監視」する仕組みがいるのか</div>
+鍵は<b>「所有と経営の分離」</b>です。株式会社では、会社の持ち主（株主）と、実際に経営する人（経営者）が別人です。経営者は他人のお金を預かって運用する立場なので、放っておくと自分の報酬や保身を優先したり、不正会計で失敗を隠したりする誘惑が生じます（経済学では「依頼人と代理人の利害のズレ」として有名な構造で、心理学でいえば監督者がいないと手を抜きやすい、という話に近い）。そこで、社外取締役や監査役といった<b>外部の目</b>で経営をチェックする仕組み＝コーポレートガバナンスが必要になるのです。ディスクロージャーが大切なのも同じ理由で、<b>情報を公開しなければ株主は監視のしようがない</b>からです。ガバナンス（監視の仕組み）・コンプライアンス（守ること）・ディスクロージャー（見せること）は、三点セットで「経営者の暴走を防ぐ装置」と理解してください。</div>
+<div class="pt"><div class="pt-t">試験のポイント</div>「ガバナンス＝経営を<b>監視する仕組み</b>」「コンプライアンス＝<b>法令遵守</b>」「ディスクロージャー＝<b>情報開示</b>」。カタカナ語の意味の取り違えを狙った問題が頻出です。</div>
+
+<h3 class="sec">2. 経営資源 ── ヒト・モノ・カネ・情報</h3>
+<p>企業が活動に使う資源を<span class="kw">経営資源</span>と呼び、伝統的に「ヒト・モノ・カネ」、そして現代ではこれに<span class="kw">情報</span>を加えた4つで説明されます。ITパスポートが「情報」を扱う試験である以上、4つ目の資源としての情報の重要性はこの試験全体のテーマでもあります。</p>
+<div class="ex"><div class="ex-t">具体例</div>セブン-イレブンの強さは、店舗（モノ）や店員（ヒト）だけでなく、「どの店で・何が・いつ売れたか」というPOSデータ（情報）を発注に活かしてきた点にあります。情報が他の3資源と並ぶ武器になる典型例です。</div>
+
+<h3 class="sec">3. 経営管理のサイクル ── PDCAとOODA</h3>
+<p>経営や業務を改善し続けるための代表的な枠組みが<span class="kw">PDCA</span>サイクルです。<b>Plan（計画）→ Do（実行）→ Check（評価）→ Act（改善）</b>を繰り返します。順番を入れ替えた誤りの選択肢が定番なので、「計画してから動き、結果を確かめて、直す」という流れを体で覚えてください。</p>
+<p>変化が速い状況向けの意思決定モデルとして<span class="kw">OODAループ</span>（ウーダ）も出題されます。<b>Observe（観察）→ Orient（状況判断）→ Decide（意思決定）→ Act（行動）</b>の繰り返しで、もともとは戦闘機パイロットの意思決定理論です。PDCAが「じっくり計画して改善」なのに対し、OODAは「まず現場を観察して素早く動く」イメージです。</p>
+<div class="why"><div class="why-t">なぜ？ ── PDCAがあるのにOODAが生まれたのか</div>
+PDCAの弱点は<b>「Planに時間をかけている間に状況が変わってしまう」</b>ことです。工場の品質改善のように環境が安定している仕事ではPDCAが強力ですが、競合の動きやSNSの反応が日単位で変わる市場では、年間計画を立てて検証する頃には前提が崩れています。そこで「綿密な計画」を「現在の観察」に置き換えたのがOODAです。つまり2つは優劣ではなく<b>環境の変化スピードによる使い分け</b>。また、PDCAが機能しない典型は「D（実行）ばかりでC（評価）をやらない」パターンだということも、運用上の急所として覚えておくと事例問題で役立ちます。</div>
+
+<h3 class="sec">4. ヒトを育てる・活かす ── 人材管理</h3>
+<p>経営資源「ヒト」に関する用語群です。研修制度の話は、来年からの新人研修で実際に体験することになります。</p>
+<table class="tbl">
+<tr><th>用語</th><th>意味</th></tr>
+<tr><td><span class="kw">OJT</span></td><td>On the Job Training。実際の仕事を通じて、職場の先輩が指導する教育。配属後の「先輩について学ぶ」やつです。</td></tr>
+<tr><td><span class="kw">Off-JT</span></td><td>職場を離れて行う教育。集合研修や外部セミナーなど。入社直後の新人研修はこちら。</td></tr>
+<tr><td><span class="kw">e-ラーニング</span></td><td>コンピュータやネットワークを使った学習。時間や場所を選ばないのが利点。</td></tr>
+<tr><td><span class="kw">アダプティブラーニング</span></td><td>学習者一人ひとりの理解度に合わせて、内容や難易度を変える学習方法。</td></tr>
+<tr><td><span class="kw">タレントマネジメント</span></td><td>従業員のスキルや経験を一元管理し、配置や育成に戦略的に活かすこと。</td></tr>
+<tr><td><span class="kw">HRテック</span></td><td>HR（人事）×テクノロジー。AIによる採用支援や勤怠管理クラウドなど、人事業務へのIT活用全般。</td></tr>
+<tr><td><span class="kw">CDP</span></td><td>キャリアディベロップメントプログラム。長期的な視点で従業員のキャリア形成を支援する計画。</td></tr>
+</table>
+<p>もうひとつ重要なのが<span class="kw">MBO</span>（目標による管理）です。上司が一方的にノルマを課すのではなく、<b>従業員が自ら目標を設定し、その達成度で評価する</b>手法です。経営学者ドラッカーが提唱しました。自分で決めた目標のほうが動機づけが高まる――心理学でいう内発的動機づけに通じる発想で、ぐりさんには腑に落ちやすい考え方だと思います。</p>
+
+<h3 class="sec">5. 多様な働き方</h3>
+<ul>
+<li><span class="kw">ワークライフバランス</span>：仕事と生活の調和。</li>
+<li><span class="kw">ダイバーシティ</span>：性別・年齢・国籍・障がいの有無などの多様性を受け入れ、活かすこと。「インクルージョン（包摂）」とセットで使われます。</li>
+<li><span class="kw">テレワーク</span>：ITを活用した、場所や時間にとらわれない働き方。在宅勤務、モバイルワーク、<span class="kw">サテライトオフィス</span>勤務を含みます。</li>
+<li><span class="kw">ワークシェアリング</span>：仕事を複数人で分け合い、一人あたりの労働時間を減らして雇用を維持・創出すること。</li>
+</ul>
+
+<h3 class="sec">6. 経営組織の形態 ── 会社の「かたち」</h3>
+<p>ここがこの単元のヤマ場です。組織の形ごとに特徴を整理しましょう。</p>
+<table class="tbl">
+<tr><th>組織形態</th><th>特徴</th></tr>
+<tr><td><span class="kw">職能別組織</span></td><td>営業部・製造部・経理部など、仕事の種類（機能）ごとに分ける最も基本的な形。専門性は高まるが、部門間の壁ができやすい。</td></tr>
+<tr><td><span class="kw">事業部制組織</span></td><td>製品別・地域別・顧客別などの「事業部」ごとに分け、各事業部が開発から販売まで（利益責任を含めて）を持つ。</td></tr>
+<tr><td><span class="kw">マトリックス組織</span></td><td>職能と事業（またはプロジェクト）の2軸を組み合わせ、社員が2つの系統に同時に属する形。柔軟だが、上司が2人になり指揮命令が混乱しやすい。</td></tr>
+<tr><td><span class="kw">プロジェクト組織</span></td><td>特定の課題のために各部門から人を集め、達成したら解散する一時的な組織。</td></tr>
+<tr><td><span class="kw">カンパニ制</span></td><td>事業部制をさらに進め、各事業をあたかも独立した会社（カンパニー）のように扱う形。</td></tr>
+<tr><td><span class="kw">持株会社</span></td><td>自らは事業を行わず、グループ各社の株式を保有して支配する会社。「〜ホールディングス」という社名が目印。</td></tr>
+<tr><td><span class="kw">社内ベンチャー</span></td><td>新規事業のために、社内に独立した小組織を作る仕組み。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 組織の形がいくつもあるのか</div>
+組織形態の歴史は<b>「専門性」と「市場対応の速さ」のトレードオフ</b>との戦いです。職能別組織は同じ専門家を集めるので技術は磨かれますが、「この製品を売り切る責任者」が誰もいなくなる。そこで製品ごとに開発から販売まで持たせる事業部制が生まれましたが、今度は各事業部に経理や人事が重複してコストが増え、事業部同士がライバル化して全社最適が崩れる。両方の良いとこ取りを狙ったマトリックス組織は、引き換えに「上司2人」という指揮の混乱を抱える――。つまり<b>完璧な組織はなく、何を取り何を捨てるかの選択</b>なのです。持株会社が事業再編に強い理由も構造から説明できます。事業が「別会社」になっているので、不調な事業の売却や他社買収を<b>会社単位で付け替えるだけ</b>で実行でき、ある事業の失敗が他事業に波及しにくいのです。この「形→得失」の因果をつかむと、「市場の変化に素早く対応したい企業に適した組織は？」型の応用問題が解けるようになります。</div>
+<div class="ex"><div class="ex-t">具体例</div>「セブン&アイ・ホールディングス」はセブン-イレブンやイトーヨーカ堂などの株式を持つ<b>持株会社</b>です。ソニーグループは事業ごとに会社を分ける<b>カンパニ制→分社化</b>の代表例。家電のパナソニックは<b>事業部制</b>を日本で最初期に導入した企業として有名です。社名やニュースと結びつけると忘れません。</div>
+<div class="pt"><div class="pt-t">試験のポイント</div>頻出は「<b>マトリックス組織＝2系統に同時所属</b>」「<b>持株会社＝自らは事業をせず株式保有で支配</b>」「<b>プロジェクト組織＝期間限定で解散する</b>」の3つ。特徴の文章から組織名を選ばせる形式がほとんどです。</div>
+
+<h3 class="sec">7. 経営層の役職 ── CxO</h3>
+<p>経営責任者の呼び名はまとめて「CxO」と呼ばれます。試験では略語の意味を問われます。</p>
+<table class="tbl">
+<tr><th>略語</th><th>名称</th><th>担当</th></tr>
+<tr><td><span class="kw">CEO</span></td><td>最高経営責任者</td><td>経営全体のトップ</td></tr>
+<tr><td><span class="kw">COO</span></td><td>最高執行責任者</td><td>事業運営（執行）の責任者</td></tr>
+<tr><td><span class="kw">CFO</span></td><td>最高財務責任者</td><td>財務・経理</td></tr>
+<tr><td><span class="kw">CIO</span></td><td>最高情報責任者</td><td>情報システム・情報戦略</td></tr>
+<tr><td><span class="kw">CTO</span></td><td>最高技術責任者</td><td>技術開発</td></tr>
+<tr><td><span class="kw">CISO</span></td><td>最高情報セキュリティ責任者</td><td>情報セキュリティ</td></tr>
+</table>
+<p>覚え方は真ん中の文字です。E＝Executive（経営）、O＝Operating（執行）、F＝Financial（財務）、I＝Information（情報）、T＝Technology（技術）。<b>情報システム戦略の責任者はCIO</b>という出題が特に多いので、ITエンジニアの卵としてここだけは即答できるようにしましょう。</p>
+
+<h3 class="sec">8. もしもに備える ── BCPとBCM</h3>
+<p>地震や水害、システム障害、感染症などの緊急事態でも、重要な事業を止めない・早く復旧させるための計画が<span class="kw">BCP</span>（事業継続計画）です。そしてBCPを策定し、訓練や見直しを続ける経営管理の活動全体を<span class="kw">BCM</span>（事業継続管理）と呼びます。</p>
+<div class="ex"><div class="ex-t">具体例</div>東日本大震災のとき、いち早く店舗を再開したコンビニ各社や、工場が被災しても代替生産網で供給をつないだトヨタの対応はBCPの教科書的な例です。「計画そのものがBCP、運用し続ける活動がBCM」と区別してください。</div>
+<div class="why"><div class="why-t">なぜ？ ── BCPは「全部を守る計画」ではないのか</div>
+災害時には人員も電力も通信も足りなくなるため、<b>すべての業務を平常通り続けることは物理的に不可能</b>です。そこでBCPの本質は「守るものを選ぶこと」になります。中核事業（コンビニなら店舗の営業、銀行なら決済）を特定し、「どの業務を、どれくらいの時間内に、どの水準まで復旧させるか」という優先順位をあらかじめ決めておく。これが決まっていないと、緊急時に貴重な資源が重要でない業務に分散してしまいます。試験で「BCPの目的＝全業務を通常通り維持すること」という選択肢が出たら誤り。「<b>重要業務を中断させない・中断しても早期復旧させる</b>」が正しい目的です。</div>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li>企業は<span class="kw">経営理念</span>のもと利益を追求しつつ、<span class="kw">CSR</span>・<span class="kw">SDGs</span>・<span class="kw">ESG</span>など社会への責任も負う。</li>
+<li>経営資源は<b>ヒト・モノ・カネ・情報</b>。管理のサイクルは<span class="kw">PDCA</span>（と素早い<span class="kw">OODA</span>）。</li>
+<li>人材育成は<span class="kw">OJT</span>／<span class="kw">Off-JT</span>、評価は<span class="kw">MBO</span>。働き方は<span class="kw">ダイバーシティ</span>・<span class="kw">テレワーク</span>など。</li>
+<li>組織形態は<span class="kw">事業部制</span>・<span class="kw">マトリックス</span>・<span class="kw">持株会社</span>あたりが頻出。役職は<span class="kw">CIO</span>＝情報担当。</li>
+<li>緊急時に事業を続ける計画が<span class="kw">BCP</span>、その運用が<span class="kw">BCM</span>。</li>
+</ul>
+`,
+  u12: `
+<p>この単元は、問題を整理する技法と、データを読み解く技法を学びます。実はここ、<b>心理学系のぐりさんにとっては最大の得意分野</b>です。平均・分散・相関・標本調査……心理統計で鍛えた知識がそのまま得点になります。「知ってる話がITパスポート用語ではこう呼ばれる」という対応づけを意識して読んでください。</p>
+
+<h3 class="sec">1. アイデアを出し、整理する技法</h3>
+<p>会議でアイデアを集める代表的な手法が<span class="kw">ブレーンストーミング</span>です。4つのルール――<b>批判禁止・自由奔放・質より量・結合便乗の歓迎</b>――が問われます。「他人の案を批判してより良い案に磨き上げる」という選択肢は誤りです（批判禁止に反する）。</p>
+<p>出てきた大量のアイデアをカードに書き、似たもの同士をグループ化して整理する手法が<span class="kw">KJ法</span>（親和図法）です。考案者は文化人類学者の川喜田二郎。フィールドワークのデータ整理から生まれた手法で、質的研究に触れたことがあれば「ああ、あの作業か」とピンとくるはずです。</p>
+<div class="why"><div class="why-t">なぜ？ ── ブレーンストーミングは「批判禁止」なのか</div>
+これは心理学的に説明するのが一番わかりやすい論点です。人は批判される可能性を感じると<b>評価懸念</b>が働き、無難な発言しかしなくなります。しかし革新的なアイデアは、最初は突拍子もない形で出てくるもの。だから「出す段階」と「評価する段階」を意図的に切り離し、出す段階では心理的安全性を最大化する――これがブレーンストーミングの設計思想です。「質より量」も同じ理屈で、量を出せば玉石混交でも玉が混ざる確率が上がる。4原則はバラバラの規則ではなく、<b>すべて「発想の抑制を外す」という1つの目的</b>から導かれています。こう理解すれば、どんな形で原則を問われても判断できます。</div>
+<p>そのほか、選択肢と結果を樹形図で整理して期待値などを比較する<span class="kw">デシジョンツリー</span>（決定木）も覚えておきましょう。</p>
+
+<h3 class="sec">2. データを「見える化」する図 ── QC七つ道具など</h3>
+<p>製造業の品質管理（QC）で磨かれた図表群は、試験の常連です。<b>図の名前と「何がわかるか」</b>の対応を押さえます。</p>
+<table class="tbl">
+<tr><th>図</th><th>何がわかるか</th></tr>
+<tr><td><span class="kw">パレート図</span></td><td>項目を件数の多い順に棒グラフで並べ、累積比率を折れ線で重ねた図。「上位の少数項目が全体の大部分を占める」ことを見つけ、重点管理する（<span class="kw">ABC分析</span>に使う）。</td></tr>
+<tr><td><span class="kw">特性要因図</span></td><td>結果（特性）に影響する原因（要因）を魚の骨のような形に整理した図。フィッシュボーンチャートとも。原因の洗い出しに使う。</td></tr>
+<tr><td><span class="kw">ヒストグラム</span></td><td>データの分布（ばらつき）を柱状で表す。心理統計の度数分布図そのもの。</td></tr>
+<tr><td><span class="kw">散布図</span></td><td>2つの量の関係（相関）を点で表す。右上がりなら<b>正の相関</b>、右下がりなら<b>負の相関</b>。</td></tr>
+<tr><td><span class="kw">管理図</span></td><td>時系列データが管理限界線の内に収まっているかを見て、工程の異常を発見する。</td></tr>
+<tr><td><span class="kw">レーダーチャート</span></td><td>複数項目のバランスをクモの巣状に表す。成績表や性格検査のプロフィール表示でおなじみ。</td></tr>
+<tr><td><span class="kw">箱ひげ図</span></td><td>中央値・四分位数・最大最小を1つの箱で表す。複数グループの分布比較に便利。</td></tr>
+<tr><td><span class="kw">ヒートマップ</span></td><td>数値の大小を色の濃淡で表す。ウェブページのどこが見られているかの分析などに使う。</td></tr>
+</table>
+<div class="ex"><div class="ex-t">具体例</div>コンビニの本部が「クレーム件数をパレート図にしたら、上位2種類（接客・品切れ）で全体の8割だった。まずこの2つを重点対策しよう」――これがパレート図とABC分析の典型的な使い方です。</div>
+<div class="why"><div class="why-t">なぜ？ ── 「上位だけ」を重点管理するのが合理的なのか</div>
+背景にあるのは「結果の8割は、原因の2割から生まれる」という経験則（<b>パレートの法則</b>、80:20の法則）です。売上の大部分は一部の売れ筋商品から、クレームの大部分は一部の原因から生まれる――多くの現場でこの偏りが観察されます。管理にはコストがかかるので、全項目に同じ手間をかけるのは資源のムダ。<b>影響の大きい少数（A群）に手厚く、影響の小さい多数（C群)は簡素に</b>管理するのが、限られた資源で最大の効果を出す方法です。パレート図はこの「偏り」を一目で見せるための道具であり、ABC分析はその偏りに応じて管理の濃淡をつける手法、という関係です。</div>
+<div class="pt"><div class="pt-t">試験のポイント</div>図の<b>説明文から名前を選ぶ</b>問題がほとんど。「原因と結果の関係を魚の骨状に＝特性要因図」「件数順＋累積比率＝パレート図」は反射で答えられるように。</div>
+
+<h3 class="sec">3. 統計の基礎 ── 心理統計の貯金で得点する</h3>
+<p>データの中心を表す代表値は<span class="kw">平均値</span>・<span class="kw">中央値</span>（メジアン）・<span class="kw">最頻値</span>（モード）。ばらつきを表すのが<span class="kw">分散</span>と<span class="kw">標準偏差</span>です。左右対称の釣鐘型の分布が<span class="kw">正規分布</span>で、「平均±標準偏差1つ分に約68％が入る」という性質まで出題されることがあります。このあたりは心理統計の最初の授業の内容そのままですね。</p>
+<p>もうひとつ、心理統計組へのボーナス論点が<span class="kw">尺度水準</span>です。<b>名義尺度</b>（血液型・性別：区別のみ）、<b>順序尺度</b>（順位・満足度の5段階：大小はあるが間隔は不定）、<b>間隔尺度</b>（摂氏温度・偏差値：間隔は等しいがゼロが絶対でない）、<b>比率尺度</b>（身長・金額：ゼロが絶対）。令和7年度に「間隔尺度に該当するものはどれか」がそのまま出題されました。計量心理学の授業の貯金で即答できる問題です。</p>
+<p>2変数の関係の強さは<span class="kw">相関係数</span>（−1から+1）で表します。試験で注意したいのは<b>「相関があっても因果があるとは限らない」</b>という論点で、見かけ上の相関である<span class="kw">擬似相関</span>（例：アイスの売上と水難事故――背後に「気温」という第3の変数）はITパスポートでも問われます。卒論の考察で散々書いた話がそのまま出る、おいしい論点です。</p>
+<div class="why"><div class="why-t">なぜ？ ── 相関があっても因果といえないのか（3つの可能性）</div>
+AとBに相関が見つかったとき、考えられる説明は1つではありません。（1）本当にAがBの原因（因果）、（2）<b>逆にBがAの原因</b>（逆の因果：「売れている店ほど広告費が多い」のは広告の効果か、儲かったから広告を増やせたのか）、（3）<b>第3の変数CがAとB両方の原因</b>（擬似相関：気温がアイスの売上と水難事故の両方を増やす）、そして（4）単なる偶然。データだけからは（1）〜（4）を区別できないからこそ、「相関＝因果」と断定する選択肢は誤りになります。ビジネスの文脈では、この区別を怠ると「広告を増やせば必ず売れる」のような誤った意思決定につながる――これがデータリテラシーとして問われる理由です。</div>
+<p>調査の方法では、全員を調べる<span class="kw">全数調査</span>と、一部を抜き出して全体を推測する<span class="kw">標本調査</span>（母集団からのサンプリング）の区別が出ます。また、ウェブサービスで2つの案を実際に見せ比べて効果を測る<span class="kw">A/Bテスト</span>、データに基づいて仮説の正しさを確かめる<span class="kw">仮説検定</span>という用語も近年のシラバスで追加されました。実験計画法と統計的検定を学んだ身には、もはやサービス問題です。</p>
+<div class="why"><div class="why-t">なぜ？ ── 一部を調べただけで全体がわかるのか</div>
+鍵は<b>無作為抽出（ランダムサンプリング）</b>です。母集団から偏りなく標本を選べば、標本の性質は確率的に母集団の縮図になります（味噌汁の味見が一杯すくうだけで済むのは、よくかき混ぜてあるから、という比喩が有名です）。逆に言えば、<b>抽出に偏りがあれば標本がいくら大きくても結論は歪みます</b>。「自社アプリの利用者だけにアンケートして『若者全体の意見』と結論づける」のが典型的な失敗例。全数調査をしないのは、コストと時間の問題に加え、調査自体が対象を壊す場合（電球の寿命試験など）があるからです。この理屈はA/Bテストの設計（ユーザーをランダムに2群に分けるから比較できる）にもそのままつながっています。</div>
+
+<h3 class="sec">4. データ利活用 ── ビッグデータの時代</h3>
+<p>蓄積したデータを経営に活かすためのキーワード群です。</p>
+<ul>
+<li><span class="kw">ビッグデータ</span>：量が膨大で、種類が多様（文章・画像・位置情報など）で、発生速度が速いデータ群。従来の方法では処理しきれないデータを指します。</li>
+<li><span class="kw">BI</span>（ビジネスインテリジェンス）：企業内の大量データを分析・加工して、経営の意思決定に役立てる仕組みやツール。</li>
+<li><span class="kw">データマイニング</span>：大量データから、統計やAIを使って<b>これまで知られていなかった規則性や関係</b>を掘り出す（マイニング＝採掘）こと。</li>
+<li><span class="kw">テキストマイニング</span>：文章データ（アンケート自由記述、SNS投稿など）を分析して傾向を取り出すこと。</li>
+<li><span class="kw">データサイエンティスト</span>：統計やITのスキルでデータ分析を行い、ビジネスに活かす専門人材。</li>
+<li><span class="kw">データ駆動型経営</span>：勘や経験だけでなく、データ分析の結果に基づいて意思決定する経営スタイル。</li>
+</ul>
+<div class="why"><div class="why-t">なぜ？ ── BIとデータマイニングは何が本質的に違うのか</div>
+どちらも「データを分析する」話なので混同しやすいのですが、役割が違います。<b>BIは「人間が見て判断するための集計・可視化」</b>です。売上をダッシュボードに表示し、人間が「先月より落ちたな」と気づく。問いを立てるのは人間です。一方<b>データマイニングは「機械に規則性を発見させる」</b>営みで、人間が思いつかなかった「おむつとビール」のような組合せを統計やAIが掘り出します。試験では「BIの説明」と「データマイニングの説明」を入れ替えた選択肢が出ます。「<b>可視化して意思決定を支援＝BI／未知の規則性の発見＝マイニング</b>」と軸で区別してください。なお、分析の前にはデータの形式をそろえ、誤記や欠損を直す前処理（データクレンジング）が必要になる、という点も実務感覚として持っておくと選択肢が切りやすくなります。</div>
+<div class="ex"><div class="ex-t">具体例</div>「おむつを買う人はビールも一緒に買いがち」という小売データ分析の逸話はデータマイニングの定番例です。日本なら、Tポイントやポンタ、楽天ポイントなどのポイントカード事業は、購買データを集めて分析する仕組みそのものです。</div>
+<p>データの集め方・性質に関する用語も整理しておきます。自分で調査して集めるデータが<span class="kw">1次データ</span>、官公庁の統計など他者が集めたものを利用するのが<span class="kw">2次データ</span>。国や自治体が誰でも使える形で公開するデータを<span class="kw">オープンデータ</span>、個人の行動・購買履歴など個人に関するデータを<span class="kw">パーソナルデータ</span>と呼びます。心理学の調査法でいう一次資料・二次資料と同じ発想です。</p>
+
+<h3 class="sec">5. 業務を分析して改善につなげる</h3>
+<p>業務分析の出発点は、仕事の流れを図にして「見える化」することです。誰が・何を・どの順でやるかを図示し、ムダや滞留を見つけます。また、在庫管理では、在庫が一定量を下回ったら発注する<span class="kw">定量発注方式</span>と、決まった時期に必要量を発注する<span class="kw">定期発注方式</span>という2つの方式が知られています。発注のタイミングを決める基準在庫量を<b>発注点</b>と呼ぶことも、計算問題の前提として登場します。</p>
+<div class="why"><div class="why-t">なぜ？ ── 発注方式が2つあるのか</div>
+在庫管理の悩みは「在庫が多すぎると保管費と廃棄ロスがかさみ、少なすぎると品切れで販売機会を失う」という綱引きです。<b>定量発注方式</b>は「減ったら頼む」仕組みなので管理の手間が小さく、<b>需要が安定した安価な品</b>（ネジ、コピー用紙）に向きます。<b>定期発注方式</b>は毎回需要を予測して発注量を計算する手間がかかる分、需要の変動に細かく対応できるので、<b>高価で需要が変動する品</b>（季節商品、生鮮品）に向きます。「手間をかける価値がある商品かどうか」で方式を選んでいる、と理解すれば、どちらの方式が適切かを問う事例問題に対応できます。</div>
+<div class="pt"><div class="pt-t">試験のポイント</div>この単元の計算問題は「平均・中央値を求める」「散布図から相関を読む」「パレート図からA群を選ぶ」程度の素直なものが中心。心理統計を経験したぐりさんなら、計算問題はむしろ得点源にできます。</div>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li>アイデア出しは<span class="kw">ブレーンストーミング</span>（批判禁止）、整理は<span class="kw">KJ法</span>。</li>
+<li>図表は「説明→名前」を即答できるように。<span class="kw">パレート図</span>・<span class="kw">特性要因図</span>・<span class="kw">散布図</span>が三大頻出。</li>
+<li>統計は心理統計の貯金で勝てる。<span class="kw">擬似相関</span>・<span class="kw">標本調査</span>・<span class="kw">A/Bテスト</span>に注意。</li>
+<li>データ活用は<span class="kw">BI</span>・<span class="kw">データマイニング</span>・<span class="kw">ビッグデータ</span>。「知られていなかった規則性の発見＝マイニング」。</li>
+</ul>
+`,
+  u13: `
+<p>会計・財務は、文系出身者でも「数字が苦手」と感じやすい単元ですが、ITパスポートで問われるのは簿記のような細かい仕訳ではなく、<b>会社の数字の読み方のごく基本</b>です。コーヒー1杯の原価から考えれば、仕組みはとてもシンプルです。</p>
+
+<h3 class="sec">1. 利益はどう計算される？ ── 5つの利益</h3>
+<p>会社の成績表である損益計算書では、売上からいろいろな費用を引きながら、段階的に利益を計算します。</p>
+<table class="tbl">
+<tr><th>段階</th><th>計算</th><th>意味</th></tr>
+<tr><td><span class="kw">売上総利益</span></td><td>売上高 − 売上原価</td><td>いわゆる「粗利（あらり）」。商品そのものの儲け。</td></tr>
+<tr><td><span class="kw">営業利益</span></td><td>売上総利益 − 販売費及び一般管理費</td><td><b>本業での儲け</b>。人件費・家賃・広告費などを引いた後。</td></tr>
+<tr><td><span class="kw">経常利益</span></td><td>営業利益 ± 営業外損益</td><td>本業以外（利息の受け取り・支払いなど）も含めた、毎期の経営活動全体の儲け。</td></tr>
+<tr><td><span class="kw">当期純利益</span></td><td>経常利益 ± 特別損益 − 税金</td><td>最終的に会社に残る利益。</td></tr>
+</table>
+<div class="ex"><div class="ex-t">具体例</div>カフェで500円のコーヒーを売るとします。豆・ミルク・カップ代が200円なら、売上総利益（粗利）は300円。ここから店員さんの給料や家賃を引いた残りが営業利益です。ニュースで「本業の儲けを示す営業利益は……」という言い回しを聞いたら、この階段を思い出してください。</div>
+<div class="why"><div class="why-t">なぜ？ ── 利益をわざわざ段階に分けるのか</div>
+最終利益の1つの数字だけでは、<b>「どこで儲かり、どこで損したのか」が見えない</b>からです。段階に分けると会社の診断ができます。たとえば「営業利益は赤字なのに経常利益は黒字」の会社は、本業が不調で、資産運用の利息や配当で食いつないでいる状態。逆に「営業利益は黒字なのに当期純利益が大赤字」なら、本業は健全だが、災害損失や事業売却損のような一時的な特別損失が出たと読めます。後者なら来期は回復が見込める――このように、<b>段階ごとの利益は「原因の切り分け装置」</b>なのです。これが分かると、利益の名前と計算式の対応も自然に頭に残ります。</div>
+<p>売上原価の計算も頻出です。<span class="kw">売上原価</span>＝<b>期首棚卸高＋当期仕入高−期末棚卸高</b>。「仕入れた分」ではなく「<b>実際に売れた分</b>」だけを費用にするための式で、売れ残り（期末在庫）を引くのがポイントです。たとえば期首在庫100万円、当期仕入800万円、期末在庫200万円なら、売上原価は 100＋800−200＝700万円。令和7年度にもこの計算が出題されています。</p>
+<div class="pt"><div class="pt-t">試験のポイント</div>「<b>本業の儲け＝営業利益</b>」が最頻出。売上総利益と営業利益の計算式を入れ替えた選択肢に注意。</div>
+
+<h3 class="sec">2. 損益分岐点 ── 何個売れば赤字を脱出？</h3>
+<p>費用は2種類に分けられます。売上の増減に関係なく一定額かかる<span class="kw">固定費</span>（家賃、正社員の人件費など）と、売上に比例して増える<span class="kw">変動費</span>（材料費など）です。利益がちょうどゼロになる売上高を<span class="kw">損益分岐点</span>（損益分岐点売上高）と呼びます。</p>
+<p>計算の考え方はこうです。1個売るごとに「販売価格 − 変動費」のぶんだけ固定費を回収できます（これを限界利益と呼びます）。固定費を回収しきった瞬間が損益分岐点です。</p>
+<div class="ex"><div class="ex-t">具体例で計算</div>コーヒー1杯500円、変動費は1杯200円、家賃や人件費などの固定費が月60万円のカフェを考えます。1杯売るごとに 500−200＝300円 を固定費の回収に充てられるので、60万円 ÷ 300円 ＝ <b>2,000杯</b>が損益分岐点。売上高でいえば 500円 × 2,000杯 ＝ <b>100万円</b>です。月2,000杯を超えた分から、やっと利益が出始めます。</div>
+<p>公式の形では「損益分岐点売上高 ＝ 固定費 ÷（1 − 変動費率）」と書かれます（変動費率＝変動費÷売上高）。公式を丸暗記するより、上の「1個あたりいくら固定費を回収できるか」という考え方を覚えるほうが応用が利きます。</p>
+<div class="why"><div class="why-t">なぜ？ ── 公式「固定費÷（1−変動費率）」はこうして導かれる</div>
+損益分岐点は「売上＝費用」になる点です。売上高をS、変動費率をv、固定費をFとすると、費用は「固定費＋変動費」なので、<b>S ＝ F ＋ vS</b> が成り立ちます。これを解くと、S − vS ＝ F、つまり S(1 − v) ＝ F、よって <b>S ＝ F ÷ (1 − v)</b>。これが公式の正体です。ここで（1 − v）は「売上1円のうち固定費回収と利益に回せる割合」（限界利益率）を意味します。さらにこの式から重要な性質が読み取れます。<b>固定費Fが大きいほど損益分岐点は高くなり（赤字になりやすい）、変動費率vが低いほど分岐点を超えた後の利益が伸びやすい</b>。鉄道会社やSaaS企業のような「固定費が大きく変動費が小さい」ビジネスが、軌道に乗るまで苦しいのに乗った途端に高収益になるのは、まさにこの構造です。式の意味まで理解しておくと、数値を変えたあらゆる出題に対応できます。</div>
+<p>応用形として「目標利益を達成するための販売数」も出ます。考え方は同じで、回収すべき金額が「固定費＋目標利益」に変わるだけ。<b>販売数＝（固定費＋目標利益）÷1個あたりの限界利益</b>です。先ほどのカフェで月20万円の利益が欲しいなら、（60万＋20万）÷300円≒2,667杯となります。</p>
+<div class="pt"><div class="pt-t">試験のポイント</div>損益分岐点は<b>計算問題の定番</b>。「固定費が増えると損益分岐点は上がる」「変動費率が下がると損益分岐点は下がる」という方向の理解も問われます。</div>
+
+<h3 class="sec">3. 財務諸表 ── 会社の健康診断書</h3>
+<p>会社の状態を外部に報告する書類が<span class="kw">財務諸表</span>で、主役は次の3つです。</p>
+<table class="tbl">
+<tr><th>書類</th><th>表すもの</th></tr>
+<tr><td><span class="kw">貸借対照表</span>（B/S）</td><td><b>ある時点</b>の財政状態。左側に資産、右側に負債と純資産が並び、「資産 ＝ 負債 ＋ 純資産」が必ず成り立つ（バランスシート）。</td></tr>
+<tr><td><span class="kw">損益計算書</span>（P/L）</td><td><b>一定期間</b>の経営成績。売上と費用、そして先ほどの5つの利益。</td></tr>
+<tr><td><span class="kw">キャッシュフロー計算書</span></td><td>一定期間の<b>現金の出入り</b>。営業活動・投資活動・財務活動の3区分で表す。</td></tr>
+</table>
+<p>キャッシュフロー（CF）の3区分は、<b>営業CF＝本業で稼いだ現金</b>、<b>投資CF＝設備投資などへの支出（成長中の企業はマイナスが普通）</b>、<b>財務CF＝借入や返済、増資など資金調達の出入り</b>、と覚えます。利益が出ていても現金が尽きれば会社は倒産します（いわゆる黒字倒産）。だから現金の流れを別途チェックするのです。</p>
+<div class="why"><div class="why-t">なぜ？ ── 黒字なのに倒産することがあるのか</div>
+会計の利益は「商品を引き渡した時点」で計上されますが、企業間取引では代金の支払いは数か月後（掛け取引）が普通です。つまり<b>帳簿上は売上と利益が立っているのに、現金はまだ入ってきていない</b>状態が起こります。この間にも仕入代金や給料の支払いはやってくる。手元の現金が尽きて支払いができなくなれば、損益計算書が黒字でも会社は倒産します。急成長中の会社ほど、仕入が先行して現金が出ていくので危ない――だからこそ、利益（P/L）とは別に現金の流れ（キャッシュフロー計算書）を見る必要があるのです。「<b>利益は意見、キャッシュは事実</b>」という有名な格言ごと覚えてしまいましょう。</div>
+
+<h3 class="sec">3.5 売掛金と買掛金 ── 「ツケ」の帳簿ルール</h3>
+<p>いま出てきた掛け取引を、用語と計算で固めましょう。商品を引き渡したのに、代金をまだ受け取っていない——この「あとで受け取れる権利」が<span class="kw">売掛金</span>です（受け取れるお金なので、貸借対照表では流動資産）。逆に、仕入れたのにまだ払っていない「あとで払う義務」が<span class="kw">買掛金</span>（負債）です。</p>
+<p>売掛金が動くタイミングのルールは3つだけです。</p>
+<ul>
+<li><b>受注しただけ</b>では、売上も売掛金も発生しない（まだ商品を渡していない＝注文の約束だけ）。</li>
+<li><b>売上計上（商品の引き渡し）</b>の時点で、売掛金が<b>増える</b>。</li>
+<li><b>現金回収</b>の時点で、売掛金が<b>減る</b>。</li>
+</ul>
+<div class="ex"><div class="ex-t">具体例で計算（本試験の頻出パターン）</div>ある取引先と、4〜5月に次の取引があったとします（4月1日時点の売掛金はゼロ）。取引A：4月に売上計上800万円→4月末に回収済み。取引B：5月に売上計上1,300万円→回収は6月末予定。取引C：5月に売上計上1,000万円→回収日未定。取引D：5月に受注400万円（売上計上はまだ）。さて、5月31日時点の売掛金は？<br><br>考え方：<b>「売上計上済み」かつ「未回収」のものだけ</b>を数えます。Aは回収済みなのでゼロ。BとCは売上計上済み・未回収なので 1,300＋1,000＝<b>2,300万円</b>。Dは受注だけなので対象外。回収「予定日」がいつかは関係なく、5月31日までに実際に回収されたかどうかだけで判定するのがポイントです。令和7年度の本試験でも、ほぼこの形の問題が出題されています。</div>
+<div class="why"><div class="why-t">なぜ？ ── 受注した時点では売上にならないのか</div>
+注文は約束にすぎず、キャンセルされるかもしれないからです。会計には「収益は、商品やサービスを<b>実際に引き渡した時点</b>で計上する」という原則があり（実現主義）、確実になっていない儲けを帳簿に載せることを許しません。もし受注の瞬間に売上にできたら、期末に大量の架空注文を計上して業績をよく見せる粉飾が簡単にできてしまいます。そして、売掛金は「回収できて初めて現金」です。売掛金が積み上がったまま回収が遅れると、黒字倒産（前節）への道が始まる——だから企業は取引先ごとに与信管理（掛けで売ってよい上限の管理）を行うのです。受注→売上計上→回収という3つの時点の区別は、この一連の理屈ごと覚えてください。</div>
+<div class="ex"><div class="ex-t">具体例</div>貸借対照表のイメージは「家計の財産目録」です。持ち家3,000万円（資産）のうち、住宅ローン2,000万円（負債）を引いた1,000万円が本当の自分の取り分（純資産）。会社版がB/Sです。</div>
+<div class="why"><div class="why-t">なぜ？ ── 貸借対照表の左右は必ず一致するのか</div>
+B/Sの右側（負債・純資産）は「お金を<b>どう集めたか</b>」、左側（資産）は「集めたお金を<b>何に変えて持っているか</b>」を表しています。会社が持っているすべての資産は、必ず誰かから調達したお金（借りたか、株主に出してもらったか、自分で稼いだか）で手に入れたものです。つまり左右は<b>同じお金を「入口」と「使い道」の2つの面から見ているだけ</b>なので、一致しないことが論理的にあり得ないのです。この見方ができると、「自己資本比率＝右側のうち返さなくてよいお金の割合」「流動比率＝1年以内に出ていくお金を1年以内に現金化できる資産でまかなえるか」と、財務指標の意味も芋づる式に理解できます。</div>
+
+<h3 class="sec">4. 財務指標 ── 数字で会社を比べる</h3>
+<table class="tbl">
+<tr><th>指標</th><th>計算</th><th>何を見る？</th></tr>
+<tr><td><span class="kw">ROE</span>（自己資本利益率）</td><td>当期純利益 ÷ 自己資本</td><td>株主のお金でどれだけ効率よく稼いだか。投資家が重視。</td></tr>
+<tr><td><span class="kw">ROA</span>（総資産利益率）</td><td>利益 ÷ 総資産</td><td>会社の全財産でどれだけ稼いだか。</td></tr>
+<tr><td><span class="kw">自己資本比率</span></td><td>自己資本 ÷ 総資本</td><td>高いほど借金に頼らない安定経営。</td></tr>
+<tr><td><span class="kw">流動比率</span></td><td>流動資産 ÷ 流動負債</td><td>短期の支払い能力。100％を大きく超えていれば安心。</td></tr>
+</table>
+<div class="ex"><div class="ex-t">具体例</div>任天堂は自己資本比率が約8割と非常に高く、「借金に頼らず自分のお金で経営する」堅実型の代表例としてよく挙げられます。一方、銀行からの借入で大型設備に投資する鉄道会社や電力会社は自己資本比率が低め。業種によって「普通の数字」が違うのもポイントです。</div>
+<div class="why"><div class="why-t">なぜ？ ── 「安全な会社」と「ROEが高い会社」は別物なのか</div>
+直感に反しますが、<b>借金はROEを高めます</b>。自己資本100万円だけで10万円稼ぐとROEは10％ですが、さらに900万円借りて事業を10倍にし、利息を払っても50万円稼げれば、ROEは50％に跳ね上がります（てこ＝レバレッジの効果）。つまりROEの高さは「効率の良さ」と同時に「借金による嵩上げ」の可能性も含んでいます。だから投資家はROE単独ではなく、<b>自己資本比率（安全性）とセットで</b>会社を評価します。「ROEが高い＝無条件に優良企業」という選択肢は、この理屈を知っていれば切れます。指標は1つで判断せず組み合わせる――これが財務分析の基本姿勢です。</div>
+
+<h3 class="sec">5. 減価償却 ── 高い買い物は分割で費用にする</h3>
+<p>パソコンや機械のように長く使う資産は、買った年に全額を費用にせず、<b>使う年数（耐用年数）に分けて少しずつ費用化</b>します。これが<span class="kw">減価償却</span>です。毎年同じ額ずつ償却する<span class="kw">定額法</span>と、残った帳簿価額に毎年同じ率を掛けて償却する（最初ほど多く償却される）<span class="kw">定率法</span>があります。</p>
+<div class="ex"><div class="ex-t">具体例</div>会社が120万円のサーバを買って6年使うなら、定額法では毎年20万円ずつ費用に計上します。「今年の費用」と「現金の支出」がずれる、というのが会計の面白いところです。</div>
+<div class="why"><div class="why-t">なぜ？ ── 買った年に全額を費用にしてはいけないのか</div>
+サーバは6年間にわたって売上に貢献するのに、初年度に120万円全額を費用にすると、<b>初年度だけ大赤字・残り5年は費用ゼロで荒稼ぎ</b>という歪んだ成績表になります。これでは年度ごとの経営成績を正しく比較できません。会計には「費用は、それが生み出す収益と同じ期間に対応させる」という大原則（費用収益対応の原則）があり、減価償却はこの原則を実現する仕組みです。<b>「資産が働く期間に費用を割り振る」</b>という目的から考えれば、定額法（毎年均等に働く想定）と定率法（新しいうちほど価値が大きく落ちる想定）という2つの方法があることも自然に納得できるはずです。</div>
+
+<h3 class="sec">6. 資金調達 ── お金はどこから来る？</h3>
+<p>企業がお金を集める方法は大きく2つに分かれます。投資家から直接集める<span class="kw">直接金融</span>（<span class="kw">株式</span>や<span class="kw">社債</span>の発行）と、銀行を仲介して借りる<span class="kw">間接金融</span>（融資）です。株式は返済不要だが経営への発言権を渡す、社債・融資は返済義務と利息がある、という違いを押さえましょう。近年は、インターネットで不特定多数から少額ずつ資金を集める<span class="kw">クラウドファンディング</span>も定番用語になりました。また、未公開だった自社の株式を証券取引所に上場して一般に公開することを<span class="kw">IPO</span>（株式公開）といいます（令和5年度に出題）。大規模な直接金融への入口です。</p>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li>利益の階段：粗利 →（販管費を引いて）<span class="kw">営業利益</span>＝本業の儲け → 経常利益 → 当期純利益。</li>
+<li><span class="kw">損益分岐点</span>＝固定費 ÷（1−変動費率）。「1個あたりの限界利益で固定費を割る」と考える。</li>
+<li>財務三表：時点の<span class="kw">B/S</span>、期間の<span class="kw">P/L</span>、現金の<span class="kw">キャッシュフロー計算書</span>。</li>
+<li>指標は<span class="kw">ROE</span>・<span class="kw">自己資本比率</span>、費用化の仕組みは<span class="kw">減価償却</span>（定額法・定率法）。</li>
+<li><span class="kw">売掛金</span>＝売上計上済みで未回収のお金。<b>受注では発生せず、売上計上で増え、回収で減る</b>。</li>
+<li>資金調達は<span class="kw">直接金融</span>（株式・社債）と<span class="kw">間接金融</span>（融資）。</li>
+</ul>
+`,
+  u14: `
+<p>知的財産権は、ストラテジ系の法務分野で<b>最も出題が安定している</b>単元です。覚える法律は実質4つ＋α。エンジニアになれば「このコードの著作権は誰のもの？」という話に必ず出会うので、実務の予習だと思って読んでください。</p>
+
+<h3 class="sec">1. 全体マップ ── 知的財産権の家系図</h3>
+<p>人間の知的な創作活動の成果を守る権利を総称して<span class="kw">知的財産権</span>と呼びます。大きく分けると、文化的な創作を守る<span class="kw">著作権</span>と、産業上のアイデアを守る<span class="kw">産業財産権</span>（特許権・実用新案権・意匠権・商標権の4つ、特許庁に出願して登録）、そして営業秘密などその他の権利があります。「<b>著作権は登録不要、産業財産権は出願が必要</b>」という対比が最初の急所です。</p>
+<div class="why"><div class="why-t">なぜ？ ── 著作権は自動発生で、産業財産権は出願制なのか</div>
+守っている対象の性質が違うからです。小説や曲のような<b>表現は事実上無限のバリエーション</b>があり、別の人が偶然まったく同じ小説を書くことはほぼありません。だから「作った人のもの」と自動的に認めても混乱が起きにくい。一方、<b>技術的なアイデアは複数の人が同時期に同じ結論へたどり着くことが頻繁に起こります</b>（発明の歴史は同時発明だらけです）。誰の権利か争いになるので、特許庁への出願で「早い者勝ち」を公的に記録し、権利の範囲を文書で確定させる必要があるのです。先願主義（先に出願した者が勝つ）も、「先に発明した」の証明が困難である以上、出願日という客観的な記録で決めるしかない、という実務的な理由から来ています。</div>
+
+<h3 class="sec">2. 著作権 ── 創った瞬間に生まれる権利</h3>
+<p>小説、音楽、絵画、写真、映画、そして<b>プログラム</b>。こうした表現を守るのが著作権です。最大の特徴は、<b>創作した時点で自動的に発生する</b>こと（無方式主義）。出願も登録もいりません。</p>
+<p>著作権は2つの束でできています。</p>
+<ul>
+<li><span class="kw">著作者人格権</span>：公表するか決める権利、名前を表示する権利、勝手に改変されない権利。著作者本人だけのもので、<b>譲渡できません</b>。</li>
+<li><span class="kw">著作財産権</span>（狭い意味の著作権）：複製権・公衆送信権など、経済的に利用する権利。こちらは<b>譲渡や相続ができます</b>。</li>
+</ul>
+<p>保護期間は原則として<b>著作者の死後70年</b>（法人名義の著作物は公表後70年）です。</p>
+<p>IT関連で特に重要なのが、何が著作物として保護されるかの線引きです。</p>
+<table class="tbl">
+<tr><th>保護される</th><th>保護されない</th></tr>
+<tr><td>プログラム（ソースコード）、データベース（構成に創作性があるもの）、マニュアル、ウェブページのデザイン</td><td><span class="kw">アルゴリズム</span>（解法）、<span class="kw">プログラム言語</span>そのもの、規約（プロトコル）、単なるデータやアイデア</td></tr>
+</table>
+<div class="pt"><div class="pt-t">試験のポイント</div>「<b>プログラムは保護されるが、アルゴリズムとプログラム言語は保護されない</b>」は超頻出。「アイデアではなく表現を守る」のが著作権、と理解すると整理できます。</div>
+<div class="why"><div class="why-t">なぜ？ ── アルゴリズムを著作権で守ってはいけないのか</div>
+もし「並べ替えの効率的な手順」のようなアルゴリズムを最初に考えた人が著作権で独占できたら、<b>世界中の後続のプログラマが同じ解法を使えなくなり、ソフトウェア開発全体が止まってしまいます</b>。プログラム言語や規約（プロトコル）も同じで、これらは表現のための「道具」なので、独占させると文化の発展という著作権法のそもそもの目的に反するのです。だから著作権の保護は「同じアルゴリズムでも、自分で書き上げたコード（表現）はそれぞれ守る」という線引きになっています。ではアイデアはまったく守れないのかというと、そうではなく、<b>高度で新規性のある技術的アイデアは特許権の出番</b>です。「表現＝著作権、技術的アイデア＝特許」という役割分担で知財の全体像をつかんでください。</div>
+<p>もうひとつ実務直結なのが<span class="kw">職務著作</span>です。会社の業務として従業員が作成し、会社名義で公表するプログラムなどの著作者は、契約に別段の定めがない限り<b>会社</b>になります。来年ぐりさんが仕事で書くコードの著作権は、原則として勤務先に帰属するということです。</p>
+<div class="why"><div class="why-t">なぜ？ ── 仕事で書いたコードは会社のものなのか</div>
+理由は2つあります。第一に<b>投資の回収</b>。会社は給料・設備・教育に投資して開発環境を整えており、その成果物の権利が個々の従業員に散らばると、投資する企業がいなくなってしまいます。第二に<b>取引の安定</b>。ソフトウェアは大勢の共同作業で作られるので、退職した元社員の一人ひとりが「自分の書いた部分の権利」を主張できたら、製品の販売も改修もできなくなります。だから法律は「法人名義で公表する職務上の著作物は、最初から法人を著作者とする」と割り切ったのです。同じ理屈の延長で、<b>従業員の発明（職務発明）の特許を会社に帰属させる場合、会社は従業員に相当の利益（報奨）を与える</b>こととされている、という論点もあわせて覚えておくと安心です。</div>
+<div class="ex"><div class="ex-t">具体例</div>ゲーム実況動画や「歌ってみた」が公式に黙認・許諾されているのは、本来は複製権や公衆送信権に触れ得る行為だからです。任天堂が「ガイドラインの範囲なら投稿OK」と明示しているのは、著作権者による利用許諾の例です。</div>
+
+<h3 class="sec">3. 産業財産権 ── 特許庁に出願する4きょうだい</h3>
+<table class="tbl">
+<tr><th>権利</th><th>守る対象</th><th>期間</th></tr>
+<tr><td><span class="kw">特許権</span></td><td>発明（高度な技術的アイデア）</td><td>出願から20年</td></tr>
+<tr><td><span class="kw">実用新案権</span></td><td>考案（物の形状・構造の小さな工夫）</td><td>出願から10年</td></tr>
+<tr><td><span class="kw">意匠権</span></td><td>物品などのデザイン</td><td>出願から25年</td></tr>
+<tr><td><span class="kw">商標権</span></td><td>商品やサービスの名前・マーク（ロゴ）。商品につけるものを<b>トレードマーク</b>、サービス（運送、飲食など形のない役務）につけるものを<b>サービスマーク</b>と呼ぶ</td><td>登録から10年（<b>何度でも更新可</b>）</td></tr>
+</table>
+<p>覚え方のコツは対象のレベル感です。<b>大発明＝特許、ちょっとした工夫＝実用新案、見た目＝意匠、名前とロゴ＝商標</b>。そして商標だけが「更新すれば半永久的に持てる」点が独特です（ブランド名がコロコロ失効したら困りますよね）。</p>
+<div class="why"><div class="why-t">なぜ？ ── 特許は20年で切れるのに、商標は更新できるのか</div>
+特許制度の本質は<b>「公開と独占の交換取引」</b>です。発明を秘密にされると社会は技術を学べないので、国は「発明の中身を公開してくれたら、20年間だけ独占させてあげる」という取引を持ちかけます。期限後は誰でも使える社会の共有財産になり、それを土台に次の発明が生まれる。つまり期限切れは欠陥ではなく、<b>イノベーションを循環させるための設計</b>です（ジェネリック医薬品が安いのは特許切れの薬だからです）。一方、商標の目的は発明の促進ではなく<b>「この名前の商品はあの会社のものだ」という消費者の信頼を守ること</b>。ブランドは長く使うほど信頼が蓄積するので、期限で消滅させたらかえって消費者が混乱します。保護の目的が違うから、期間の設計も違う――この理屈で4つの権利の性格がすっきり整理できます。</div>
+<p>特許には2つの重要な原則があります。同じ発明なら先に<b>出願</b>した者が勝つ<span class="kw">先願主義</span>（先に発明した者ではありません）。そして、コンピュータやネットワークを使った新しいビジネスの仕組みも<span class="kw">ビジネスモデル特許</span>として特許になり得ることです。</p>
+<div class="ex"><div class="ex-t">具体例</div>「カップヌードル」というネーミングやロゴは商標権、容器の独特な形は意匠権、麺を油で揚げて乾燥させる製法は（出願当時なら）特許権——と、1つの商品に複数の知財が重なっています。Amazonの「1-Click注文」は有名なビジネスモデル特許の例です。</div>
+
+<h3 class="sec">4. 不正競争防止法 ── 営業秘密を守る</h3>
+<p>顧客リストや製造ノウハウのように、特許として公開したくない企業秘密を守るのが<span class="kw">不正競争防止法</span>です。保護される<span class="kw">営業秘密</span>と認められるには3つの要件が必要です。</p>
+<ul>
+<li><span class="kw">秘密管理性</span>：「マル秘」表示やアクセス制限など、秘密として管理されていること</li>
+<li><span class="kw">有用性</span>：事業に役立つ情報であること</li>
+<li><span class="kw">非公知性</span>：公然と知られていないこと</li>
+</ul>
+<p>このほか、他社の有名ブランドと紛らわしい表示を使う行為や、商品の形態を真似たデッドコピーなども、この法律が禁止しています。ID・パスワードなどを使って限定的に提供されるデータ（<span class="kw">限定提供データ</span>）の不正取得も規制対象です。</p>
+<div class="pt"><div class="pt-t">試験のポイント</div>営業秘密の<b>3要件（秘密管理性・有用性・非公知性）</b>はそのまま出ます。「社内で誰でも見られる状態だった顧客リスト」は秘密管理性を欠くため営業秘密にあたらない、という事例判断も定番。</div>
+<div class="why"><div class="why-t">なぜ？ ── 特許を取らずに、あえて秘密にする企業があるのか</div>
+特許は強力ですが、<b>出願すると発明の中身が世界に公開され、20年で誰でも使えるようになる</b>という代償があります。コカ・コーラの原液レシピが100年以上守られているのは、特許を取らず営業秘密として隠し通しているからだと言われます。つまり企業には2つの戦略があるのです。リバースエンジニアリング（分解調査）で他社にすぐ見破られる技術なら、<b>公開してでも特許で20年の独占を取る</b>。製法のように外から見破りにくい技術なら、<b>営業秘密として無期限に隠す</b>（ただし漏えいしたら独占は終わり）。営業秘密の3要件のうち「秘密管理性」が最初に問われるのは、この戦略を選んだ以上、企業自身が秘密として扱う努力をしていなければ法律も守りようがない、という理屈です。</div>
+
+<h3 class="sec">5. ライセンス ── 権利を「使わせてもらう」仕組み</h3>
+<p>ソフトウェアを購入しても、買っているのは多くの場合「使う権利」です。その契約が<span class="kw">使用許諾契約</span>（ライセンス契約）。関連用語を押さえましょう。</p>
+<ul>
+<li><span class="kw">クロスライセンス</span>：企業同士が互いの特許などを使い合えるよう許諾し合う契約。</li>
+<li><span class="kw">パブリックドメイン</span>：保護期間が切れるなどして、誰でも自由に使える状態になった著作物。</li>
+<li><span class="kw">シュリンクラップ契約</span>：パッケージソフトの包装フィルムを開封した時点で、使用許諾契約に同意したとみなす契約形態（ダウンロード時にクリックで同意するのはクリックラップ契約）。令和4年度に出題。</li>
+<li><span class="kw">クリエイティブ・コモンズ（CC）ライセンス</span>：「出典を表示すれば使ってよい」など、作者が利用条件をあらかじめ示す仕組み。</li>
+<li><span class="kw">OSS</span>（オープンソースソフトウェア）：ソースコードが公開され、ライセンスの条件下で誰でも利用・改変・再配布できるソフトウェア。LinuxやPythonの世界で必ず出会います。</li>
+</ul>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li><span class="kw">著作権</span>は創作と同時に発生（無方式主義）。<b>プログラムは保護、アルゴリズム・言語は対象外</b>。仕事で書いたコードは<span class="kw">職務著作</span>で原則会社のもの。</li>
+<li>産業財産権4つ：<b>特許（発明・20年）／実用新案（考案・10年）／意匠（デザイン・25年）／商標（名前ロゴ・10年で更新可）</b>。特許は<span class="kw">先願主義</span>。</li>
+<li><span class="kw">営業秘密</span>の3要件＝秘密管理性・有用性・非公知性（不正競争防止法）。</li>
+<li>ライセンスは「使う権利」の契約。<span class="kw">クロスライセンス</span>・<span class="kw">CCライセンス</span>・<span class="kw">OSS</span>。</li>
+</ul>
+`,
+  u15: `
+<p>この単元は法律のオンパレードですが、出題のされ方は「この事例はどの法律に違反する？」というクイズ形式が中心です。<b>法律名と「守るもの・禁止すること」の対応</b>さえつかめば得点できます。特に労働の法律は、エンジニアとして働くぐりさん自身を守る知識になります。</p>
+
+<h3 class="sec">1. セキュリティを守る法律</h3>
+<table class="tbl">
+<tr><th>法律</th><th>ポイント</th></tr>
+<tr><td><span class="kw">サイバーセキュリティ基本法</span></td><td>国のサイバーセキュリティ施策の基本方針を定めた法律。国・自治体・事業者などの責務を規定。</td></tr>
+<tr><td><span class="kw">不正アクセス禁止法</span></td><td><b>他人のID・パスワードを無断で使ってログイン</b>する行為や、セキュリティホールを突く侵入を禁止。実際に侵入すれば（データを盗まなくても）違法。他人のパスワードを<b>不正に取得・保管</b>する行為や、フィッシングサイトでIDを入力させる行為も処罰対象。</td></tr>
+<tr><td>刑法（<span class="kw">ウイルス作成罪</span>）</td><td>正当な理由なくコンピュータウイルスを<b>作成・提供・供用</b>する行為を処罰（不正指令電磁的記録に関する罪）。</td></tr>
+<tr><td><span class="kw">プロバイダ責任制限法</span></td><td>ネット上で権利侵害（誹謗中傷など）があったとき、プロバイダの損害賠償責任の範囲と、被害者が<b>発信者情報の開示請求</b>をできることを定める。</td></tr>
+<tr><td><span class="kw">特定電子メール法</span></td><td>広告宣伝メールは、<b>あらかじめ同意した人にしか送ってはいけない</b>（<span class="kw">オプトイン</span>方式）。</td></tr>
+</table>
+<div class="pt"><div class="pt-t">試験のポイント</div>「他人のIDとパスワードでログインした（情報は見ただけ）」→<b>不正アクセス禁止法違反</b>。「ウイルスを作って配った」→<b>刑法のウイルス作成罪</b>。この事例→法律の対応づけが頻出です。</div>
+<div class="why"><div class="why-t">なぜ？ ── 「中を見ただけ」「何も盗んでいない」でも犯罪になるのか</div>
+現実世界の窃盗罪は「物を盗む」という結果を罰しますが、情報は<b>見られた時点でコピーされたのと同じ</b>で、盗まれたかどうかの証明も困難です。そこで不正アクセス禁止法は発想を変え、「他人のID・パスワードでログインする」という<b>入口の突破そのもの</b>を犯罪にしました。社会全体がパスワードによるアクセス制御を信頼してネットを使っている以上、その信頼の仕組みを破る行為自体が攻撃だ、という考え方です。パスワードの不正取得・保管やフィッシングまで処罰するのも同じ理屈で、<b>実害が出る前の段階で網をかける</b>設計になっています。「実害がなければ違反ではない」という選択肢は、この立法趣旨を知っていれば誤りと即断できます。</div>
+
+<h3 class="sec">2. 個人情報保護法 ── 心理系出身者の得意エリア</h3>
+<p>研究倫理で個人情報の扱いに慣れているぐりさんには、なじみ深い法律のはずです。<span class="kw">個人情報</span>とは、生存する個人に関する情報で、氏名や生年月日などにより<b>特定の個人を識別できるもの</b>。他の情報と容易に照合して識別できるものも含みます。マイナンバーや指紋データ、運転免許証番号のような<span class="kw">個人識別符号</span>も個人情報です。</p>
+<ul>
+<li><span class="kw">要配慮個人情報</span>：人種、信条、病歴、犯罪歴など、差別や不利益につながりやすい情報。<b>取得には本人の同意が必要</b>で、特に厳格に扱われます。</li>
+<li><span class="kw">匿名加工情報</span>：特定の個人を識別できないよう加工し、<b>復元できないように</b>した情報。一定のルールの下で本人の同意なく利活用できます（ビッグデータ活用の道を開くための仕組み）。</li>
+<li><span class="kw">個人情報保護委員会</span>：個人情報の扱いを監督する国の機関。</li>
+<li><span class="kw">オプトアウト</span>：本人の求めがあれば第三者提供を停止することを条件に、あらかじめ同意を得ずに個人データを第三者へ提供できる仕組み（届出が必要。要配慮個人情報には使えない）。令和4年度に出題。</li>
+<li><span class="kw">GDPR</span>：EUの一般データ保護規則。EU域内の個人データを保護する法律で、<b>EU外の企業でもEU居住者のデータを扱えば適用される</b>点が特徴。令和5年度に出題。</li>
+</ul>
+<div class="ex"><div class="ex-t">具体例</div>ポイントカードの購買履歴を「30代・関東在住の女性が化粧品を購入」のように個人を特定できない形へ加工して企業間で分析に使う——これが匿名加工情報の活用イメージです。心理学の研究で参加者データをID化して個人名と切り離す作業と、発想は同じです。</div>
+<div class="why"><div class="why-t">なぜ？ ── 要配慮情報は厳しく、匿名加工情報は緩いのか</div>
+個人情報保護法の根っこにあるのは「<b>本人に降りかかるリスクの大きさに応じて、規制の強さを変える</b>」という原則です。病歴や犯罪歴は、漏れたときに差別や社会的排除という取り返しのつかない不利益につながる歴史があったため、取得の段階から本人同意を要求します（リスク最大→規制最強）。逆に、匿名加工して<b>誰のデータか復元できなくすれば、本人に不利益が及ぶ経路そのものが断たれる</b>ので、同意なしの利活用を認めます（リスク小→規制緩和）。この法律は「個人の権利保護」と「データ利活用による社会の発展」の<b>両立</b>を目的に掲げており、保護一辺倒ではない点が重要です。規制の強弱をリスクの大小と対応づけて覚えると、細かい規定を忘れても方向で正解できます。</div>
+<p>マイナンバー（個人番号）の利用範囲を税・社会保障・災害対策に限定するのが<span class="kw">マイナンバー法</span>です。「会社が社員のマイナンバーを成績管理に使う」のような目的外利用は違法、という形で出題されます。</p>
+
+<h3 class="sec">3. 労働の法律 ── 派遣と請負の三角関係</h3>
+<p>まず基本となるのが<span class="kw">労働基準法</span>。労働条件の最低基準を定めた法律で、法定労働時間は<b>1日8時間・週40時間</b>。これを超える残業をさせるには、労使協定（いわゆる<span class="kw">36協定</span>・サブロク協定）の締結が必要です。</p>
+<div class="why"><div class="why-t">なぜ？ ── 労働条件を当事者の自由な契約に任せないのか</div>
+民法の原則は「契約は当事者の自由」ですが、労働契約だけは国が最低基準を強制します。理由は<b>交渉力の圧倒的な差</b>です。生活がかかっている個人は、「嫌なら辞めろ」と言われれば不利な条件でも受け入れざるを得ません。自由競争に任せると労働条件は際限なく切り下がる──この歴史的経験から、労働基準法は「これを下回る契約は、当事者が合意していても無効」という強行法規になっています。36協定が「個人の同意」ではなく「労働組合など労働者の<b>過半数代表との協定</b>」を要求するのも、個人では会社と対等に交渉できないため、集団の力で対等性を回復させる仕組みなのです。</div>
+<p>そしてIT業界の試験対策として最重要なのが、<b>派遣と請負の違い</b>です。どちらも「他社の仕事をする」形ですが、命令系統がまったく違います。</p>
+<table class="tbl">
+<tr><th></th><th><span class="kw">労働者派遣</span></th><th><span class="kw">請負</span></th></tr>
+<tr><td>雇用関係</td><td>派遣<b>元</b>と労働者</td><td>請負会社と労働者</td></tr>
+<tr><td>指揮命令</td><td>派遣<b>先</b>が出す</td><td>請負会社が出す（注文主は出せない）</td></tr>
+<tr><td>責任</td><td>労働力の提供</td><td>仕事の<b>完成責任</b>を負う</td></tr>
+</table>
+<p>派遣は「雇い主は派遣元、指示を出すのは派遣先」というねじれた三角関係がポイント。一方、請負では注文主が請負会社の労働者に直接指示を出してはいけません。請負契約なのに実態は注文主が直接指揮命令している状態は<span class="kw">偽装請負</span>と呼ばれる違法状態です。また、派遣されてきた人をさらに別の会社へ派遣する<b>二重派遣</b>も禁止です。</p>
+<div class="why"><div class="why-t">なぜ？ ── 偽装請負や二重派遣は、何がそんなに悪いのか</div>
+一言でいえば<b>「労働者を守る責任者が消える」</b>からです。派遣という働き方は、雇い主（給料・社会保険の責任）と指示を出す者（現場の安全・労働時間管理の責任）が分かれる特殊な形なので、労働者派遣法が両者の責任分担を細かく定めて初めて成立しています。ところが請負を装って実態は派遣（偽装請負）にすると、この法律の網の外で「指示はするが責任は取らない」会社が生まれ、長時間労働や労災が起きても誰も責任を負いません。二重派遣も同様に、間に入る会社が増えるほど中間搾取で賃金が削られ、責任の所在が曖昧になります。<b>「誰が雇用主か」「誰が指揮命令するか」を常に一対一で明確にする</b>──これが労働法規の根本思想で、試験の事例問題もこの軸で判定すれば解けます。</div>
+<div class="ex"><div class="ex-t">具体例</div>IT業界では、システム開発を大手が受注し、一部を協力会社に発注する多重構造が珍しくありません。客先に常駐して働く形態（いわゆるSES：準委任契約の一種）もあります。準委任は「仕事の完成」ではなく「業務の遂行」に責任を負う契約で、指揮命令は請負と同様に自社側にあります。就職後に自分の契約形態を理解するうえでも大切な知識です。</div>
+<p>柔軟な働き方の制度として、実際の労働時間に関係なく労使で定めた時間だけ働いたとみなす<span class="kw">裁量労働制</span>と、コアタイムを除き出退勤時刻を労働者が決められる<span class="kw">フレックスタイム制</span>も覚えておきましょう。</p>
+<div class="pt"><div class="pt-t">試験のポイント</div>「派遣労働者に指揮命令するのは誰か？→<b>派遣先</b>」「請負で注文主は労働者に直接指示できるか？→<b>できない</b>」。この2問だけで派遣・請負問題の大半は解けます。</div>
+
+<h3 class="sec">4. 取引を公正にする法律</h3>
+<table class="tbl">
+<tr><th>法律</th><th>ポイント</th></tr>
+<tr><td><span class="kw">独占禁止法</span></td><td>公正な競争を守る法律。<b>カルテル</b>（価格協定）や入札の<b>談合</b>を禁止。運用機関は<b>公正取引委員会</b>。</td></tr>
+<tr><td><span class="kw">下請法</span></td><td>親事業者が下請業者をいじめる行為（支払い遅延、不当な値引き・やり直し要求など）を禁止。ソフトウェア開発の委託も対象。</td></tr>
+<tr><td><span class="kw">PL法</span>（製造物責任法）</td><td>製造物の<b>欠陥</b>で生命・身体・財産に損害が出たら、過失の証明がなくても製造業者が賠償責任を負う。<b>ソフトウェア単体は対象外</b>だが、ソフトを組み込んだ機器（家電など）は対象。</td></tr>
+<tr><td><span class="kw">特定商取引法</span></td><td>訪問販売や通信販売などのトラブルから消費者を守る。一定期間内なら無条件で契約解除できる<span class="kw">クーリングオフ</span>制度が有名（通信販売にはクーリングオフはない点に注意）。</td></tr>
+</table>
+<div class="ex"><div class="ex-t">具体例</div>「炊飯器の制御プログラムの欠陥で発火しケガをした」→組み込んだ製品の欠陥なのでPL法の対象。「ダウンロード購入した会計ソフトのバグで計算を誤った」→ソフト単体なのでPL法の対象外（契約責任の話になる）。この対比はよく出ます。</div>
+<p>取引の前段でもう1つ重要なのが<span class="kw">NDA</span>（秘密保持契約）です。業務委託の検討などで自社の営業秘密を相手に開示する<b>前に</b>、目的外利用や第三者への漏えいを禁じる契約を結びます。令和4年度に出題されました。営業秘密（単元④）の「秘密管理性」を取引の場面で守る道具です。</p>
+<div class="why"><div class="why-t">なぜ？ ── PL法は「過失がなくても」賠償させるのか</div>
+通常の損害賠償では、被害者が「相手に過失があった」ことを証明しなければなりません。しかし、テレビが発火したとき、一般消費者がメーカーの設計図や製造工程を調べて過失を立証するのは事実上不可能です。<b>製品の中身を知り尽くしているのはメーカー側だけ</b>という圧倒的な情報格差がある。そこでPL法は発想を転換し、「欠陥があって損害が出た」ことさえ示せば、過失の証明なしに賠償責任を負わせることにしました（無過失責任）。立証の負担を弱い側から強い側へ移したのです。また、対象が「製造物＝形のある動産」に限られ<b>ソフトウェア単体が対象外</b>なのは、法律上ソフトは形のない情報であって「製造された物」ではないから。ただしソフトを組み込んだ機器として流通すれば「物」になる――この線引きの理屈まで押さえれば、応用事例も判定できます。</div>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li>事例→法律の対応：無断ログイン＝<span class="kw">不正アクセス禁止法</span>、ウイルス作成＝<span class="kw">刑法</span>、広告メールは同意済みの人だけ＝<span class="kw">特定電子メール法</span>（オプトイン）。</li>
+<li><span class="kw">個人情報保護法</span>：要配慮個人情報は同意が必要、<span class="kw">匿名加工情報</span>は復元不能なら同意なく利活用可。</li>
+<li>労働時間の最低基準は<span class="kw">労働基準法</span>（1日8時間・週40時間、残業には36協定）。</li>
+<li><b>派遣＝指揮命令は派遣先／請負＝指揮命令は請負会社・完成責任あり</b>。偽装請負と二重派遣は違法。</li>
+<li>取引の公正：<span class="kw">独占禁止法</span>（カルテル禁止）、<span class="kw">下請法</span>、<span class="kw">PL法</span>（ソフト単体は対象外）。</li>
+</ul>
+`,
+  u16: `
+<p>第1章のラストは「標準化」。地味に見えて、私たちの生活は標準化の恩恵だらけです。どのメーカーの乾電池でもリモコンに入るのも、どのコンビニでもバーコードが読めるのも、すべて「規格をそろえた」おかげ。出題は用語の対応問題が中心で、短時間で得点源にできる単元です。</p>
+
+<h3 class="sec">1. 標準化とは ── 「そろえる」ことの価値</h3>
+<p><span class="kw">標準化</span>とは、製品やサービスの仕様・手順などを統一し、規格として定めることです。互換性が生まれ、利用者はメーカーをまたいで製品を組み合わせられるようになり、市場全体が広がります。一方で、決まるまでに時間がかかったり、技術の多様性が失われたりする側面もあります。</p>
+<div class="ex"><div class="ex-t">具体例</div>スマホの充電端子がUSB Type-Cに統一されてきた流れを思い出してください。ケーブルを共有できる便利さ（互換性）こそ標準化の価値です。EUが法律で統一を後押ししたように、標準化は産業政策の道具にもなります。</div>
+<div class="why"><div class="why-t">なぜ？ ── 「事実上の標準」が自然に生まれてしまうのか</div>
+鍵は<b>ネットワーク外部性</b>という性質です。これは「使う人が増えるほど、その製品・規格自体の価値が上がる」現象のこと。LINEが便利なのは友達がみんな使っているからで、性能が多少優れた別アプリが出ても乗り換えは起きにくい。規格の世界では、少しでも優勢になった規格に周辺機器・ソフト・人材が集まり、それがさらに利用者を呼ぶ……という雪だるま式の循環が起き、最終的に<b>勝者総取り</b>になります。こうして公的機関が決めなくても「事実上の標準」＝デファクトスタンダードが自然発生するのです。かつてのビデオ規格競争（VHS対ベータ）が古典的な例で、技術的な優劣よりも「仲間（陣営）をどれだけ集めるか」が勝敗を決めました。この力学を知っていると、企業がなぜ規格争いに必死になるのかが腑に落ちます。</div>
+
+<h3 class="sec">2. 標準の3つの生まれ方</h3>
+<table class="tbl">
+<tr><th>種類</th><th>意味</th><th>例</th></tr>
+<tr><td><span class="kw">デジュレスタンダード</span></td><td>ISOなどの<b>公的な標準化機関が正式に定めた</b>標準</td><td>ISO規格、JIS規格</td></tr>
+<tr><td><span class="kw">デファクトスタンダード</span></td><td>市場競争の結果、<b>事実上の標準</b>になったもの（機関の認定ではない）</td><td>Windows、QWERTYキーボード配列</td></tr>
+<tr><td><span class="kw">フォーラム標準</span></td><td>関心のある<b>企業が集まって団体（フォーラム）を作り</b>定めた標準</td><td>USB、Bluetooth、DVD</td></tr>
+</table>
+<div class="pt"><div class="pt-t">試験のポイント</div>「市場で広く使われて事実上の標準＝<b>デファクト</b>」「公的機関が制定＝<b>デジュレ</b>」「企業連合が制定＝<b>フォーラム標準</b>」。3つの区別がそのまま出ます。デファクトの例としてWindowsが選択肢に並ぶのが定番。</div>
+
+<h3 class="sec">3. 標準化団体 ── アルファベットの軍団を整理する</h3>
+<table class="tbl">
+<tr><th>団体</th><th>守備範囲</th></tr>
+<tr><td><span class="kw">ISO</span>（国際標準化機構）</td><td>工業・技術全般の国際規格（電気以外ほぼ全部）</td></tr>
+<tr><td><span class="kw">IEC</span>（国際電気標準会議）</td><td>電気・電子分野の国際規格</td></tr>
+<tr><td><span class="kw">ITU</span>（国際電気通信連合）</td><td>電気通信（通信方式・周波数など）の国際標準</td></tr>
+<tr><td><span class="kw">IEEE</span>（米国電気電子学会）</td><td>電気電子・情報分野の標準。無線LANのIEEE 802.11が有名</td></tr>
+<tr><td><span class="kw">W3C</span></td><td>ウェブ技術（HTMLなど）の標準化団体</td></tr>
+<tr><td><span class="kw">IETF</span></td><td>インターネット技術（TCP/IPなど）の標準化。仕様書はRFCとして公開</td></tr>
+<tr><td><span class="kw">JIS</span>／JISC</td><td>日本産業規格／それを調査・審議する日本の組織</td></tr>
+</table>
+<p>全部を丸暗記する必要はありません。<b>ISO＝国際規格の総本山、IEC＝電気、ITU＝通信、IEEE＝無線LANの802.11、W3C＝ウェブ</b>、この対応だけ押さえれば十分戦えます。</p>
+
+<h3 class="sec">4. 覚えるべきISO規格 ── 番号と中身の対応</h3>
+<table class="tbl">
+<tr><th>規格</th><th>テーマ</th></tr>
+<tr><td><span class="kw">ISO 9001</span></td><td><b>品質</b>マネジメントシステム（QMS）</td></tr>
+<tr><td><span class="kw">ISO 14001</span></td><td><b>環境</b>マネジメントシステム（EMS）</td></tr>
+<tr><td><span class="kw">ISO/IEC 27001</span></td><td><b>情報セキュリティ</b>マネジメントシステム（<span class="kw">ISMS</span>）</td></tr>
+<tr><td><span class="kw">ISO/IEC 27017</span></td><td><b>クラウドサービス</b>に特化した情報セキュリティの規格。これに基づく認証がISMSクラウドセキュリティ認証（令和5・7年度に出題）</td></tr>
+<tr><td><span class="kw">JIS Q 15001</span></td><td><b>個人情報保護</b>マネジメントシステム。適合した事業者の目印が<span class="kw">プライバシーマーク</span>（Pマーク）</td></tr>
+</table>
+<div class="ex"><div class="ex-t">具体例</div>企業のウェブサイトの下部に「ISO27001認証取得」「プライバシーマーク」のロゴが並んでいるのを見たことはありませんか？ 「うちはセキュリティ管理・個人情報管理の国際的なお墨付きがあります」というアピールです。IT企業では、ISMS認証は顧客への信頼の証としてよく取得されています。</div>
+<div class="why"><div class="why-t">なぜ？ ── 企業はお金と手間をかけてまで「認証」を取るのか</div>
+取引相手のセキュリティ管理が信頼できるかどうかを、外部から直接確かめる方法はありません（情報の非対称性）。本来なら取引のたびに監査が必要ですが、それでは双方のコストが膨大です。そこで<b>第三者機関が一定基準を審査して「お墨付き」を与える</b>ことで、信頼の確認を一回の認証に集約する――これが認証制度の経済的な機能です。発注側から見れば「ISMS認証あり」を条件にするだけで取引先を絞り込め、実際、官公庁や大企業の入札ではISMS認証やPマークが参加条件になることも珍しくありません。つまり認証は企業にとって<b>「信頼を伝えるシグナル」であり、取引の入場券</b>でもあるのです。心理学で学ぶシグナリングの考え方が、そのままビジネスの制度になっている例といえます。</div>
+<div class="pt"><div class="pt-t">試験のポイント</div>「<b>9001＝品質、14001＝環境、27001＝情報セキュリティ</b>」の番号対応は確実に出ます。自分なりの語呂合わせで刷り込んでしまいましょう。</div>
+
+<h3 class="sec">5. 身近なコードの標準 ── バーコードとQRコード</h3>
+<ul>
+<li><span class="kw">JANコード</span>：商品につく一次元バーコード。国コード・メーカーコード・商品コードなどで構成され、レジのPOSシステムで読み取られます。</li>
+<li><span class="kw">QRコード</span>：縦横2方向に情報を持つ<b>二次元コード</b>。バーコードより大容量で、誤り訂正機能により一部が汚れても読み取れます。日本のデンソーウェーブが開発し、特許権を行使しないと宣言したことで世界中に普及しました（標準を広めるオープン戦略の好例）。</li>
+<li><span class="kw">ISBN</span>：書籍を識別する国際的な番号。</li>
+</ul>
+<div class="why"><div class="why-t">なぜ？ ── デンソーウェーブはQRコードの特許を無償開放したのか</div>
+一見「儲け損ない」に見えますが、これは先ほどのネットワーク外部性を<b>意図的に起こす</b>戦略です。コードの規格で使用料を取れば、誰も採用せず規格自体が死んでしまう。逆に無償開放すれば、世界中が採用して「二次元コードといえばQR」という巨大な生態系ができあがります。そして規格が普及するほど、読み取り機器や関連システムといった<b>周辺ビジネスの市場が拡大し、技術の本家として優位に立てる</b>。つまり「規格でただ儲ける」のではなく「規格を土俵にして、土俵の上のビジネスで儲ける」発想です。同じ構造は、GoogleがAndroidを無償提供して広告・アプリ市場で収益を上げるモデルにも見られます。オープン戦略は試験でも「なぜ無償公開するのか」という趣旨の問題として出題されることがあります。</div>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li>標準化＝仕様をそろえて<b>互換性</b>を生むこと。</li>
+<li>標準の3類型：公的機関の<span class="kw">デジュレ</span>／市場が決めた<span class="kw">デファクト</span>／企業連合の<span class="kw">フォーラム標準</span>。</li>
+<li>団体は「ISO＝全般、IEC＝電気、ITU＝通信、IEEE＝802.11、W3C＝ウェブ」。</li>
+<li>規格番号は「<b>9001品質・14001環境・27001情報セキュリティ</b>」、個人情報は<span class="kw">プライバシーマーク</span>。</li>
+<li><span class="kw">JANコード</span>は一次元、<span class="kw">QRコード</span>は二次元で誤り訂正つき。</li>
+</ul>
+<p>これで第1章「企業と法務」の講義は完走です。おつかれさまでした。ホームに戻って章末テストに挑戦し、合格の朱印を勝ち取りましょう。</p>
+`,
+  u21: `
+<p>第2章は「会社はどう戦うか」の話です。この単元では戦略の基本概念と分析ツール、他社との組み方、そして全社の情報を束ねる経営管理システムまでを扱います。用語は多いですが、すべて「<b>限られた資源を、どこに集中させるか</b>」という1つの問いから生まれた道具です。</p>
+
+<h3 class="sec">1. 経営戦略とは ── 「どこで戦うか」を選ぶこと</h3>
+<p><span class="kw">経営戦略</span>とは、競争優位を築くための中長期の方針です。重要なのは、戦略の本質が「がんばる」ことではなく<b>「選ぶ」こと</b>だという点。すべての市場で、すべての顧客に、すべての商品を売ることはできないので、勝てる場所と武器を選びます。</p>
+<p>その武器の核になるのが<span class="kw">コアコンピタンス</span>です。他社には<b>真似できない、その会社の中核となる強み</b>のことで、（1）顧客に価値をもたらす、（2）競合が模倣しにくい、（3）他の事業にも応用できる、という3条件で説明されます。</p>
+<div class="ex"><div class="ex-t">具体例</div>ホンダのエンジン技術はバイク・車・船外機・発電機へ展開され、模倣も困難——コアコンピタンスの教科書例です。トヨタの「カイゼン」を含む生産方式も、仕組みごと真似するのが極めて難しい強みです。</div>
+<p>自社の経営資源を体系的に分析する手法としては<span class="kw">VRIO分析</span>が知られています。資源を<b>経済価値（Value）・希少性（Rarity）・模倣困難性（Imitability）・組織（Organization：活かす体制があるか）</b>の4つの問いで評価し、持続的な競争優位の源泉かどうかを判定します。令和7年度に「自社のもつ資源を分析する手法」として出題されました。コアコンピタンスの3条件と発想がつながっていることに気づくと、どちらも忘れません。</p>
+<div class="why"><div class="why-t">なぜ？ ── 差別化しないと、何が起きるのか</div>
+どの会社の商品も同じに見えるとき、顧客が比べられる基準は<b>価格だけ</b>になります。すると全員が値下げ合戦に巻き込まれ、業界全体が儲からない消耗戦に陥る。これが同質化競争の恐ろしさです。だから戦略論は一貫して「他社と違うこと（差別化）」か「他社より圧倒的に安く作れること（コストリーダーシップ）」か、あるいは「大手が来ない隙間市場（<span class="kw">ニッチ戦略</span>）」かの選択を迫ります。なお、あえて競争のない新市場を切り開く考え方は<span class="kw">ブルーオーシャン戦略</span>と呼ばれます（競争の激しい既存市場は血の海＝レッドオーシャン）。任天堂のWiiが「ゲーマー同士の性能競争」を降りて「家族で遊ぶ」市場を作ったのが好例です。</div>
+
+<h3 class="sec">2. 分析ツール ── SWOTとPPM</h3>
+<p>戦略を立てるには、まず自社と環境を分析します。代表ツールが2つ。</p>
+<p><span class="kw">SWOT分析</span>は、自社の内部環境を<b>強み（Strength）・弱み（Weakness）</b>、外部環境を<b>機会（Opportunity）・脅威（Threat）</b>の4象限で整理する手法です。「強み・弱みは社内の話、機会・脅威は世の中の話」という内外の区別が試験の急所です（円安や法改正は自社では変えられない＝外部環境）。</p>
+<p><span class="kw">PPM</span>（プロダクトポートフォリオマネジメント）は、複数の事業を<b>市場成長率</b>と<b>市場占有率（シェア）</b>の2軸で4つに分類し、資源配分を決めるツールです。</p>
+<table class="tbl">
+<tr><th>分類</th><th>成長率／シェア</th><th>意味と打ち手</th></tr>
+<tr><td><span class="kw">花形</span></td><td>高／高</td><td>稼ぐが投資も必要。シェアを維持して将来の金のなる木に育てる。</td></tr>
+<tr><td><span class="kw">金のなる木</span></td><td>低／高</td><td>成長は止まったが安定して稼ぐ。<b>ここで得た資金を他へ回す</b>。</td></tr>
+<tr><td><span class="kw">問題児</span></td><td>高／低</td><td>市場は伸びるがシェアが低い。投資して花形に育てるか、撤退かの分かれ目。</td></tr>
+<tr><td><span class="kw">負け犬</span></td><td>低／低</td><td>撤退・縮小の検討対象。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── シェアが高いと「稼げる」と言い切れるのか</div>
+PPMの背後には2つの経験則があります。1つは<b>規模の経済</b>（たくさん作るほど1個あたりの固定費が薄まり安く作れる）。もう1つは<b>経験曲線効果</b>（累積生産量が増えるほど、習熟により単位コストが一定割合で下がっていく）。シェア1位の会社は誰よりも多く作ってきたので、同じ価格でも一番利益が出る構造になる――だからシェアを収益力の代理指標に使えるのです。そしてPPMの本質は<b>「金のなる木で稼いだ現金を、問題児に注いで次の花形を育てる」という資金の循環設計</b>にあります。「負け犬だから即撤退」と機械的に決めるものではない、という注意点も覚えておきましょう。</div>
+<p>他社の優れたやり方と比較して自社を改善する手法は<span class="kw">ベンチマーキング</span>といいます。</p>
+
+<h3 class="sec">3. 他社との組み方 ── 自前か、買うか、組むか</h3>
+<table class="tbl">
+<tr><th>手段</th><th>意味</th></tr>
+<tr><td><span class="kw">M&A</span></td><td>合併・買収。他社を丸ごと取り込む。</td></tr>
+<tr><td><span class="kw">アライアンス</span></td><td>資本関係を結ばない（または緩やかな）業務提携。</td></tr>
+<tr><td><span class="kw">ジョイントベンチャー</span></td><td>複数社が出資して合弁会社を新設する。</td></tr>
+<tr><td><span class="kw">OEM</span></td><td>相手先ブランドでの生産を受託すること。</td></tr>
+<tr><td><span class="kw">ファブレス</span></td><td>自社では工場（fab）を持たず、製造を外部に委託する形態。</td></tr>
+<tr><td><span class="kw">アウトソーシング</span></td><td>業務の外部委託。</td></tr>
+</table>
+<div class="ex"><div class="ex-t">具体例</div>任天堂やAppleは<b>ファブレス</b>の代表で、製造は台湾の受託企業などに任せ、自社は企画・設計に集中します。コンビニのPB商品（セブンプレミアムなど）は大手食品メーカーによる<b>OEM</b>。一方、ユニクロのように企画から販売まで一気通貫で握る方式（SPA）は<b>垂直統合</b>の例です。</div>
+<div class="why"><div class="why-t">なぜ？ ── M&Aは「時間を買う」と言われるのか</div>
+新規事業を自前で育てると、技術開発・人材育成・顧客開拓に何年もかかり、成功する保証もありません。M&Aなら、<b>すでに完成した技術・人材・顧客基盤を一括で手に入れられる</b>。つまり支払う買収額は「時間の短縮」への対価です。逆にリスクは、高値づかみと、企業文化の衝突で人材が流出すること。アライアンスはその中間で、「結婚（M&A）まではせず、まず付き合ってみる（提携）」という関係です。拘束が弱いぶん裏切りもあり得る——結びつきの強さとリスクのトレードオフで3つの手段を整理すると、事例問題で迷いません。</div>
+
+<h3 class="sec">4. 経営管理システム ── 全社の情報を1つにつなぐ</h3>
+<p>戦略の実行を支えるITの仕組みも、この分野の頻出用語です。</p>
+<table class="tbl">
+<tr><th>システム</th><th>何を管理する？</th></tr>
+<tr><td><span class="kw">CRM</span></td><td>顧客関係管理。顧客情報や購買履歴を一元化し、長期的な関係を築いて<b>顧客生涯価値</b>を高める。</td></tr>
+<tr><td><span class="kw">SFA</span></td><td>営業支援。商談の進捗や営業活動の情報を共有し、営業の生産性を上げる。</td></tr>
+<tr><td><span class="kw">SCM</span></td><td>供給連鎖管理。<b>調達→製造→物流→販売</b>の流れを企業をまたいで最適化し、在庫と納期のムダをなくす。</td></tr>
+<tr><td><span class="kw">ERP</span></td><td>企業資源計画。会計・人事・生産・販売など<b>基幹業務のデータを統合パッケージで一元管理</b>する。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 部門ごとのシステムではダメで、「統合」が必要なのか</div>
+各部門が別々のシステムで動くと、それぞれは正しくても全体ではムダが生まれます。典型が在庫です。営業は欠品を恐れて多めに発注し、工場は効率重視でまとめて生産し、倉庫には誰も把握していない在庫の山ができる――<b>部分最適の合計は全体最適にならない</b>のです。ERPやSCMは、全部門・取引先までデータを一気通貫でつなぐことで「いま何がどこにいくつあるか」を共有し、この構造問題を解きます。セブン-イレブンが1日に何度も配送網を回せるのも、販売データが瞬時に工場・物流まで届くSCMの力です。「CRM＝顧客」「SCM＝モノの流れ」「ERP＝社内の基幹業務」と守備範囲で区別してください。</div>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li>戦略の本質は<b>選択と集中</b>。武器は<span class="kw">コアコンピタンス</span>（模倣困難・顧客価値・応用可能）。</li>
+<li><span class="kw">SWOT</span>＝内部（強み弱み）×外部（機会脅威）。<span class="kw">PPM</span>＝金のなる木の資金で問題児を花形に育てる資金循環。</li>
+<li>外部活用は結びつきの強い順に<b>M&A→ジョイントベンチャー→アライアンス</b>。製造を持たないのが<span class="kw">ファブレス</span>、受託生産が<span class="kw">OEM</span>。</li>
+<li>経営管理システムは<span class="kw">CRM</span>（顧客）・<span class="kw">SFA</span>（営業）・<span class="kw">SCM</span>（モノの流れ）・<span class="kw">ERP</span>（基幹統合）。</li>
+</ul>
+`,
+  u22: `
+<p>マーケティングは「広告を打つこと」だと誤解されがちですが、本当の定義は<b>「売れる仕組みをつくること」</b>です。顧客の心理と行動を読み解いて仕組みに落とす——実は心理学のすぐ隣にある分野で、ぐりさんの素養が一番活きる単元のひとつです。</p>
+
+<h3 class="sec">1. STP ── 誰に売るかを決める</h3>
+<p>マーケティングの出発点は「全員に売ろうとしない」ことです。手順は3ステップで、頭文字から<span class="kw">STP</span>と呼ばれます。</p>
+<ul>
+<li><span class="kw">セグメンテーション</span>：市場を年齢・地域・ライフスタイルなどの軸で<b>同質なグループに分割</b>する。</li>
+<li><span class="kw">ターゲティング</span>：分けたセグメントの中から、<b>狙う市場を選ぶ</b>。</li>
+<li><span class="kw">ポジショニング</span>：選んだ顧客の頭の中に、競合と差別化された<b>自社の立ち位置を築く</b>。</li>
+</ul>
+<div class="ex"><div class="ex-t">具体例</div>同じコーヒーでも、スターバックスは「ゆったり過ごせる第三の場所」を求める層に、缶コーヒーのBOSSは「働く人の相棒」として現場で働く層に狙いを定めています。商品スペックではなく「顧客の頭の中の椅子」を取り合っているのがポジショニングです。</div>
+<div class="why"><div class="why-t">なぜ？ ── 全員に売ろうとしてはいけないのか</div>
+理由は2つあります。第一に資源の限界。広告費も営業人員も有限なので、全方位に薄くまくより、買ってくれる確率の高い層に集中するほうが投資効率が高い。第二に<b>メッセージの希釈</b>です。「誰にでも合う」と訴える商品は、心理的には「自分のための商品ではない」と知覚され、誰の心にも刺さりません。万人向けのラブレターが誰も口説けないのと同じ理屈です。「絞るからこそ刺さる」――STPはこの認知の性質を仕組み化したものです。</div>
+
+<h3 class="sec">2. マーケティングミックス ── 4Pと4C</h3>
+<p>狙いを定めたら、打ち手を4つの要素で設計します。売り手視点の<span class="kw">4P</span>と、同じものを買い手視点で言い換えた<span class="kw">4C</span>の対応で覚えましょう。</p>
+<table class="tbl">
+<tr><th>4P（売り手）</th><th>4C（買い手）</th><th>問い</th></tr>
+<tr><td><span class="kw">Product</span>（製品）</td><td>顧客価値</td><td>何を売るか／どんな価値か</td></tr>
+<tr><td><span class="kw">Price</span>（価格）</td><td>顧客コスト</td><td>いくらで売るか／いくら払うか</td></tr>
+<tr><td><span class="kw">Place</span>（流通）</td><td>利便性</td><td>どこで売るか／どこで買えるか</td></tr>
+<tr><td><span class="kw">Promotion</span>（販売促進）</td><td>コミュニケーション</td><td>どう伝えるか</td></tr>
+</table>
+<p>販促の押し引きには、流通業者に働きかけて店頭で売り込んでもらう<span class="kw">プッシュ戦略</span>と、広告などで消費者の指名買いを生み出す<span class="kw">プル戦略</span>があります。</p>
+
+<h3 class="sec">3. 価格のつけ方 ── 高く始めるか、安く始めるか</h3>
+<table class="tbl">
+<tr><th>戦略</th><th>やり方</th><th>向く条件</th></tr>
+<tr><td><span class="kw">スキミングプライシング</span></td><td>発売直後に<b>高価格</b>をつけ、新しもの好きの層から利益を回収（上澄み吸収）</td><td>技術が独自で模倣されにくい、ブランド力がある</td></tr>
+<tr><td><span class="kw">ペネトレーションプライシング</span></td><td>あえて<b>低価格</b>で出し、一気に市場シェアを獲得（市場浸透）</td><td>規模の経済が効く、シェア自体が価値を生む</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 赤字覚悟の低価格が「戦略」になり得るのか</div>
+ペネトレーションは一見ただの安売りですが、計算があります。第一に、シェアを取れば<b>経験曲線効果</b>でコストが下がり、後から利益がついてくる。第二に、ゲーム機や動画配信のように<b>利用者が増えるほど価値が上がる商品</b>（ネットワーク外部性）では、最初にシェアを取った者が勝者総取りになるため、初期の赤字は「市場を買う」投資になるのです。プリンタ本体を安く売ってインクで稼ぐ、ゲーム機を原価割れで売ってソフトのライセンス料で回収する――この「本体安・消耗品高」モデルも、同じ発想の応用です。逆に模倣されやすい商品で安売りすると、ただの消耗戦になります。条件とセットで覚えるのが800点への道です。</div>
+
+<h3 class="sec">4. プロダクトライフサイクル ── 商品の一生</h3>
+<p>商品は<span class="kw">導入期→成長期→成熟期→衰退期</span>という一生をたどり、段階ごとに打ち手が変わります。</p>
+<table class="tbl">
+<tr><th>段階</th><th>特徴と打ち手</th></tr>
+<tr><td>導入期</td><td>認知度が低く赤字気味。知名度向上への投資が中心。</td></tr>
+<tr><td>成長期</td><td>売上が急拡大し、競合が参入してくる。シェア獲得と生産能力の増強。</td></tr>
+<tr><td>成熟期</td><td>市場の伸びが止まり、<b>価格競争と差別化</b>の勝負に。利益はここが最大になりやすい。</td></tr>
+<tr><td>衰退期</td><td>市場が縮小。撤退時期の見極めか、残存者利益の確保。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 普及には「壁」があるのか（イノベーター理論）</div>
+新商品の買い手は、早い順に<b>イノベーター（革新者）→アーリーアダプター（初期採用者）→アーリーマジョリティ→レイトマジョリティ→ラガード</b>の5タイプに分かれます。重要なのは、新しさ自体を好む少数の前半層と、「みんなが使って安心だから買う」多数の後半層では<b>購買の動機がまったく違う</b>こと。だから前半で売れた商品が、そのままでは大衆に広がらない断絶（<span class="kw">キャズム</span>と呼ばれる溝）が生じます。アーリーアダプターは後続への影響力が大きい<b>オピニオンリーダー</b>として特に重視される――SNSのインフルエンサーマーケティングは、まさにこの理論の現代版です。同調や社会的証明といった心理学の知見が、そのまま市場分析に使われている例ですね。</div>
+
+<h3 class="sec">5. 顧客データを活かす ── 分析とデジタル手法</h3>
+<ul>
+<li><span class="kw">RFM分析</span>：顧客を<b>Recency（最終購買日）・Frequency（購買頻度）・Monetary（購買金額）</b>の3軸で評価し、優良顧客を見つけて施策を変える手法。</li>
+<li><span class="kw">ワントゥワンマーケティング</span>：顧客一人ひとりの好みに合わせて個別にアプローチすること。ECサイトの「あなたへのおすすめ」が典型。</li>
+<li><span class="kw">SEO</span>：検索エンジン最適化。検索結果の上位に自社サイトが表示されるよう工夫すること。</li>
+<li><span class="kw">リスティング広告</span>：検索キーワードに連動して表示される広告。</li>
+<li><span class="kw">アフィリエイト</span>：成果報酬型広告。ブログ等の紹介経由で商品が売れたら紹介者に報酬を払う仕組み。</li>
+<li><span class="kw">オムニチャネル</span>：実店舗・EC・アプリなど、あらゆる接点を統合して一貫した購買体験を提供すること（ネットで注文して店舗で受け取るユニクロが好例）。</li>
+</ul>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li><span class="kw">STP</span>＝分けて、選んで、頭の中に位置づける。絞るからこそ刺さる。</li>
+<li><span class="kw">4P</span>（製品・価格・流通・販促）は買い手視点の4Cと対応させて理解。</li>
+<li>価格は<span class="kw">スキミング</span>（高く始める・模倣困難が条件）と<span class="kw">ペネトレーション</span>（安く始めてシェア確保・規模の経済が条件）。</li>
+<li><span class="kw">プロダクトライフサイクル</span>は導入→成長→成熟→衰退。普及の壁は<span class="kw">キャズム</span>。</li>
+<li>顧客分析は<span class="kw">RFM</span>の3指標（最近・頻度・金額）が頻出。</li>
+</ul>
+`,
+  u23: `
+<p>立派な戦略を作っても、実行されなければ絵に描いた餅です。この単元は「戦略を<b>日々の行動と数字に翻訳する</b>」ための道具立てを学びます。短めの単元ですが、BSCとKGI/CSF/KPIはストラテジ系の定番出題です。</p>
+
+<h3 class="sec">1. バランススコアカード（BSC） ── 財務だけ見ない成績表</h3>
+<p><span class="kw">バランススコアカード（BSC）</span>は、企業の業績を<b>4つの視点</b>で評価する経営管理手法です。</p>
+<table class="tbl">
+<tr><th>視点</th><th>問い</th><th>指標の例</th></tr>
+<tr><td><span class="kw">財務の視点</span></td><td>株主にどう応えるか</td><td>売上高、利益率</td></tr>
+<tr><td><span class="kw">顧客の視点</span></td><td>顧客にどう見られたいか</td><td>顧客満足度、リピート率</td></tr>
+<tr><td><span class="kw">業務プロセスの視点</span></td><td>どの業務に秀でるべきか</td><td>納期、不良率</td></tr>
+<tr><td><span class="kw">学習と成長の視点</span></td><td>組織と人材をどう成長させるか</td><td>研修時間、資格取得数、従業員満足度</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 財務指標だけで経営を評価してはいけないのか</div>
+財務の数字は<b>「過去の活動の結果」しか映さない遅行指標</b>だからです。利益だけを追うと、研修や設備投資のような「いま費用がかかり、効果は将来出る」活動が真っ先に削られ、短期の数字は良くなっても会社の体力は痩せ細っていきます。BSCの4視点は実は因果の鎖になっています。<b>人材が育つ（学習と成長）→業務の質が上がる（プロセス）→顧客が満足する（顧客）→最終的に儲かる（財務）</b>。つまり下流の財務だけでなく、上流の先行指標まで同時に測ることで、「将来の利益の種」を枯らさずに経営する仕組みなのです。テストで4視点を選ばせる問題では「競合の視点」「環境の視点」などの偽選択肢が混ざるので、この因果の鎖ごと覚えてください。</div>
+
+<h3 class="sec">2. KGI・CSF・KPI ── 目標を行動に翻訳する</h3>
+<p>戦略の達成度を測る指標群は、3層で整理します。</p>
+<ul>
+<li><span class="kw">KGI</span>（重要目標達成指標）：最終ゴールの指標。「年間売上10億円」「合格」など。</li>
+<li><span class="kw">CSF</span>（重要成功要因）：ゴール達成の鍵を握る要因。「何が決め手か」。</li>
+<li><span class="kw">KPI</span>（重要業績評価指標）：CSFがうまくいっているかを<b>日々測れる中間指標</b>。</li>
+</ul>
+<div class="ex"><div class="ex-t">具体例</div>スポーツジムなら、KGI＝年間売上目標。分析の結果「退会率の低さが売上を決める」とわかれば、CSF＝会員の継続。KPI＝月間退会率や週1回以上の来店率。ぐりさんの勉強に当てはめると、KGI＝ITパスポート800点、CSF＝苦手分野を作らないこと、KPI＝週あたりの学習単元数と章末テストの正答率、という構造です。</div>
+<div class="why"><div class="why-t">なぜ？ ── 最終目標（KGI）だけでは人は動けないのか</div>
+KGIは結果が出るまで何か月もかかるうえ、日々の行動と距離が遠すぎて「今日何をすべきか」を教えてくれません。心理学の目標設定理論が示すとおり、人を動かすのは<b>具体的で、フィードバックが早い目標</b>です。KPIはまさにそれで、毎週・毎日測れるから軌道修正が早くなり、達成の手応えが動機づけになります。もうひとつ重要なのは<b>KPIを測れば早期警報になる</b>こと。売上（KGI）が落ちてから気づくのではなく、来店率（KPI）の低下の時点で手を打てる。KGI＝目的地、CSF＝勝ち筋、KPI＝計器盤、という比喩で覚えましょう。</div>
+
+<h3 class="sec">3. 価値を測るもうひとつの目 ── バリューエンジニアリング</h3>
+<p><span class="kw">バリューエンジニアリング（VE）</span>は、製品やサービスの価値を「<b>価値 ＝ 機能 ÷ コスト</b>」と定義し、価値を最大化する体系的な手法です。この式が示す改善の道は2つ：同じコストで機能を高めるか、同じ機能をより低コストで実現するか。「価値＝高級さ」ではなく「果たす機能とコストの比」と捉えるのがポイントで、100円ショップの商品は機能を絞ってコストを極小化した「高価値」の例といえます。</p>
+
+<h3 class="sec">4. ナレッジマネジメント ── 個人の知恵を組織の力に</h3>
+<p>ベテランの勘やコツのような言語化されていない知識（暗黙知）を、文書やマニュアルのような形式知に変換して組織で共有する取り組みを<span class="kw">ナレッジマネジメント</span>といいます。暗黙知と形式知の相互変換のサイクルは<span class="kw">SECIモデル</span>（共同化→表出化→連結化→内面化）として整理されています。属人化した知識は本人の退職とともに消えてしまう——だからこそ知識を組織の資産に変える仕組みが戦略レベルで重視されるのです。</p>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li><span class="kw">BSC</span>の4視点＝<b>財務・顧客・業務プロセス・学習と成長</b>。下から上への因果の鎖で、先行指標まで測る。</li>
+<li>指標の3層構造：<span class="kw">KGI</span>（最終目標）←<span class="kw">CSF</span>（成功の鍵）←<span class="kw">KPI</span>（日々の計器盤）。</li>
+<li><span class="kw">VE</span>は「価値＝機能÷コスト」。<span class="kw">ナレッジマネジメント</span>は暗黙知を形式知へ。</li>
+</ul>
+`,
+  u24: `
+<p>「良い技術を持つ会社が勝つ」と思いたくなりますが、歴史はその逆の例であふれています。優れた技術が製品にならず、優れた製品を持つ大企業が新興企業に負ける。この単元は、その「なぜ」を扱う分野です。物語として理解しやすく、得点源にしやすい単元です。</p>
+
+<h3 class="sec">1. MOT ── 技術を「儲け」に変える経営</h3>
+<p><span class="kw">MOT</span>（技術経営）とは、技術を理解した上で、それを<b>事業の利益に結びつける</b>経営のことです。研究室の成果がそのままお金になるわけではなく、間には製品化・量産化・市場開拓という長い道のりがあります。その道のりに潜む3つの関門が、試験の定番です。</p>
+<table class="tbl">
+<tr><th>関門</th><th>どこにある壁？</th><th>中身</th></tr>
+<tr><td><span class="kw">魔の川</span></td><td>研究 → 開発</td><td>基礎研究の成果が、製品開発のテーマに結びつかない。</td></tr>
+<tr><td><span class="kw">死の谷</span></td><td>開発 → 事業化</td><td>試作はできたが、量産化・販売のための<b>資金や人材が尽きる</b>。</td></tr>
+<tr><td><span class="kw">ダーウィンの海</span></td><td>事業化 → 産業化</td><td>市場に出たが、競合や既存製品との<b>生存競争</b>に揉まれる。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 良い技術ほど「死の谷」に落ちやすいのか</div>
+研究段階の資金は比較的小さく、補助金や研究予算で賄えます。ところが事業化の段階では、工場・量産設備・販路・人員と、<b>必要資金が桁違いに跳ね上がる</b>。しかも売れる保証はまだない。「大金が要るのに、成功の証拠がまだない」という最悪のタイミングが構造的に存在するのです。これが死の谷の正体で、ベンチャーキャピタルからの資金調達、大企業との提携、近年ではクラウドファンディング（市場の需要を資金調達と同時に検証できる）が「谷を渡る橋」として使われます。3つの関門は<b>順番（川→谷→海）</b>ごと覚えてください。並べ替え問題が出ます。</div>
+
+<h3 class="sec">2. イノベーション ── 2つの軸で整理する</h3>
+<p><span class="kw">イノベーション</span>は「技術革新」と訳されがちですが、本来は新しい価値の創造全般を指します。試験では2つの分類軸を押さえます。</p>
+<p>第一の軸は「何を」革新するか。<b>製品そのもの</b>を革新する<span class="kw">プロダクトイノベーション</span>（例：スマートフォンの登場）と、<b>作り方・届け方</b>を革新する<span class="kw">プロセスイノベーション</span>（例：トヨタ生産方式、回転寿司のレーン）です。</p>
+<p>第二の軸は「どう」市場に効くか。既存製品の性能を着実に高める<span class="kw">持続的イノベーション</span>と、最初は低性能でも別の価値（安い・小さい・手軽）で市場を塗り替える<span class="kw">破壊的イノベーション</span>です。</p>
+<div class="why"><div class="why-t">なぜ？ ── 優良企業ほど破壊的イノベーションに負けるのか（イノベーションのジレンマ）</div>
+不思議なことに、敗因は「経営の怠慢」ではなく<b>「正しい経営をしたこと」</b>にあります。優良企業は主要顧客の声を聞き、利益率の高い改良に投資します。一方、出始めの破壊的技術（初期のデジカメ、格安スマホ）は性能が低く、利益も薄く、既存顧客は欲しがらない――合理的に判断すれば「投資しない」が正解に見えるのです。ところが新技術は別の市場で力を蓄え、性能が主流の要求水準を超えた瞬間、一気に市場を奪う。フィルムカメラの巨人コダックがデジカメに（自社で発明していたのに）飲み込まれたのが象徴例です。なお同じフィルム業界でも、富士フイルムはフィルム技術を化粧品や医療に転用して生き残りました──コアコンピタンスの応用展開（単元①）とつながる好対照です。</div>
+
+<h3 class="sec">3. イノベーションを起こす仕組み</h3>
+<table class="tbl">
+<tr><th>用語</th><th>意味</th></tr>
+<tr><td><span class="kw">オープンイノベーション</span></td><td>自社だけで開発せず、他社・大学・スタートアップなど<b>外部の知識や技術を取り込んで</b>革新を起こすこと。</td></tr>
+<tr><td><span class="kw">ハッカソン</span></td><td>エンジニアやデザイナーが集中的に開発し、アイデアと成果を競うイベント。</td></tr>
+<tr><td><span class="kw">デザイン思考</span></td><td>利用者の観察と共感から出発し、試作と検証を繰り返して課題を解決する発想法。</td></tr>
+<tr><td><span class="kw">リーンスタートアップ</span></td><td>必要最小限の試作品（MVP）を素早く市場に出し、顧客の反応から学んで方向修正（ピボット）を繰り返す起業手法。</td></tr>
+<tr><td><span class="kw">PoC</span>（概念実証）</td><td>新しいアイデアや技術が実現可能か、本格投資の前に<b>小規模に検証</b>すること。</td></tr>
+<tr><td><span class="kw">技術ロードマップ</span></td><td>技術の進展と製品化の道筋を時間軸で示した計画図。</td></tr>
+<tr><td><span class="kw">APIエコノミー</span></td><td>自社サービスの機能をAPIとして公開し、他社サービスと連携して生まれる経済圏。地図アプリの機能が飲食店アプリに組み込まれる、など。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 「自前主義」を捨てる企業が増えたのか</div>
+技術の変化が速くなりすぎて、<b>1社の研究開発だけでは追いつけなくなった</b>からです。自社で10年かけて開発するより、すでにその技術を持つスタートアップと組む（あるいは買収する）ほうが速くて確実。さらに、リーンスタートアップやPoCの普及には「<b>失敗のコストを最小化する</b>」という共通の思想があります。完璧な計画に大金を投じてから失敗するのではなく、小さく試して早く学び、ダメなら素早く撤退する。不確実性が高い時代の研究開発は「当てる」ことより「<b>安く早く外して学ぶ</b>」ことが合理的になった、という発想の転換を押さえると、この表の用語が一本の糸でつながります。</div>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li><span class="kw">MOT</span>＝技術を儲けに変える経営。関門は順に<b>魔の川（研究→開発）・死の谷（開発→事業化）・ダーウィンの海（事業化→産業化）</b>。</li>
+<li>イノベーションは<b>プロダクト／プロセス</b>、<b>持続的／破壊的</b>の2軸で整理。優良企業が負ける構造が<span class="kw">イノベーションのジレンマ</span>。</li>
+<li>外部と組む<span class="kw">オープンイノベーション</span>、小さく試す<span class="kw">リーンスタートアップ</span>・<span class="kw">PoC</span>。共通思想は「失敗のコストの最小化」。</li>
+</ul>
+`,
+  u25: `
+<p>この単元は、ITが各業界（インダストリ）でどんなビジネスを生んでいるかのカタログです。用語数は多めですが、ニュースで聞いたことのある話ばかりなので、「あのサービスのことか」と結びつけながら整理しましょう。</p>
+
+<h3 class="sec">1. 電子商取引（EC） ── 誰が誰に売るか</h3>
+<p>取引の当事者の組合せで分類します。<span class="kw">BtoB</span>（企業間：部品調達など）、<span class="kw">BtoC</span>（企業→消費者：Amazonや楽天）、<span class="kw">CtoC</span>（消費者同士：メルカリ、ヤフオク）。行政（G）が絡むGtoCなどもあります。</p>
+<div class="why"><div class="why-t">なぜ？ ── 素人同士の取引（CtoC）が成立するのか</div>
+知らない人同士の売買には「お金を払ったのに商品が来ない」「商品を送ったのに支払われない」という相互不信がつきまといます。これを解いたのが2つの仕組みです。1つは<span class="kw">エスクロー</span>：運営会社が代金を一時的に預かり、買い手が商品を受け取ってから出品者に支払う仲介の仕組み（メルカリの方式）。もう1つは<b>相互評価システム</b>：過去の取引相手からの評価を蓄積して見えるようにすることで、「評判」が信頼の担保として機能します。技術が新しいというより、<b>心理的な信頼問題を制度設計で解決した</b>のがCtoC市場の本質です。</div>
+<p>ECの戦略として有名なのが<span class="kw">ロングテール</span>です。販売数の少ないニッチ商品（しっぽ＝テール）でも、品揃えを膨大にすれば合計では大きな売上になる、というネット通販特有の現象を指します。</p>
+<div class="why"><div class="why-t">なぜ？ ── リアル店舗では死に筋の商品が、ネットでは儲かるのか</div>
+理由は<b>棚のコスト構造の違い</b>です。実店舗の棚は有限で、家賃という固定費がかかるため、売れ筋（月に何個も売れる商品）しか置けません。年に1個しか売れない商品は棚の無駄です。ところがECの「棚」はデータベース上の商品ページなので、追加コストがほぼゼロ。年1個の商品を100万種類並べれば、それだけで年100万個の売上になります。<b>物理的制約が消えたことで「2割の売れ筋が8割を稼ぐ」パレートの法則の外側が収益化できるようになった</b>――単元②で学んだABC分析の「C群切り捨て」が、ネットでは逆転するのです。</div>
+<p>ITサービスの収益モデルも頻出です。<span class="kw">フリーミアム</span>は、基本サービスを無料で提供して多くの利用者を集め、高機能版や追加機能を有料にして一部の利用者から収益を得るモデル（無料ゲームのアイテム課金、無料プランつきのクラウドサービスなど。令和5年度に出題）。<span class="kw">サブスクリプション</span>は、買い切りではなく定額料金で利用し続ける方式です（動画・音楽配信の月額制）。</p>
+<p>ネットと実店舗の連携では、ネットから実店舗へ顧客を誘導する<span class="kw">O2O</span>（Online to Offline：アプリのクーポンで来店を促すなど）と、すべての販売チャネルを統合して一貫した体験を作る<span class="kw">オムニチャネル</span>を区別しておきましょう。</p>
+
+<h3 class="sec">2. フィンテック ── 金融×IT</h3>
+<ul>
+<li><span class="kw">フィンテック</span>：金融（Finance）と技術（Technology）の融合。スマホ決済、ネット銀行、ロボアドバイザーなど。</li>
+<li><span class="kw">キャッシュレス決済</span>：QRコード決済（PayPayなど）、電子マネー、クレジットカード。</li>
+<li><span class="kw">暗号資産</span>（仮想通貨）：ブロックチェーン技術を基盤とするデジタル資産。国家や中央銀行が発行・保証するものではない点が法定通貨との違い。</li>
+<li><span class="kw">クラウドファンディング</span>：ネット経由で不特定多数から資金を集める仕組み（単元③の資金調達でも登場しました）。</li>
+<li><span class="kw">ブロックチェーン</span>：取引記録をブロックの鎖として暗号技術でつなぎ、多数の参加者で<b>分散管理</b>する台帳技術。一部を改ざんすると鎖全体と矛盾するため<b>改ざんが極めて困難</b>。暗号資産の基盤で、食品のトレーサビリティなどへの応用事例も出題されます（令和7年度に出題）。</li>
+<li>マネーロンダリング対策：金融サービスでは口座開設時の本人確認（オンラインで完結する方式はeKYC）などで資金洗浄を防ぐ取組みが求められます（令和4・5年度に出題）。</li>
+</ul>
+
+<h3 class="sec">3. IoTと製造業 ── モノがネットにつながる</h3>
+<p><span class="kw">IoT</span>（Internet of Things）は、家電・車・工場の機械など、あらゆるモノがインターネットにつながること。センサーでデータを集め、分析し、機器を制御するという循環が生まれます。</p>
+<table class="tbl">
+<tr><th>用語</th><th>意味</th></tr>
+<tr><td><span class="kw">スマートファクトリー</span></td><td>IoTやAIで設備・生産状況をデータ化し、最適化した工場。</td></tr>
+<tr><td><span class="kw">インダストリー4.0</span></td><td>ドイツ発の「第4次産業革命」構想。製造業のデジタル化を指す。</td></tr>
+<tr><td><span class="kw">組込みシステム</span></td><td>家電や機器の内部に組み込まれた専用のコンピュータシステム。炊飯器もエレベーターも中身はコンピュータ。</td></tr>
+<tr><td><span class="kw">トレーサビリティ</span></td><td>生産から消費までの履歴を<b>追跡できる</b>こと。食品の産地偽装防止や、不具合発生時のリコール範囲特定に効く。</td></tr>
+<tr><td><span class="kw">MaaS</span></td><td>電車・バス・タクシー・シェアサイクルなどの移動手段を、1つのサービスとして検索・予約・決済まで統合すること。</td></tr>
+<tr><td><span class="kw">エッジコンピューティング</span></td><td>データをクラウドへ送らず、発生源に近い端末・機器側で処理する方式。<b>通信の遅延とデータ量を減らせる</b>ため、自動運転や工場制御など即時性が必要な場面で使われる（令和5年度に出題）。</td></tr>
+<tr><td><span class="kw">自動運転のレベル</span></td><td>レベル0〜5の6段階。<b>レベル3から運転の主体がシステム側</b>になり（条件つき自動運転）、レベル4は限定領域で完全自動、レベル5は無条件の完全自動（令和7年度に出題）。</td></tr>
+<tr><td><span class="kw">VR／AR</span></td><td>VR＝仮想現実（ヘッドセットで仮想空間に没入）、AR＝拡張現実（現実の風景にデジタル情報を重ねる。スマホゲームや家具の試し置き）。活用事例を選ぶ形で出題される。</td></tr>
+</table>
+<div class="ex"><div class="ex-t">具体例</div>コマツの建設機械は位置・稼働状況を常時送信し、故障予兆の検知や盗難防止に活かされています（IoTの先駆例）。回転寿司チェーンでは皿のICタグで鮮度と売れ行きを管理――トレーサビリティと需要予測の身近な実例です。</div>
+
+<h3 class="sec">4. シェアリングエコノミー ── 「持つ」から「共有する」へ</h3>
+<p><span class="kw">シェアリングエコノミー</span>は、個人や企業が持つ遊休資産（空き部屋、使っていない車、空き時間やスキル）を、ネットのプラットフォーム経由で貸し借り・共有する経済の形です。民泊（Airbnb）、ライドシェア、カーシェア、スキルのマッチングなどが該当します。</p>
+<div class="why"><div class="why-t">なぜ？ ── 昔からあった「貸し借り」が、今になって巨大産業になったのか</div>
+貸したい人と借りたい人を見つけ合う<b>探索コスト</b>と、相手が信頼できるか確かめる<b>信頼コスト</b>が、かつては高すぎたからです。見知らぬ人に自宅を貸すなど、以前は考えられませんでした。スマホの普及で「いつでも・位置情報つきで」マッチングできるようになり、相互評価システムが信頼を肩代わりし、オンライン決済が金銭トラブルを減らした――3つのコストが同時に激減したことで、眠っていた遊休資産が一気に市場に出てきたのです。プラットフォーム企業自身は資産を持たず、<b>マッチングの場の提供で手数料を得る</b>のがビジネスモデルの核という点も出題ポイントです。</div>
+
+<h3 class="sec">5. 社会全体の構想 ── Society 5.0</h3>
+<p>日本政府が掲げる<span class="kw">Society 5.0</span>は、狩猟社会・農耕社会・工業社会・情報社会に続く5番目の社会像で、<b>サイバー空間（仮想）とフィジカル空間（現実）を高度に融合</b>させ、経済発展と社会課題の解決を両立する社会を指します。IoTでデータを集め、AIが分析し、現実世界へフィードバックする――この単元で学んだ技術群の総決算のような構想です。AIの利活用が広がる中で、人間中心の利用を求める「人間中心のAI社会原則」のようなガイドラインも整備されています。</p>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li>ECは当事者で分類：<span class="kw">BtoB／BtoC／CtoC</span>。CtoCを支えるのは<span class="kw">エスクロー</span>と相互評価。</li>
+<li><span class="kw">ロングテール</span>＝棚の制約が消え、死に筋の合計が収益化。<span class="kw">O2O</span>はネット→実店舗への誘導。</li>
+<li><span class="kw">IoT</span>はモノのネット接続。<span class="kw">トレーサビリティ</span>＝履歴の追跡可能性。</li>
+<li><span class="kw">シェアリングエコノミー</span>＝遊休資産×マッチング×相互評価。</li>
+<li><span class="kw">Society 5.0</span>＝サイバーとフィジカルの融合で課題解決。</li>
+</ul>
+`,
+  u31: `
+<p>第3章は「企業はITをどう導入し、活かすか」。エンジニアとして働くぐりさんが、まさに当事者になる章です。最初の単元は、システム導入の羅針盤となる「情報システム戦略」と、いま日本企業の最重要課題である「DX」を扱います。</p>
+
+<h3 class="sec">1. 情報システム戦略 ── 行き当たりばったりを防ぐ羅針盤</h3>
+<p><span class="kw">情報システム戦略</span>とは、<b>経営戦略に基づいて</b>、情報システムをどう整備・活用するかを定めた全社レベルの方針です。策定の責任者は<span class="kw">CIO</span>（最高情報責任者）。「経営戦略との整合性」という言葉が最大のキーワードで、試験では「現場部門の要望だけを集めて策定する」「最新技術の導入自体を目的とする」といった選択肢が誤りになります。</p>
+<div class="why"><div class="why-t">なぜ？ ── 全社の戦略なしにシステムを作ると、何が起きるのか</div>
+各部門がバラバラに「便利だから」とシステムを導入していくと、同じ顧客データが営業・経理・サポートに別々に存在して食い違い、システム同士はつながらず、手作業での転記が発生します（この分断状態を<b>サイロ化</b>と呼びます。サイロ＝穀物を別々に貯める塔）。さらに場当たり的な改修を重ねたシステムは、中身を知る担当者の退職とともにブラックボックス化し、<b>レガシーシステム</b>（時代遅れだが捨てられない古いシステム）として会社の足かせになります。経済産業省はこの問題を放置すると2025年以降に大きな経済損失が生じると警告しました（いわゆる「2025年の崖」）。情報システム戦略は、この「個別最適の積み重ねによる全体崩壊」を防ぐために、<b>全体最適の設計図を先に描く</b>営みなのです。</div>
+<p>その「全体最適の設計図」を体系的に描く手法が<span class="kw">EA</span>（エンタープライズアーキテクチャ）です。組織全体の業務とシステムを、ビジネス・データ・アプリケーション・テクノロジの4つの体系で整理し、現状（As-Is）とあるべき姿（To-Be）のギャップを明らかにして移行計画を立てます。</p>
+
+<h3 class="sec">2. DX ── デジタルで「ビジネスそのもの」を変える</h3>
+<p><span class="kw">DX</span>（デジタルトランスフォーメーション）とは、データとデジタル技術を活用して、製品・サービス・ビジネスモデル、さらには業務や組織・企業文化までを<b>変革し、競争上の優位性を確立する</b>ことです。重要なのは、DXが「IT導入」と同義ではないこと。変革の深さによって3段階に整理されます。</p>
+<table class="tbl">
+<tr><th>段階</th><th>意味</th><th>例（書店の場合）</th></tr>
+<tr><td><span class="kw">デジタイゼーション</span></td><td>アナログ情報の<b>デジタル化</b></td><td>紙の台帳をExcelにする</td></tr>
+<tr><td><span class="kw">デジタライゼーション</span></td><td>個別の<b>業務プロセスのデジタル化</b></td><td>在庫管理と発注を自動化する</td></tr>
+<tr><td><span class="kw">DX</span></td><td><b>ビジネスモデル・組織の変革</b></td><td>電子書籍の定額読み放題サービスを始める</td></tr>
+</table>
+<div class="ex"><div class="ex-t">具体例</div>ネットフリックスはDVDの郵送レンタル業から出発し、配信へ移行（ビジネスモデルの変革）、さらに視聴データを分析してオリジナル作品の制作まで手がけるようになりました（データ駆動の意思決定）。「同じ事業のIT化」を超えて「事業の中身が変わる」――これがDXのスケール感です。</div>
+<div class="why"><div class="why-t">なぜ？ ── 「最新ITを導入すること」はDXと呼べないのか</div>
+DXの定義の核心は、手段（デジタル技術）ではなく<b>目的（競争優位の確立）と変革の対象（ビジネスモデル・組織文化）</b>にあるからです。FAXをメールに変えても、紙の稟議をPDFにしても、仕事のやり方と稼ぎ方が同じなら、それは効率化（デジタイゼーション／デジタライゼーション）にとどまります。試験では「業務の一部を電子化した」事例と「データ活用で新しい価値・ビジネスを生み出した」事例を区別させる問題が出ます。<b>「稼ぎ方・価値の出し方が変わったか？」</b>を判定基準にしてください。また、DX推進の前提として、レガシーシステムの刷新と、データを経営に活かす人材・組織づくりが必要になる、という文脈も併せて問われます。</div>
+
+<h3 class="sec">3. IT投資の判断 ── 効果をどう測るか</h3>
+<p>システムは導入がゴールではなく、投資に見合う効果が出てこそ意味があります。IT投資の評価では、システム化の<b>目的を定量的な指標で定義</b>しておくことが重要です（例：問い合わせ応答時間を50％短縮）。投資判断の材料として、導入費用だけでなく運用・保守まで含めた総コスト（<span class="kw">TCO</span>：総所有費用）で考えること、効果（<span class="kw">ROI</span>：投資利益率）を事後に検証することが問われます。「初期費用が安いシステム＝安い」とは限らない――クラウドとオンプレミスの比較（単元③で詳述）でも、この視点が軸になります。</p>
+
+<h3 class="sec">4. 戦略を実現する組織と人</h3>
+<p>情報システム戦略を絵に描いた餅にしないために、推進体制も問われます。経営層では<span class="kw">CIO</span>が戦略を率い、データ活用の専門家（データサイエンティスト）や、業務とITの橋渡しをする人材が必要になります。また、全社でデータに基づいて判断する<span class="kw">データ駆動型経営</span>（第1章②で学習）は、DXの土台でもあります。システムの導入が「目的」ではなく、経営の目標を達成する「手段」である――この主従関係は、この章のすべての単元を貫く考え方です。</p>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li><span class="kw">情報システム戦略</span>は<b>経営戦略と整合</b>させ、<span class="kw">CIO</span>が責任を持つ。場当たり導入はサイロ化と<b>レガシーシステム</b>を生む。</li>
+<li><span class="kw">EA</span>＝全体最適の設計図（As-IsとTo-Beのギャップ分析）。</li>
+<li><span class="kw">DX</span>の3段階：デジタイゼーション（情報の電子化）→デジタライゼーション（業務の電子化）→DX（<b>ビジネスモデルの変革</b>）。判定基準は「稼ぎ方が変わったか」。</li>
+<li>IT投資は<span class="kw">TCO</span>（運用保守まで含めた総コスト）と効果検証で判断。</li>
+</ul>
+`,
+  u32: `
+<p>システムを入れる前に、まず仕事の流れ（業務プロセス）そのものを見直す——これがこの単元のテーマです。「今のやり方をそのままIT化すると、ムダまで自動化される」という警句を軸に、見える化の道具と改善の手法を学びます。</p>
+
+<h3 class="sec">1. 業務の見える化 ── 3つの図解ツール</h3>
+<p>業務を改善するには、まず現状を正確に共有する必要があります。試験では図の名前と「何を表すか」の対応が問われます。</p>
+<table class="tbl">
+<tr><th>図</th><th>何を表す？</th></tr>
+<tr><td><span class="kw">E-R図</span></td><td>データの構造。<b>実体（Entity）と実体同士の関連（Relationship）</b>を表す。「顧客」と「注文」の関係（1人の顧客が複数の注文を持つ）など。データベース設計の土台。</td></tr>
+<tr><td><span class="kw">DFD</span></td><td>業務における<b>データの流れ</b>。処理・データの源泉と吸収・データストア・データフローの4記号で描く。</td></tr>
+<tr><td><span class="kw">BPMN</span></td><td>業務プロセスを、誰が・どの順で・どう判断するかの<b>流れ図として標準記法で</b>表したもの。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── わざわざ図にするのか</div>
+業務の手順は多くの場合、ベテランの頭の中にしかない暗黙知です。言葉で聞くと「わかったつもり」になりますが、図に描いた瞬間、<b>人によって理解が違っていたこと、誰も全体を把握していなかったことが露呈します</b>。また「この承認、誰も中身を見ていないのでは？」のようなムダは、流れを一望できて初めて見つかります。図解は分析の道具であると同時に、<b>関係者の認識を揃える合意形成の道具</b>でもある――システム開発の現場で要件のズレが事故につながることを考えると、エンジニアにとって最初に身につける価値のあるスキルです。</div>
+
+<h3 class="sec">2. BPRとBPM ── 抜本的に壊すか、継続的に磨くか</h3>
+<p>業務プロセス改善の2大用語です。混同しやすいので対比で覚えます。</p>
+<table class="tbl">
+<tr><th></th><th><span class="kw">BPR</span></th><th><span class="kw">BPM</span></th></tr>
+<tr><td>意味</td><td>業務プロセスを<b>ゼロから抜本的に再設計</b>する</td><td>業務プロセスを<b>継続的に分析・改善し続ける</b>管理活動</td></tr>
+<tr><td>イメージ</td><td>一度きりの大手術</td><td>日々の健康管理（PDCA）</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 「カイゼン」ではなく「破壊」が必要なときがあるのか</div>
+継続的改善は既存のやり方を前提に磨き込むため、<b>前提そのものが時代遅れになったときには無力</b>だからです。たとえば「申請書に5つのハンコをもらう」業務は、ハンコの順序を最適化しても速くなりません。「そもそも5人の承認は必要か？　システムで自動チェックすれば承認は1人でよいのでは？」と<b>前提から問い直す</b>のがBPRです。ただし大手術にはリスクと痛みが伴うので、普段はBPMで磨き続け、構造的な限界が来たらBPRで作り直す、という補完関係で理解してください。</div>
+
+<h3 class="sec">3. 業務を支えるITツール</h3>
+<table class="tbl">
+<tr><th>ツール</th><th>役割</th></tr>
+<tr><td><span class="kw">ワークフローシステム</span></td><td>申請・承認の流れを電子化。書類の回覧・押印をシステム上で行う。</td></tr>
+<tr><td><span class="kw">グループウェア</span></td><td>スケジュール共有、設備予約、掲示板、文書共有など、組織内の協働を支える統合ツール。</td></tr>
+<tr><td><span class="kw">RPA</span></td><td>人がPC上で行う<b>定型的な事務作業を、ソフトウェアのロボットに代行</b>させる仕組み。</td></tr>
+<tr><td><span class="kw">チャット・Web会議</span></td><td>テレワークを支えるコミュニケーション基盤。</td></tr>
+</table>
+<p>関連する新しめの用語として<span class="kw">プロセスマイニング</span>も押さえましょう。業務システムに残った操作ログを分析して、<b>業務プロセスの実態の流れを可視化</b>する手法です（令和7年度に出題）。「マニュアル上の業務」と「実際の業務」のズレや滞留箇所をデータから発見できるため、BPRやRPA導入の前段の分析に使われます。データマイニングの業務プロセス版、と覚えると整理しやすいはずです。</p>
+<div class="ex"><div class="ex-t">具体例</div>RPAの典型は「毎朝、複数の銀行サイトにログインして残高をExcelに転記する」「受注メールの内容を基幹システムに入力する」といった作業の自動化です。自治体や銀行では、RPAで年間数千〜数万時間の事務作業を削減した事例が多数報告されています。</div>
+<div class="why"><div class="why-t">なぜ？ ── RPAは「何でも自動化できる魔法」ではないのか</div>
+RPAは「画面上の操作手順を真似るロボット」なので、得意なのは<b>ルールが明確で、繰り返しが多く、例外が少ない</b>定型作業です。逆に、判断基準が曖昧な業務、例外だらけの業務、頻繁に画面が変わるシステムが相手だと、誤動作と修正コストで逆に高くつきます。試験では「RPAは非定型の創造的業務に最適」という選択肢が誤りの定番。また、導入前に業務を棚卸しして「そもそも不要な作業はやめる」のが先決です（ムダな作業を高速化しても、それは高速なムダです）。判断を伴う部分はAI、定型操作はRPA、という役割分担も問われます。</div>
+
+<h3 class="sec">4. 働き方を変える仕組み</h3>
+<p>業務プロセスの改善は、働き方の柔軟化ともつながっています。<span class="kw">テレワーク</span>（第1章①で学習）を支えるのが上記のコミュニケーションツール群です。関連して、従業員の私物端末を業務に使う<span class="kw">BYOD</span>（Bring Your Own Device）という形態も登場します。利便性とコスト削減の半面、私物端末からの情報漏えいというセキュリティリスクが高まるため、ルール整備とセットで導入する必要がある——メリットとリスクの両面で出題されます。</p>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li>見える化の図：<span class="kw">E-R図</span>＝データの構造（実体と関連）、<span class="kw">DFD</span>＝データの流れ、<span class="kw">BPMN</span>＝業務の流れの標準記法。</li>
+<li><span class="kw">BPR</span>＝前提から問い直す抜本的再設計、<span class="kw">BPM</span>＝継続的な改善活動。</li>
+<li><span class="kw">RPA</span>＝定型・反復・ルール明確な事務作業の自動化。非定型業務は苦手。</li>
+<li><span class="kw">ワークフロー</span>＝申請承認の電子化、<span class="kw">BYOD</span>＝私物端末の業務利用（漏えいリスクとセット）。</li>
+</ul>
+`,
+  u33: `
+<p>企業がITを手に入れる方法は「自分で作って持つ」だけではありません。借りる、任せる、サービスとして使う——この単元は、IT調達の選択肢のカタログです。クラウドの3層（IaaS/PaaS/SaaS）は試験でもエンジニアの実務でも必須知識なので、ここでしっかり固めましょう。</p>
+
+<h3 class="sec">1. クラウドコンピューティング ── 所有から利用へ</h3>
+<p><span class="kw">クラウドコンピューティング</span>とは、サーバやソフトウェアを自社で保有せず、<b>インターネット経由でサービスとして利用する</b>形態です。自社の建物内に機器を設置して運用する従来型は<span class="kw">オンプレミス</span>と呼びます。クラウドは「どの層まで借りるか」で3段階に分かれます。</p>
+<table class="tbl">
+<tr><th>形態</th><th>借りるもの</th><th>例</th></tr>
+<tr><td><span class="kw">IaaS</span></td><td>サーバ・ストレージなどの<b>インフラ</b>。OSから上は自分で用意。</td><td>仮想サーバの時間貸し</td></tr>
+<tr><td><span class="kw">PaaS</span></td><td>インフラ＋OS＋開発環境などの<b>プラットフォーム</b>。アプリは自分で作る。</td><td>アプリ開発・実行基盤</td></tr>
+<tr><td><span class="kw">SaaS</span></td><td><b>ソフトウェア（アプリ）そのもの</b>。ブラウザ等からすぐ使う。</td><td>Gmail、Microsoft 365、Zoom</td></tr>
+</table>
+<div class="ex"><div class="ex-t">具体例（食事のたとえ）</div>料理にたとえると、<b>IaaS＝キッチンだけ借りる</b>（食材も調理も自分）、<b>PaaS＝調理器具と食材つきのキッチンを借りる</b>（レシピと調理は自分）、<b>SaaS＝レストランで食べる</b>（全部おまかせ）。「どこまで自分でやるか」のグラデーションです。自由度はIaaSが最も高く、手軽さはSaaSが最も高い——このトレードオフが選択の軸になります。</div>
+<div class="why"><div class="why-t">なぜ？ ── 企業はこぞってクラウドに移行したのか（そしてなぜ全部は移行しないのか）</div>
+オンプレミスでは、サーバ購入に多額の<b>初期投資</b>が必要で、しかも繁忙期に合わせた容量を買うと普段は遊んでしまいます。クラウドなら初期投資ほぼゼロの<b>従量課金</b>で、需要の増減に応じて即座に増強・縮小できる（スケーラビリティ）。さらに機器の保守・更新という重荷も手放せます。会計的には、資産を持つ（減価償却する固定資産）から経費で使う（費用）への転換でもあります。一方で、機密性の極めて高いデータや、ミリ秒単位の応答が必要なシステム、独自カスタマイズが必須の基幹システムでは、統制とカスタマイズの自由が利くオンプレミスを選ぶ企業も残ります。「クラウドが常に正解」ではなく<b>要件次第で使い分ける</b>——この判断軸ごと覚えるのが800点向けです。</div>
+<p>なお、SaaSとほぼ同じ意味の旧来語として<span class="kw">ASP</span>（アプリケーションサービスプロバイダ）という用語も選択肢に登場します。</p>
+
+<h3 class="sec">2. データセンターのサービス ── ハウジングとホスティング</h3>
+<p>クラウド以前からある「借り方」も出題されます。紛らわしい2語を対比で。</p>
+<table class="tbl">
+<tr><th>サービス</th><th>機器の持ち主</th><th>意味</th></tr>
+<tr><td><span class="kw">ハウジング</span></td><td><b>顧客</b></td><td>顧客が所有するサーバを、事業者のデータセンターの場所（ラック・電源・回線）に設置させてもらう。</td></tr>
+<tr><td><span class="kw">ホスティング</span></td><td><b>事業者</b></td><td>事業者が所有するサーバを借りて利用する（レンタルサーバ）。</td></tr>
+</table>
+<p>覚え方：<b>ハウジングは「house（家＝場所）を借りる」、ホスティングは「host（持ち主）の機械を借りる」</b>。機器の所有者がどちらかを問うのが定番です。</p>
+
+<h3 class="sec">3. 任せる選択 ── アウトソーシングの仲間たち</h3>
+<table class="tbl">
+<tr><th>用語</th><th>意味</th></tr>
+<tr><td><span class="kw">SI</span>（システムインテグレーション）</td><td>システムの企画・設計・開発・運用までを一括して請け負うサービス。担う企業がSIer（エスアイヤー）。</td></tr>
+<tr><td><span class="kw">アウトソーシング</span></td><td>業務の外部委託全般。</td></tr>
+<tr><td><span class="kw">BPO</span></td><td>経理・コールセンターなど、<b>業務プロセスを丸ごと</b>継続的に外部委託すること。</td></tr>
+<tr><td><span class="kw">オフショアアウトソーシング</span></td><td>人件費の安い<b>海外</b>へ開発や業務を委託すること。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 「丸ごと任せる」ビジネスが成立するのか</div>
+発注側の理屈は<b>コア業務への集中</b>です。経理事務やヘルプデスクは必要だが、競争力の源泉（コアコンピタンス）ではない。ならば、その道のプロに任せて、自社の人材は本業に集中させるほうが合理的です。受託側の理屈は<b>規模の経済と専門性</b>。100社分のコールセンターを集約すれば、1社あたりのコストは自前運用より安くでき、ノウハウも蓄積する。双方に利益があるから市場が成立するのです。ただし、委託しすぎると社内にノウハウが残らず、委託先を替えられなくなる（ロックイン）リスクがある——「何を任せ、何を残すか」の線引きが経営判断になります。ぐりさんの就職先がSI業界なら、この構造の「受託側」を内側から見ることになりますね。</div>
+
+<h3 class="sec">4. サービスの組み合わせ方 ── SOA</h3>
+<p><span class="kw">SOA</span>（サービス指向アーキテクチャ）は、ソフトウェアの機能を「サービス」という部品単位で作り、それらを<b>組み合わせてシステムを構築する</b>設計思想です。「在庫照会」「決済」「認証」といった部品を組み替えれば、新しい業務にも素早く対応できる——レゴブロックのような考え方で、第2章で学んだAPIエコノミーの土台にもなっています。</p>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li>クラウドの3層：<span class="kw">IaaS</span>（インフラ）／<span class="kw">PaaS</span>（開発基盤）／<span class="kw">SaaS</span>（アプリ）。キッチン・調理場つき・レストランのたとえで。</li>
+<li>クラウドの利点＝初期投資不要・従量課金・スケーラビリティ。対義語は<span class="kw">オンプレミス</span>。</li>
+<li><span class="kw">ハウジング</span>＝場所貸し（機器は顧客の物）、<span class="kw">ホスティング</span>＝機器貸し。</li>
+<li><span class="kw">BPO</span>＝業務プロセス丸ごと委託、<span class="kw">オフショア</span>＝海外委託。狙いはコア業務への集中。</li>
+</ul>
+`,
+  u34: `
+<p>ストラテジ系の最終単元は、システムを「買う側」の物語です。何を作るか決め（企画・要件定義）、誰に頼むか選ぶ（調達）。RFI・RFPという略語の行列が出てきますが、流れを物語として理解すれば一本道です。エンジニアになるぐりさんは、この流れの「選ばれる側」に立つことになります。</p>
+
+<h3 class="sec">1. システム化の流れ ── 企画から調達まで</h3>
+<p>システム開発は、いきなりプログラミングから始まりません。大まかな流れは次のとおりです。</p>
+<p><b>システム化構想（経営課題の整理）→ システム化計画（対象範囲・概算費用・スケジュール・体制の立案）→ 要件定義（システムに求めることの明確化）→ 調達（依頼先の選定・契約）→ 開発へ</b></p>
+<p>このうち企画段階（構想・計画）で大切なのは、第3章①で学んだとおり<b>経営戦略・情報システム戦略との整合性</b>を確認し、投資効果とリスクを分析しておくことです。</p>
+
+<h3 class="sec">2. 要件定義 ── 「求めること」を言葉にする</h3>
+<p><span class="kw">要件定義</span>では、システムの利用者となる部門も参加して、必要な機能や性能を明確にします。要件は2種類に大別されます。</p>
+<table class="tbl">
+<tr><th>種類</th><th>意味</th><th>例</th></tr>
+<tr><td><span class="kw">機能要件</span></td><td>システムが<b>何をするか</b></td><td>商品を検索できる、領収書を発行できる</td></tr>
+<tr><td><span class="kw">非機能要件</span></td><td>機能以外の<b>品質・制約</b></td><td>3秒以内に応答する、24時間止まらない、同時に1万人が使える、セキュリティ基準を満たす</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── システム開発の失敗は「非機能要件」で起きやすいのか</div>
+機能の要望は利用者が自覚しているので口に出ます（「検索したい」「印刷したい」）。ところが性能や可用性は<b>「当たり前すぎて誰も言わない暗黙の期待」</b>になりがちです。発注側は「すぐ表示されるのが当然」と思い込み、開発側は「仕様書にないから普通の性能でよい」と解釈する——完成後に「画面が出るまで10秒もかかる！」と発覚しても、作り直しには莫大な費用がかかります。コミュニケーション心理学でいう「了解の錯覚」がそのまま大事故につながる世界です。だから要件定義では、暗黙の期待をあえて数値で言語化する（応答3秒以内、稼働率99.9％など）ことが鉄則になります。試験では「非機能要件はどれか」と具体例を選ばせる問題が頻出です。</div>
+
+<h3 class="sec">3. 調達 ── RFIからRFPへ、選定の物語</h3>
+<p>頼む相手（ベンダー）を選ぶプロセスは、書類のリレーで進みます。</p>
+<table class="tbl">
+<tr><th>順番</th><th>書類</th><th>意味</th></tr>
+<tr><td>1</td><td><span class="kw">RFI</span>（情報提供依頼書）</td><td>発注側がベンダー各社に「どんな技術・製品・実績がありますか？」と<b>情報の提供を依頼</b>する。市場調査の段階。</td></tr>
+<tr><td>2</td><td><span class="kw">RFP</span>（提案依頼書）</td><td>発注側がシステムの目的・要件・予算・納期を示し、「実現する<b>提案書を出してください</b>」と依頼する。</td></tr>
+<tr><td>3</td><td>提案書・見積書</td><td>ベンダー側が提出。発注側はこれを比較・評価して調達先を選定し、契約へ。</td></tr>
+</table>
+<p>覚え方は<b>I（Information）が先、P（Proposal）が後</b>。「情報収集してから、提案を求める」という自然な順序です。</p>
+<div class="why"><div class="why-t">なぜ？ ── RFPの出来が、プロジェクトの成否を左右するのか</div>
+RFPが曖昧だと、各社の提案が<b>バラバラの前提で書かれて比較不能</b>になります。安い提案は範囲を狭く解釈しただけかもしれず、価格の差が「能力の差」なのか「解釈の差」なのか判別できません。さらに契約後、「それは提案に含まれていません」という追加費用の争いの火種にもなります。逆に要件・評価基準・予算を明確にしたRFPは、各社が同じ土俵で競う公正な競争を生み、提案の質も上がります。また、選定を公正な競争で行うことは、特定ベンダーへの依存（<b>ベンダーロックイン</b>）や癒着を防ぐ統制の意味も持ちます。官公庁の調達で入札・RFPが厳格なのはこのためです。</div>
+<div class="ex"><div class="ex-t">具体例</div>たとえば市役所が「住民票のコンビニ交付システム」を作るとき：まずRFIで各社の実績や技術情報を集めて相場観をつかみ、次にRFPで「全国のコンビニ端末で交付、住基ネットと連携、年中無休、予算◯億円」と明示して提案を募り、提案書と見積書を評価して契約先を決める——この一連の流れが調達です。</div>
+
+<h3 class="sec">4. 調達の社会的責任</h3>
+<p>調達では価格と品質だけでなく、社会への配慮も問われるようになっています。環境負荷の小さい製品・サービスを優先して選ぶ<span class="kw">グリーン調達</span>、人権や労働環境にも配慮した<span class="kw">CSR調達</span>という言葉を押さえておきましょう。第1章①で学んだCSR・SDGsの考え方が、調達の場面に具体化したものです。また、AIやデータを扱う調達・契約では、国が示す契約ガイドラインを参考に、データの権利関係や責任分担を取り決めることも重要になっています。</p>
+
+<h3 class="sec">まとめ ── そして全15単元の完走へ</h3>
+<ul>
+<li>流れ：<b>システム化構想→計画→要件定義→調達</b>。企画段階で経営戦略との整合を確認。</li>
+<li><span class="kw">機能要件</span>＝何をするか、<span class="kw">非機能要件</span>＝性能・可用性などの品質。事故は暗黙の期待（非機能）で起きる。</li>
+<li>調達のリレー：<span class="kw">RFI</span>（情報ください）→<span class="kw">RFP</span>（提案ください）→提案書・見積書→選定。<b>Iが先、Pが後</b>。</li>
+<li>RFPの明確さが、公正な比較とプロジェクトの成功を決める。</li>
+</ul>
+<p>これでストラテジ系・全3章15単元の講義は完走です。本当におつかれさまでした。各章の章末テストで知識を定着させ、3つの「合格」朱印を揃えましょう。ここまで理解を積み上げたぐりさんなら、ストラテジ系は得点源にできます。</p>
+`,
+  u17: `
+<p>この補講は、単元⑤で扱いきれなかった「その他の法律」と、近年出題が増えている「情報倫理・技術者倫理」を拾う回です。800点を狙うなら、こうした端の1問を確実に取れるかが差になります。</p>
+
+<h3 class="sec">1. 会社法 ── 会社の運営ルール</h3>
+<p><span class="kw">会社法</span>は、会社の設立・組織・運営の基本ルールを定めた法律です。株式会社の機関として、<b>最高意思決定機関である<span class="kw">株主総会</span></b>、業務執行の意思決定を行う<span class="kw">取締役会</span>、取締役の職務を監査する<span class="kw">監査役</span>を押さえましょう。また、大会社には業務の適正を確保する体制＝<span class="kw">内部統制システム</span>の整備が求められます。</p>
+<div class="why"><div class="why-t">なぜ？ ── 内部統制が「法律の義務」にまでなったのか</div>
+背景には、経営者や従業員による粉飾決算・不正会計が、株主や取引先を巻き込む大事件に発展した歴史があります（米国のエンロン事件、日本でも大手企業の粉飾が相次ぎました）。不正は「個人の良心」だけでは防げない――そこで、承認なしには支払いができない、記録が必ず残る、<b>1人に権限を集中させない（職務の分離）</b>といった「仕組みで防ぐ」発想が制度化されました。これが内部統制です。上場企業にはさらに<span class="kw">金融商品取引法</span>が財務報告の内部統制報告（いわゆるJ-SOX）を義務づけています。「人を疑う」のではなく「誰がやっても不正が起きにくい構造を作る」——心理学的にも合理的な設計思想です。</div>
+<p>金融商品取引法ではもうひとつ、未公開の内部情報を利用して株を売買する<span class="kw">インサイダー取引</span>の禁止が頻出です。エンジニアも、仕事で知った取引先の未公開情報で株取引をすれば処罰対象になります。</p>
+<p>デジタル化を推進する法律も近年の出題テーマです。<span class="kw">官民データ活用推進基本法</span>は、国・自治体・民間が持つデータの活用を推進するための基本法で、行政手続きのオンライン化やオープンデータの推進を掲げています（令和7年度に出題）。デジタル社会形成基本法、デジタル庁の設置と合わせて「国を挙げてデータ活用を進める法制度」として押さえておきましょう。</p>
+
+<h3 class="sec">2. その他の取引・社会の法律</h3>
+<table class="tbl">
+<tr><th>法律</th><th>ポイント</th></tr>
+<tr><td><span class="kw">資金決済法</span></td><td>プリペイドカードなどの前払式支払手段や、<b>暗号資産交換業（登録制）</b>のルールを定める。</td></tr>
+<tr><td><span class="kw">リサイクル法関連</span></td><td>家電リサイクル法（テレビ・エアコン・冷蔵庫・洗濯機の4品目）、資源有効利用促進法（PCのメーカー回収）など。循環型社会のための法律群。</td></tr>
+<tr><td><span class="kw">公益通報者保護法</span></td><td>組織の不正を通報した労働者を、<b>解雇などの不利益な扱いから保護</b>する。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 「内部告発者」をわざわざ法律で守るのか</div>
+組織ぐるみの不正（産地偽装、検査データ改ざん、リコール隠し）は、外部からはまず見えません。<b>発見できるのは内部の人間だけ</b>です。ところが通報者が報復人事や解雇のリスクを負うなら、誰も声を上げず、不正は社会に被害が及ぶまで温存されます。実際、日本の大型企業不祥事の多くは内部告発が発覚の端緒でした。通報者の保護は「組織の自浄作用を社会の側から担保する仕組み」なのです。試験では「通報を理由とする解雇は無効」という方向で出題されます。</div>
+
+<h3 class="sec">3. 情報倫理・技術者倫理 ── 法律の手前にあるもの</h3>
+<p>法律に違反しなくても、社会の信頼を損なう行為はあります。企業や技術者に求められる行動規範がこの領域です。</p>
+<ul>
+<li><span class="kw">情報倫理</span>：SNSでの誹謗中傷をしない、他人のプライバシーを侵害しない、出所不明の情報を拡散しないなど、情報社会での倫理。</li>
+<li><span class="kw">ソーシャルメディアガイドライン</span>（SNS利用規程）：従業員のSNS利用について企業が定めるルール。機密情報の投稿禁止、私的見解と会社見解の区別など。いわゆる「バイトテロ」や炎上の予防策。</li>
+<li><span class="kw">フェイクニュース</span>：虚偽の情報。生成AIの普及で精巧な偽情報（ディープフェイク）が作りやすくなり、真偽の確認（ファクトチェック）の重要性が増しています。</li>
+<li><span class="kw">フィルターバブル</span>：検索履歴などに基づく情報の最適化により、<b>自分の好みに合う情報ばかりに包まれる</b>現象。</li>
+<li><span class="kw">エコーチェンバー</span>：SNSで同じ意見の人同士がつながり、<b>同じ主張が反響し合って増幅される</b>現象。</li>
+</ul>
+<div class="why"><div class="why-t">なぜ？ ── フィルターバブルは「便利な機能」の副作用なのか</div>
+レコメンド機能は「あなたが見たいものを見せる」ことで満足度を最大化しようとします。その最適化が完璧に働くほど、<b>反対意見や興味の外側の情報が視界から消えていく</b>——つまりバブルは故障ではなく、パーソナライズの宿命的な副作用です。エコーチェンバーと組み合わさると、自分の意見が「世間の多数派」に見えてしまい、社会の分断を加速させます。確証バイアス（自説に都合のよい情報ばかり集める傾向）という心理学の古典的知見が、アルゴリズムによって構造化された現象と言えます。ぐりさんには「ああ、あれか」とすぐ腑に落ちるはずです。</div>
+<p>また、AIの利活用については、人間の尊厳や公平性を重んじる<span class="kw">人間中心のAI社会原則</span>などのガイドラインが国から示されています。AIの判断の偏り（バイアス）や説明可能性への配慮が、開発・利用の両面で求められる時代です。</p>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li><span class="kw">会社法</span>：株主総会＝最高意思決定機関、内部統制の整備。<span class="kw">金融商品取引法</span>：J-SOXと<span class="kw">インサイダー取引</span>禁止。</li>
+<li><span class="kw">公益通報者保護法</span>＝内部告発者を不利益から守る（組織の自浄作用の担保）。</li>
+<li>倫理系の頻出語：<span class="kw">フェイクニュース</span>・<span class="kw">フィルターバブル</span>（最適化の副作用）・<span class="kw">エコーチェンバー</span>（同意見の増幅）。</li>
+<li>AIは<span class="kw">人間中心のAI社会原則</span>。法律の手前の「信頼」を守るのが倫理とガイドライン。</li>
+</ul>
+`,
+  u26: `
+<p>第2章の補講では、本編で扱いきれなかった戦略フレームワークの残り、製造業を支えるエンジニアリングシステム、街じゅうにあるビジネスシステム、そしてAI活用の用語を拾います。どれも「1問だけポンと出る」タイプの論点です。</p>
+
+<h3 class="sec">1. アンゾフの成長マトリクス ── 会社はどの方向に成長するか</h3>
+<p><span class="kw">アンゾフの成長マトリクス</span>は、成長戦略を「<b>製品（既存／新規）×市場（既存／新規）</b>」の2軸4象限で整理するフレームワークです。</p>
+<table class="tbl">
+<tr><th></th><th>既存製品</th><th>新規製品</th></tr>
+<tr><th>既存市場</th><td><span class="kw">市場浸透</span>：今の客に今の商品をもっと売る（広告強化、ポイント制度）</td><td><span class="kw">新製品開発</span>：今の客に新商品を売る（飲料メーカーの新フレーバー）</td></tr>
+<tr><th>新規市場</th><td><span class="kw">新市場開拓</span>：今の商品を新しい客層・地域へ（海外進出、シニア向け展開）</td><td><span class="kw">多角化</span>：新しい客に新しい商品を売る</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── 多角化は「最もリスクが高い」と言われるのか</div>
+他の3象限は、製品か市場の<b>どちらか一方には自社の経験</b>があります。市場浸透なら両方知っている、新市場開拓なら製品は知り尽くしている。ところが多角化だけは<b>製品も市場も未知</b>——既存の知識という足場が一つもない状態で戦うことになるからです。それでも企業が多角化するのは、既存事業の成熟・衰退（プロダクトライフサイクル）に備えてリスクを分散するため。その際、富士フイルム（フィルム技術→化粧品）のように<b>コアコンピタンスを足場にした多角化</b>は成功率が上がります。単元①・④の知識がここでつながりますね。</div>
+<p>あわせて、市場分析の基本枠組み<span class="kw">3C分析</span>（顧客 Customer・競合 Competitor・自社 Company の3視点）も押さえておきましょう。</p>
+
+<h3 class="sec">2. エンジニアリングシステム ── 工場を支えるIT</h3>
+<table class="tbl">
+<tr><th>用語</th><th>意味</th></tr>
+<tr><td><span class="kw">CAD／CAM</span></td><td>コンピュータによる設計（CAD）と、設計データを使った製造（CAM）。</td></tr>
+<tr><td><span class="kw">FA</span></td><td>ファクトリーオートメーション。工場の生産工程の自動化。</td></tr>
+<tr><td><span class="kw">CIM</span></td><td>生産情報を統合管理し、設計から製造までをコンピュータで一元化する仕組み。</td></tr>
+<tr><td><span class="kw">MRP</span>（資材所要量計画）</td><td>生産計画と部品表から、<b>必要な資材の量と時期を計算</b>して調達する生産管理手法。</td></tr>
+<tr><td><span class="kw">コンカレントエンジニアリング</span></td><td>設計・生産準備などの工程を<b>同時並行で</b>進めて開発期間を短縮する手法。</td></tr>
+<tr><td><span class="kw">JIT（ジャストインタイム）</span></td><td>「必要な物を、必要な時に、必要な量だけ」生産する方式。トヨタの「かんばん方式」が代表。中間在庫を極小化する。</td></tr>
+<tr><td><span class="kw">FMS</span></td><td>フレキシブル生産システム。多品種少量生産に柔軟に対応できるよう、加工・搬送などを自動化した生産システム（令和7年度に出題）。</td></tr>
+</table>
+<div class="why"><div class="why-t">なぜ？ ── MRPやJITが「経営の武器」になるのか</div>
+製造業の利益を静かに食いつぶすのは<b>在庫</b>です。部品を多めに買えば安心ですが、在庫は保管費がかかり、現金を寝かせ（キャッシュフロー悪化——第1章③の論点）、設計変更で一瞬で死蔵品になります。MRPは「計画から逆算して必要量だけ買う」、JITは「後工程が使う分だけ前工程が作る」ことで、このムダを構造的に排除します。つまり生産管理システムは現場の道具であると同時に、<b>財務体質を変える経営戦略</b>でもあるのです。「かんばん方式＝JITを実現する仕組み」という対応も頻出です。</div>
+
+<h3 class="sec">3. ビジネスシステム ── 街にあるITの仕組み</h3>
+<ul>
+<li><span class="kw">POSシステム</span>：販売時点情報管理。「いつ・どこで・何が・いくつ」売れたかを単品単位で記録（第1章で学んだセブン-イレブンの武器）。</li>
+<li><span class="kw">GPS／GIS</span>：全地球測位システム／地理情報システム。カーナビ、配送ルート最適化、出店計画の商圏分析など。</li>
+<li><span class="kw">ETC</span>：高速道路の自動料金収受システム。</li>
+<li><span class="kw">RFID（ICタグ）</span>：電波で読み取る小さなタグ。<b>かざさなくても複数を一括読取り</b>できるのがバーコードとの違い。ユニクロのセルフレジ（カゴごと置くと一瞬で合計が出る）が体感できる好例。</li>
+<li><span class="kw">スマートグリッド</span>：ITで電力の需給を最適制御する次世代送電網。</li>
+<li><span class="kw">デジタルサイネージ</span>：駅や店頭の電子看板。時間帯や客層で表示を切り替えられる。</li>
+<li><span class="kw">マイナポータル</span>などの行政システム：行政手続きのオンライン化（デジタルガバメント）。</li>
+</ul>
+
+<h3 class="sec">4. AIの業務活用 ── 道具としてのAIを正しく知る</h3>
+<p>AI関連はシラバス改訂で出題が増え続けている領域です。ビジネス利用の文脈で押さえましょう。</p>
+<ul>
+<li><span class="kw">機械学習</span>：データからコンピュータ自身がパターンを学ぶ技術。その一種で、人間の脳を模した多層のネットワーク（ニューラルネットワーク）を使うのが<span class="kw">ディープラーニング</span>。</li>
+<li>学習の3方式：<span class="kw">教師あり学習</span>（正解ラベルつきデータで学ぶ。売上予測、写真の犬猫分類など）／<span class="kw">教師なし学習</span>（正解なしのデータから構造を見つける。顧客のグループ分けなど）／<span class="kw">強化学習</span>（試行錯誤と報酬で良い行動を学ぶ。囲碁AIやロボット制御）。「事例→方式」の対応問題が令和4年度から繰り返し出ています。</li>
+<li><span class="kw">基盤モデル</span>：広範囲かつ大量のデータで訓練され、さまざまなタスクに適応できるAIモデル。生成AIの土台で、令和7年度に出題された新しい用語です。</li>
+<li><span class="kw">生成AI</span>：文章・画像・音声などを<b>新たに生成する</b>AI。指示文は<span class="kw">プロンプト</span>と呼ばれます。</li>
+<li><span class="kw">ハルシネーション</span>：生成AIが、<b>事実と異なる内容をもっともらしく出力</b>する現象。</li>
+<li>活用例：チャットボット（問い合わせ対応）、需要予測、画像認識による検品・医療画像診断支援、文書要約・翻訳。</li>
+</ul>
+<div class="why"><div class="why-t">なぜ？ ── 生成AIの出力を、そのまま業務に使ってはいけないのか</div>
+生成AIは「正しい知識を検索する装置」ではなく、<b>「もっともらしい続きを確率的に生成する装置」</b>だからです。だから存在しない判例や文献を自信満々に出力することがあります（ハルシネーション）。また、学習データに偏りがあれば出力にも偏り（バイアス）が再生産され、入力した機密情報が学習に使われるリスク、生成物が他者の著作物に似てしまう権利リスクもあります。業務利用の原則は、<b>人間による事実確認（ファクトチェック）と最終判断を組み込み、機密情報を不用意に入力しない</b>こと。試験でも「生成AIの出力は常に正確なので検証不要」という選択肢は確実に誤りです。</div>
+
+<h3 class="sec">まとめ</h3>
+<ul>
+<li><span class="kw">成長マトリクス</span>＝製品×市場の4象限。<b>多角化（新×新）が最もハイリスク</b>。</li>
+<li>生産系：<span class="kw">MRP</span>＝必要量と時期の計算、<span class="kw">JIT</span>＝必要な分だけ（かんばん方式）、<span class="kw">コンカレントエンジニアリング</span>＝同時並行で期間短縮。</li>
+<li><span class="kw">RFID</span>＝複数一括読取り（バーコードとの違い）、<span class="kw">POS</span>＝販売時点の単品管理。</li>
+<li>生成AIは<span class="kw">ハルシネーション</span>前提で、人間の検証と機密管理をセットに。</li>
+</ul>
+`,
+  u35: `
+<p>最後の補講は「作ったシステムを、ちゃんと使ってもらい、効果を出す」ための論点です。システムは導入した瞬間ではなく、<b>組織に根づいて初めて</b>価値を生みます。地味ですが、シラバスの「システム活用促進・評価」という独立した項目から毎回のように1問出ます。</p>
+
+<h3 class="sec">1. 使えない人を取り残さない ── デジタルディバイド</h3>
+<p><span class="kw">デジタルディバイド</span>（情報格差）とは、ITを<b>利用できる人とできない人の間に生じる、経済的・社会的な格差</b>のことです。年齢、収入、地域（通信環境）、障がいの有無などが要因になります。対になる概念が<span class="kw">情報リテラシー</span>——情報を適切に収集・判断・活用する基礎能力です。</p>
+<div class="why"><div class="why-t">なぜ？ ── 「使えない人がいる」が社会問題にまでなるのか</div>
+行政手続き、銀行、チケット購入、災害情報——社会のサービスがデジタル前提になるほど、<b>使えないことの不利益が「便利さの差」から「生活基盤の差」に変わる</b>からです。紙の窓口が縮小されれば、デジタルを使えない高齢者は行政サービスそのものから遠ざかります。だからデジタル化を進める側には、講習などの利用支援、誰でも使える画面設計（アクセシビリティへの配慮）、複数チャネルの維持といった対策の責任が生じます。DXの推進（第3章①）とデジタルディバイド対策は、アクセルとシートベルトの関係だと理解してください。</div>
+
+<h3 class="sec">2. 楽しさで行動を変える ── ゲーミフィケーション</h3>
+<p><span class="kw">ゲーミフィケーション</span>とは、ポイント、バッジ、レベル、ランキングといった<b>ゲームの要素を、ゲーム以外の分野に応用</b>して、人の意欲や行動を引き出す手法です。歩数アプリの達成バッジ、語学アプリの連続学習記録、ポイントカードのランク制度などが典型例です。</p>
+<div class="why"><div class="why-t">なぜ？ ── ただのポイント付与で人が動くのか</div>
+ゲーミフィケーションは心理学の動機づけ研究の応用そのものです。即時のフィードバック（押した瞬間ポイントが付く）、達成可能な小目標の連鎖（あと10歩でバッジ）、進捗の可視化（プログレスバー）、社会的比較（ランキング）——これらはどれも行動を強化し、内発的な「続けたい」を引き出す仕掛けです。実はこのアプリの<b>朱印「済」も、修了をスタンプで可視化するゲーミフィケーション</b>です。ぐりさんがいま「3つの合格朱印を揃えたい」と感じているなら、仕掛けが機能している証拠ですね。</div>
+
+<h3 class="sec">3. システムの種類と評価 ── SoR・SoEとIT投資の物差し</h3>
+<p>システムの性格を表す分類として、<span class="kw">SoR</span>（System of Record：会計や受発注など<b>正確な記録</b>を重視する基幹系システム）と、<span class="kw">SoE</span>（System of Engagement：顧客との<b>つながりや体験</b>を重視するシステム。アプリやSNS連携など）という対比があります。SoRは安定性・正確性を最優先に慎重に、SoEは試行錯誤しながら素早く改善——と、求められる開発・運用のスタイルまで変わります。</p>
+<p>IT投資の評価では、第3章①で学んだ<span class="kw">TCO</span>（導入費＋運用・保守費の総額）と<span class="kw">ROI</span>（投資利益率）に加えて、投資額を何年で回収できるかという回収期間の考え方、そして<b>導入後の効果測定（事後評価）</b>までがワンセットです。「導入して終わり」ではなく、狙った効果（KPI——第2章③）が出ているかを確認し、出ていなければ改善する。ここでもPDCAが回っています。</p>
+
+<h3 class="sec">4. 人と組織を育てる ── 活用促進の仕上げ</h3>
+<ul>
+<li><span class="kw">デジタル人材の育成</span>：データ分析やAI活用を担う人材の育成・確保。社員の学び直し（リスキリング）も含む。</li>
+<li><span class="kw">ノーコード／ローコード開発</span>：プログラミングなし（または最小限）でアプリを作れるツール。現場の非エンジニアが自ら業務アプリを作る「市民開発」を可能にし、IT部門の渋滞を緩和する。</li>
+<li>利用マニュアル整備・研修・ヘルプデスクなどの<b>定着化施策</b>：使い方がわからないシステムは存在しないのと同じ。</li>
+</ul>
+<div class="why"><div class="why-t">なぜ？ ── 高機能なシステムほど「使われない」リスクがあるのか</div>
+人は現状維持を好み、新しい道具への切り替えには学習コストという心理的な壁があります（現状維持バイアス）。機能が多いほど画面は複雑になり、最初の壁は高くなる。そこで導入時には、研修やマニュアルで壁を下げ、まず一部の部署で成功例を作って横展開するなどの<b>定着戦略</b>が必要になります。システムの成否は技術力だけでなく、人と組織の側の設計——まさに心理学の出番——で決まるのです。</div>
+
+<h3 class="sec">まとめ ── これでストラテジ系・完全版</h3>
+<ul>
+<li><span class="kw">デジタルディバイド</span>＝ITを使える／使えないが生む社会的格差。デジタル化推進とセットで対策する責任。</li>
+<li><span class="kw">ゲーミフィケーション</span>＝ゲーム要素で行動を促す（このアプリの朱印もその実例）。</li>
+<li><span class="kw">SoR</span>＝記録の正確さ重視、<span class="kw">SoE</span>＝顧客とのつながり重視。</li>
+<li>IT投資は<span class="kw">TCO</span>・<span class="kw">ROI</span>・回収期間で評価し、導入後の効果測定まで行う。</li>
+<li>定着の鍵は人と組織：研修・<span class="kw">ノーコード／ローコード</span>・リスキリング。</li>
+</ul>
+<p>補講を含む全18単元、これでシラバスのストラテジ系を隅まで網羅しました。あとは章末テストの反復で固めれば、本番のストラテジ系は安心して臨めます。</p>
+`
+};
+
+/* 章末テスト問題プール（毎回ここからランダムに5問出題） */
+const QUESTIONS = {
+  1: [
+    { q:"企業活動における「ステークホルダー」の説明として、最も適切なものはどれか。",
+      c:["企業の株式を保有している株主のことである",
+         "企業の経営方針を決定する取締役会のことである",
+         "株主、顧客、従業員、地域社会など、企業活動に関わる利害関係者のことである",
+         "企業に資金を融資している金融機関だけを指す言葉である"],
+      a:2,
+      e:"ステークホルダーは株主だけでなく、顧客・従業員・取引先・地域社会まで含む幅広い利害関係者を指します。範囲を「株主だけ」「金融機関だけ」と狭めた選択肢が定番のひっかけです。" },
+    { q:"製品別の事業部門と、営業・技術などの職能部門の両方に従業員が所属する組織形態はどれか。",
+      c:["事業部制組織","マトリックス組織","プロジェクト組織","持株会社"],
+      a:1,
+      e:"2つの系統に同時に所属するのがマトリックス組織です。上司が2人になるため指揮命令が混乱しやすい、という短所もセットで覚えましょう。" },
+    { q:"企業におけるCIOの役割として、最も適切なものはどれか。",
+      c:["財務戦略の立案と資金管理に関する最高責任者",
+         "情報システム戦略の立案と実行に関する最高責任者",
+         "技術開発の方針決定に関する最高責任者",
+         "事業運営の執行に関する最高責任者"],
+      a:1,
+      e:"CIOのIはInformation（情報）。情報システム戦略の最高責任者です。財務はCFO、技術はCTO、執行はCOOと、真ん中の文字で判別できます。" },
+    { q:"ブレーンストーミングの進め方として、適切なものはどれか。",
+      c:["参加者のアイデアの問題点をその場で指摘し合い、質を高める",
+         "実現可能性の高いアイデアだけに絞って発言する",
+         "他人のアイデアに便乗した発言は禁止する",
+         "質より量を重視し、自由奔放な発言を歓迎する"],
+      a:3,
+      e:"ブレーンストーミングの4原則は「批判禁止・自由奔放・質より量・結合便乗の歓迎」です。批判や制限をかける選択肢はすべて原則違反です。" },
+    { q:"項目を出現頻度の高い順に棒グラフで並べ、累積比率を折れ線グラフで重ねて表すことで、重点的に管理すべき項目を明らかにする図はどれか。",
+      c:["特性要因図","散布図","パレート図","レーダーチャート"],
+      a:2,
+      e:"「件数の多い順の棒グラフ＋累積比率の折れ線」はパレート図です。ABC分析に使い、上位の少数項目（A群）を重点管理します。魚の骨の形で原因を整理するのが特性要因図です。" },
+    { q:"大量に蓄積されたデータを統計的な手法などで分析し、これまで知られていなかった規則性や関係性を見つけ出す手法はどれか。",
+      c:["データマイニング","ベンチマーキング","シミュレーション","ブレーンストーミング"],
+      a:0,
+      e:"「知られていなかった規則性の発見」がデータマイニングのキーワード。マイニング＝採掘、データの山から知識を掘り出すイメージです。" },
+    { q:"1個200円で販売する商品の1個あたりの変動費は120円、固定費は40万円である。損益分岐点売上高は何円か。",
+      c:["40万円","80万円","100万円","120万円"],
+      a:2,
+      e:"1個あたりの限界利益は200−120＝80円。固定費40万円÷80円＝5,000個が損益分岐点で、売上高にすると200円×5,000個＝100万円です。" },
+    { q:"損益計算書において、本業による儲けを表す利益はどれか。",
+      c:["売上総利益","営業利益","経常利益","当期純利益"],
+      a:1,
+      e:"売上総利益（粗利）から販売費及び一般管理費を差し引いたものが営業利益で、本業の儲けを表します。経常利益は受取利息など本業以外の損益も含みます。" },
+    { q:"著作権法による保護の対象とならないものはどれか。",
+      c:["業務マニュアルの文章","表計算ソフトのプログラム","プログラムのアルゴリズム","ウェブサイトに掲載した写真"],
+      a:2,
+      e:"著作権はアイデアではなく「表現」を守る権利です。プログラムそのものは保護されますが、アルゴリズム（解法）やプログラム言語は保護対象外です。" },
+    { q:"産業財産権のうち、存続期間の更新を繰り返すことで半永久的に権利を維持できるものはどれか。",
+      c:["特許権","実用新案権","意匠権","商標権"],
+      a:3,
+      e:"商標権（登録から10年）だけは更新を繰り返せます。ブランド名やロゴは長く使い続けるものだからです。特許権（出願から20年）などは更新できません。" },
+    { q:"不正アクセス禁止法で禁止されている行為に該当するものはどれか。",
+      c:["他人のIDとパスワードを無断で使用してSNSにログインする",
+         "会社のPCで業務に関係のないウェブサイトを閲覧する",
+         "受信した広告メールを開封せずに削除する",
+         "公衆無線LANを利用して動画を視聴する"],
+      a:0,
+      e:"他人の認証情報で無断ログインする行為は、データを盗まなくても不正アクセス禁止法違反です。ほかの選択肢は同法の規制対象ではありません。" },
+    { q:"労働者派遣において、派遣労働者に対して業務上の指揮命令を行うのはどれか。",
+      c:["派遣元事業主","派遣先事業主","労働基準監督署","派遣労働者自身"],
+      a:1,
+      e:"雇用関係は派遣元との間にありますが、仕事の指示（指揮命令）を出すのは派遣先です。この「ねじれた三角関係」が派遣の最大の特徴で、試験でも最頻出です。" },
+    { q:"特定電子メール法に基づく、広告宣伝メールの送信ルールとして適切なものはどれか。",
+      c:["送信後に受信者から苦情がなければ、継続して送信できる",
+         "あらかじめ同意した受信者に対してだけ、送信できる",
+         "件名に広告である旨を記載すれば、誰にでも送信できる",
+         "深夜の時間帯を避ければ、誰にでも送信できる"],
+      a:1,
+      e:"特定電子メール法はオプトイン方式で、あらかじめ同意した人にしか広告宣伝メールを送れません。「同意が先」と覚えましょう。" },
+    { q:"公的な標準化機関による制定ではなく、市場で広く受け入れられた結果、事実上の標準となったものを何と呼ぶか。",
+      c:["デジュレスタンダード","フォーラム標準","デファクトスタンダード","JIS規格"],
+      a:2,
+      e:"デファクト（de facto）は「事実上の」という意味で、WindowsやQWERTY配列が代表例。公的機関が定めるのはデジュレスタンダード、企業連合が定めるのはフォーラム標準です。" },
+    { q:"ISO/IEC 27001が対象とするマネジメントシステムはどれか。",
+      c:["品質","環境","情報セキュリティ","個人情報保護"],
+      a:2,
+      e:"27001は情報セキュリティマネジメントシステム（ISMS）の規格です。9001＝品質、14001＝環境、JIS Q 15001＝個人情報保護、と番号と中身の対応で覚えましょう。" },
+    { q:"会社法において、株式会社の最高意思決定機関とされているものはどれか。",
+      c:["取締役会","株主総会","監査役会","経営会議"],
+      a:1,
+      e:"会社の持ち主は株主なので、最高意思決定機関は株主総会です。取締役会は業務執行の意思決定、監査役は取締役の職務の監査を担います。「所有と経営の分離」の構造とセットで覚えましょう。" },
+    { q:"勤務先の組織的な不正を行政機関などに通報した労働者を、解雇などの不利益な取扱いから保護する法律はどれか。",
+      c:["労働者派遣法","公益通報者保護法","個人情報保護法","不正競争防止法"],
+      a:1,
+      e:"公益通報者保護法は内部告発者を保護する法律です。組織内の不正は内部の人間にしか見えないことが多く、通報者を守ることが社会の自浄作用を支えます。" },
+    { q:"検索履歴や閲覧履歴に基づく情報の最適化によって、利用者が自分の興味・関心に合う情報ばかりに囲まれてしまう現象を表す用語はどれか。",
+      c:["エコーチェンバー","フィルターバブル","デジタルディバイド","ハルシネーション"],
+      a:1,
+      e:"パーソナライズの「泡」に包まれるのがフィルターバブルです。SNSで同じ意見同士が反響し合うのはエコーチェンバー。両者はセットで出題されるので、「アルゴリズムによる泡」と「同意見の反響室」で区別しましょう。" },
+    { q:"ある取引先との取引で、4月に売上計上した600万円は4月末に現金回収された。5月に売上計上した900万円と700万円は月末時点で未回収であり、ほかに5月中に300万円の受注（売上計上は未了）がある。5月31日時点の売掛金は何万円か。",
+      c:["1,600万円","1,900万円","2,200万円","2,500万円"],
+      a:0,
+      e:"売掛金は「売上計上済みで未回収」のものだけです。900＋700＝1,600万円。回収済みの600万円は売掛金から消えており、受注だけの300万円は商品を引き渡していないので売掛金になりません。受注→売上計上→回収の3時点の区別が急所です。" },
+    { q:"企業が掲げるMVVのうち、「ビジョン」が示すものとして最も適切なものはどれか。",
+      c:["企業が果たすべき使命や存在意義","企業が目指す将来のあるべき姿","従業員が共有すべき価値観や行動指針","年度ごとの具体的な売上目標"],
+      a:1,
+      e:"MVVはミッション（使命・存在意義）、ビジョン（目指す将来の姿）、バリュー（価値観・行動指針）の3点セットです。「使命→姿→価値観」の対応で覚えましょう。令和7年度に出題された論点です。" },
+    { q:"期首商品棚卸高100万円、当期商品仕入高800万円、期末商品棚卸高200万円のとき、売上原価は何万円か。",
+      c:["500万円","700万円","900万円","1,100万円"],
+      a:1,
+      e:"売上原価＝期首棚卸高＋当期仕入高−期末棚卸高＝100＋800−200＝700万円。「実際に売れた分」だけを費用にするため、売れ残り（期末在庫）を差し引きます。" }
+  ],
+  2: [
+    { q:"SWOT分析において、外部環境に分類される組合せはどれか。",
+      c:["強みと弱み","強みと機会","機会と脅威","弱みと脅威"],
+      a:2,
+      e:"機会（Opportunity）と脅威（Threat）は市場や法規制など自社では変えられない外部環境、強み・弱みは自社内部の話です。「円安」「法改正」は外部、「技術力」「財務体質」は内部と判定します。" },
+    { q:"PPMにおいて、市場成長率が低く、市場占有率が高い事業の分類はどれか。",
+      c:["花形","金のなる木","問題児","負け犬"],
+      a:1,
+      e:"成長が止まった市場で高シェア＝追加投資が少なくて済み、安定して現金を稼ぐ「金のなる木」です。ここで得た資金を問題児（高成長・低シェア）に投資して花形に育てるのがPPMの資金循環です。" },
+    { q:"他社が容易に模倣できない、企業の中核となる独自の強みを表す用語はどれか。",
+      c:["コアコンピタンス","ベンチマーキング","アウトソーシング","セグメンテーション"],
+      a:0,
+      e:"コアコンピタンスは「顧客に価値をもたらし、模倣されにくく、他事業へ応用できる」中核的な強みです。ベンチマーキングは他社の優良事例と比較して自社を改善する手法です。" },
+    { q:"複数の企業が共同出資して新しい会社を設立する形態はどれか。",
+      c:["M&A","ジョイントベンチャー","OEM","ファブレス"],
+      a:1,
+      e:"共同出資による合弁会社の設立がジョイントベンチャーです。M&Aは合併・買収、OEMは相手先ブランドでの受託生産、ファブレスは自社工場を持たない形態です。" },
+    { q:"マーケティングミックスの4Pに含まれないものはどれか。",
+      c:["製品（Product）","価格（Price）","流通（Place）","プロセス（Process）"],
+      a:3,
+      e:"4Pは製品・価格・流通・販売促進（Promotion）です。プロセスは含まれません。買い手視点の4C（顧客価値・顧客コスト・利便性・コミュニケーション）との対応も整理しておきましょう。" },
+    { q:"市場を顧客の年齢、地域、ライフスタイルなどの基準で同質なグループに細分化することを何と呼ぶか。",
+      c:["ポジショニング","ターゲティング","セグメンテーション","プロモーション"],
+      a:2,
+      e:"細分化＝セグメンテーション、その中から狙う市場を選ぶのがターゲティング、顧客の頭の中に自社の立ち位置を築くのがポジショニング。S→T→Pの順序ごと覚えましょう。" },
+    { q:"RFM分析で顧客の評価に用いる3つの指標の組合せとして、適切なものはどれか。",
+      c:["最終購買日、購買頻度、購買金額",
+         "年齢、性別、居住地域",
+         "認知度、好感度、購入意向",
+         "売上高、利益率、市場占有率"],
+      a:0,
+      e:"RFMはRecency（最終購買日）・Frequency（購買頻度）・Monetary（購買金額）の頭文字。優良顧客を特定して施策を変えるための顧客分析手法です。" },
+    { q:"新製品の発売時に低価格を設定し、早期に市場シェアの獲得を狙う価格戦略はどれか。",
+      c:["スキミングプライシング","ペネトレーションプライシング","ダイナミックプライシング","プレステージプライシング"],
+      a:1,
+      e:"ペネトレーション（浸透）プライシングは低価格で一気に市場へ浸透する戦略。規模の経済やネットワーク外部性が効く商品で有効です。逆に高価格で早期回収を狙うのがスキミングです。" },
+    { q:"プロダクトライフサイクルにおいて、市場の成長が鈍化し、競合との価格競争や差別化が中心となる段階はどれか。",
+      c:["導入期","成長期","成熟期","衰退期"],
+      a:2,
+      e:"成熟期は市場の伸びが止まり、シェアの奪い合いになる段階です。導入期は認知度向上、成長期は生産能力増強とシェア獲得、衰退期は撤退判断が主な課題になります。" },
+    { q:"バランススコアカード（BSC）の4つの視点の組合せとして、適切なものはどれか。",
+      c:["財務、顧客、業務プロセス、学習と成長",
+         "財務、競合、製品、組織",
+         "売上、利益、コスト、品質",
+         "強み、弱み、機会、脅威"],
+      a:0,
+      e:"BSCは財務・顧客・（内部）業務プロセス・学習と成長の4視点。人材が育つ→業務が良くなる→顧客が満足する→儲かる、という因果の鎖で覚えましょう。強み弱み機会脅威はSWOT分析です。" },
+    { q:"KGIとKPIの関係の説明として、最も適切なものはどれか。",
+      c:["KGIは日々の活動の指標であり、KPIは最終目標の指標である",
+         "KGIは最終目標の達成度を測る指標であり、KPIはその達成過程を測る中間指標である",
+         "KGIとKPIは同じ指標の別名である",
+         "KPIは財務指標に限定され、KGIは非財務指標に限定される"],
+      a:1,
+      e:"KGI（重要目標達成指標）がゴール、KPI（重要業績評価指標）が過程の計器盤です。ジムなら売上（KGI）に対する週1回以上の来店率（KPI）。逆にした選択肢が定番のひっかけです。" },
+    { q:"目標達成の鍵を握る要因を明らかにするために用いられる「重要成功要因」を表す略語はどれか。",
+      c:["CSF","ROE","TOB","CSR"],
+      a:0,
+      e:"CSF（Critical Success Factor）＝重要成功要因。KGI（目標）を達成するための決め手となる要因で、CSFの進捗を測る指標がKPIです。CSRは企業の社会的責任なので混同注意。" },
+    { q:"技術経営において、研究開発の成果を事業化につなげる際に直面する、資金や人材が不足する障壁を表す用語はどれか。",
+      c:["魔の川","死の谷","ダーウィンの海","キャズム"],
+      a:1,
+      e:"開発から事業化（量産・販売）の間の障壁が「死の谷」。研究→開発の間が「魔の川」、事業化→産業化（市場での生存競争）が「ダーウィンの海」。川→谷→海の順番ごと覚えましょう。" },
+    { q:"インターネット販売において、販売機会の少ないニッチな商品でも品揃えを充実させることで、全体として大きな売上を得る考え方はどれか。",
+      c:["ロングテール","オムニチャネル","フランチャイズ","プッシュ戦略"],
+      a:0,
+      e:"販売数の少ない商品（しっぽ＝テール）の合計で稼ぐのがロングテール。ECは棚の物理的制約と追加コストがほぼないため成立します。実店舗の「売れ筋に絞る」発想の逆です。" },
+    { q:"個人が保有する住宅や自動車などの遊休資産を、インターネットのプラットフォームを介して他者と共有・貸借する仕組みを表す用語はどれか。",
+      c:["シェアリングエコノミー","アウトソーシング","トレーサビリティ","クラウドファンディング"],
+      a:0,
+      e:"遊休資産×マッチング＝シェアリングエコノミー（民泊、カーシェアなど）。スマホでの即時マッチングと相互評価による信頼の仕組みが普及を支えました。クラウドファンディングは資金集めの仕組みです。" },
+    { q:"アンゾフの成長マトリクスにおいて、新規市場に新規製品を投入する成長戦略はどれか。",
+      c:["市場浸透","新市場開拓","新製品開発","多角化"],
+      a:3,
+      e:"製品×市場の両方が新規＝多角化です。製品と市場のどちらにも既存の知識という足場がないため、4象限の中で最もリスクが高い戦略とされます。" },
+    { q:"生産計画と部品表を基に、生産に必要な資材の量と調達時期を計算する生産管理の手法はどれか。",
+      c:["MRP","CRM","POS","RFM"],
+      a:0,
+      e:"MRP（資材所要量計画）は「何が・いつ・いくつ必要か」を計画から逆算する手法で、過剰在庫と欠品を防ぎます。CRMは顧客関係管理、POSは販売時点情報管理、RFMは顧客分析の手法です。" },
+    { q:"生成AIを業務で利用する際の留意点として、最も適切なものはどれか。",
+      c:["生成AIの出力は常に正確であるため、検証せずにそのまま利用する",
+         "出力に事実と異なる内容が含まれ得ることを前提に、人間が内容を検証して利用する",
+         "機密情報を入力するほど出力の精度が上がるため、積極的に入力する",
+         "生成物には著作権の問題が生じないため、自由に公開できる"],
+      a:1,
+      e:"生成AIには、もっともらしい誤りを出力するハルシネーションがあります。人間による事実確認と最終判断を組み込み、機密情報の入力を避け、権利侵害にも注意するのが業務利用の原則です。" },
+    { q:"基本的なサービスを無料で提供して利用者を集め、高度な機能や追加サービスを有料で提供することで収益を得るビジネスモデルはどれか。",
+      c:["フリーミアム","ボリュームライセンス","フランチャイズ","エスクロー"],
+      a:0,
+      e:"フリー（無料）＋プレミアム（割増）でフリーミアムです。無料ゲームのアイテム課金や、無料プランつきクラウドサービスが典型例。令和5年度に事例選択の形で出題されました。" },
+    { q:"機械学習のうち「教師あり学習」の事例として、最も適切なものはどれか。",
+      c:["正解を与えずに、顧客データを似た者同士のグループに分ける",
+         "過去の気象データと売上実績の組を学習させ、売上を予測する",
+         "試行錯誤と報酬によって、ロボットに歩行動作を獲得させる",
+         "プログラムであらかじめ定めたルールどおりに事務処理を実行する"],
+      a:1,
+      e:"正解（売上実績）つきのデータで学ぶのが教師あり学習です。正解なしのグループ分けは教師なし学習、報酬による試行錯誤は強化学習、ルール実行はRPAでありそもそも学習しません。" }
+  ],
+  3: [
+    { q:"情報システム戦略の策定に関する説明として、最も適切なものはどれか。",
+      c:["現場部門それぞれの要望を集約し、部門ごとに個別最適なシステムを整備する方針を定める",
+         "経営戦略との整合性を確保し、全社的な視点でシステムの整備・活用方針を定める",
+         "最新技術の導入そのものを目的として、技術動向だけを基準に策定する",
+         "システム部門の予算の範囲内で実現可能な改修案だけをまとめる"],
+      a:1,
+      e:"情報システム戦略の最重要キーワードは「経営戦略との整合性」と「全体最適」です。部門ごとの個別最適はサイロ化とレガシー化を招きます。策定の責任者はCIOです。" },
+    { q:"DX（デジタルトランスフォーメーション）の説明として、最も適切なものはどれか。",
+      c:["紙の書類をスキャンして電子ファイルとして保存すること",
+         "既存業務の一部をITで自動化して効率を高めること",
+         "データとデジタル技術を活用して、製品・サービスやビジネスモデルを変革し、競争上の優位性を確立すること",
+         "最新のIT機器を定期的に導入して設備を更新すること"],
+      a:2,
+      e:"DXの核心は「ビジネスモデルや組織の変革」と「競争優位の確立」です。紙の電子化はデジタイゼーション、業務の自動化はデジタライゼーションで、DXには至りません。「稼ぎ方が変わったか」が判定基準です。" },
+    { q:"組織全体の業務とシステムを、ビジネス・データ・アプリケーション・テクノロジの4つの体系で整理し、現状とあるべき姿のギャップから全体最適を図る手法はどれか。",
+      c:["EA（エンタープライズアーキテクチャ）","BPR","RPA","SOA"],
+      a:0,
+      e:"全体最適の設計図を描く手法がEAです。現状（As-Is）とあるべき姿（To-Be）を比較して移行計画を立てます。BPRは業務プロセスの抜本的再設計、RPAは定型作業の自動化です。" },
+    { q:"業務プロセスを前提から見直し、抜本的に再設計することを表す用語はどれか。",
+      c:["BPR","BPM","BPO","BYOD"],
+      a:0,
+      e:"Reengineering（再設計）のRが目印で、BPRは一度きりの抜本的な再設計。BPMは継続的な改善活動、BPOは業務プロセスの外部委託、BYODは私物端末の業務利用です。Bで始まる略語の区別は頻出です。" },
+    { q:"人がPC上で行う定型的な事務作業を、ソフトウェアのロボットによって自動化する仕組みはどれか。",
+      c:["RPA","CAD","SFA","OCR"],
+      a:0,
+      e:"RPA（Robotic Process Automation）は、ルールが明確で反復的な定型作業の自動化に向きます。判断を伴う非定型業務は苦手で、「創造的な業務に最適」という選択肢は誤りです。" },
+    { q:"データベース設計などで用いられ、実体（エンティティ）と実体間の関連（リレーションシップ）を表現する図はどれか。",
+      c:["DFD","E-R図","ガントチャート","パレート図"],
+      a:1,
+      e:"Entity（実体）とRelationship（関連）でE-R図です。「顧客」と「注文」の関係などデータの構造を表します。DFDはデータの流れ、ガントチャートは日程管理の図です。" },
+    { q:"業務で扱うデータの流れに着目し、処理、データストア、データフローなどの記号で業務を可視化する図はどれか。",
+      c:["E-R図","組織図","DFD","レーダーチャート"],
+      a:2,
+      e:"DFD（Data Flow Diagram）は「データの流れ」を表す図です。E-R図が「データの構造（実体と関連）」を表すのと対で覚えましょう。" },
+    { q:"インターネット経由で、アプリケーションソフトウェアの機能をサービスとして利用する形態はどれか。",
+      c:["IaaS","PaaS","SaaS","オンプレミス"],
+      a:2,
+      e:"Software as a Service＝SaaSで、Gmailのようにアプリそのものをサービスとして使う形態です。IaaSはサーバなどのインフラ、PaaSは開発・実行基盤までを借りる形態、オンプレミスは自社保有・自社運用です。" },
+    { q:"クラウドサービスのうち、アプリケーションの開発・実行環境（プラットフォーム）までを提供し、利用者が自らアプリケーションを開発・稼働させる形態はどれか。",
+      c:["SaaS","PaaS","IaaS","BPO"],
+      a:1,
+      e:"Platform as a Service＝PaaS。インフラ＋OS＋開発環境までが提供され、アプリは利用者が作ります。「どの層まで借りるか」でIaaS（インフラのみ）→PaaS→SaaS（アプリまで）と段階的に整理しましょう。" },
+    { q:"オンプレミスと比較した場合の、クラウドサービス利用の一般的な利点はどれか。",
+      c:["初期投資を抑え、需要に応じて利用規模を柔軟に変更できる",
+         "自社の建物内に機器を設置するため、ハードウェアを自由に改造できる",
+         "通信障害の影響を一切受けずに利用できる",
+         "データを社外に置かないため、管理を完全に自社で統制できる"],
+      a:0,
+      e:"クラウドの利点は初期投資不要・従量課金・スケーラビリティ（柔軟な規模変更）です。機器の自由な改造や完全な自社統制はオンプレミスの特徴で、クラウドはネットワーク経由のため通信障害の影響は受けます。" },
+    { q:"通信事業者などのデータセンターの一区画を借り、顧客が所有するサーバを設置して運用するサービスはどれか。",
+      c:["ホスティング","ハウジング","SaaS","ASP"],
+      a:1,
+      e:"機器の持ち主が顧客で、場所（ラック・電源・回線）を借りるのがハウジングです。事業者所有のサーバを借りるのがホスティング。「ハウジング＝家（場所）を借りる」と覚えましょう。" },
+    { q:"経理業務やコールセンター業務など、業務プロセスを丸ごと継続的に外部の専門企業へ委託することを表す用語はどれか。",
+      c:["BPO","M&A","OJT","PoC"],
+      a:0,
+      e:"Business Process Outsourcing＝BPO。業務プロセス単位の外部委託で、自社はコア業務に集中できます。海外への委託はオフショアアウトソーシングと呼びます。" },
+    { q:"システム調達において、発注側がベンダーに対して、調達対象システムの概要や要件を示し、提案書の提出を依頼する文書はどれか。",
+      c:["RFI","RFP","SLA","NDA"],
+      a:1,
+      e:"Proposal（提案）のPが目印で、RFP＝提案依頼書です。RFIは情報提供依頼書、SLAはサービスレベルの合意、NDAは秘密保持契約。RFPの明確さが提案の比較可能性とプロジェクトの成否を左右します。" },
+    { q:"システム調達の一般的な手順として、適切な順序はどれか。",
+      c:["RFPの発行 → RFIの発行 → 提案書の受領 → 調達先の選定",
+         "RFIの発行 → RFPの発行 → 提案書の受領 → 調達先の選定",
+         "提案書の受領 → RFIの発行 → RFPの発行 → 調達先の選定",
+         "調達先の選定 → RFPの発行 → RFIの発行 → 提案書の受領"],
+      a:1,
+      e:"まず情報収集（RFI）で市場や各社の技術を把握し、それを踏まえて提案依頼（RFP）を出し、提案書・見積書を比較して選定します。「I（情報）が先、P（提案）が後」です。" },
+    { q:"システムの要件のうち、非機能要件に該当するものはどれか。",
+      c:["商品をキーワードで検索できること",
+         "注文履歴を一覧表示できること",
+         "ピーク時でも3秒以内に画面が表示されること",
+         "領収書をPDFで発行できること"],
+      a:2,
+      e:"性能（応答時間）・可用性・セキュリティなど「機能以外の品質」が非機能要件です。検索・表示・発行といった「何ができるか」は機能要件。非機能要件は暗黙の期待になりやすく、開発トラブルの火種として頻出論点です。" },
+    { q:"ITを利用できる人とできない人との間に生じる、経済的・社会的な格差を表す用語はどれか。",
+      c:["デジタルディバイド","デジタルサイネージ","ダイバーシティ","デジタイゼーション"],
+      a:0,
+      e:"デジタルディバイド＝情報格差です。社会のサービスがデジタル前提になるほど深刻化するため、利用支援やアクセシビリティへの配慮がデジタル化推進とセットで求められます。" },
+    { q:"ポイントやバッジ、ランキングなどのゲームの要素をゲーム以外の分野に取り入れ、利用者の意欲や行動を促す手法はどれか。",
+      c:["ゲーミフィケーション","シミュレーション","ベンチマーキング","ブレーンストーミング"],
+      a:0,
+      e:"ゲーミフィケーションは、即時フィードバックや進捗の可視化といったゲームの仕掛けで行動を動機づける手法です。学習アプリの連続記録や歩数アプリのバッジが典型例です。" },
+    { q:"情報システムの導入を判断する際に用いられるTCOの説明として、適切なものはどれか。",
+      c:["システムの導入時に支払う初期費用のことである",
+         "導入費用に加え、運用・保守などシステムの利用にかかる費用の総額のことである",
+         "システムが生み出した利益を投資額で割った比率のことである",
+         "システムの開発に要した人件費だけを集計した金額のことである"],
+      a:1,
+      e:"TCO（総所有費用）は初期費用＋運用・保守費用の総額です。「初期費用が安い＝安い」とは限らないという視点がクラウドとオンプレミスの比較などで問われます。利益÷投資額はROIです。" },
+    { q:"業務システムに残された操作ログを分析して、業務プロセスの実際の流れを可視化する手法はどれか。",
+      c:["データマイニング","プロセスマイニング","テキストマイニング","ベンチマーキング"],
+      a:1,
+      e:"プロセスマイニングはログから「実際の業務の流れ」を復元・可視化する手法で、マニュアルとの乖離や滞留箇所の発見に使われます。令和7年度に出題された新しめの用語です。" },
+    { q:"情報システムやウェブサイトにおける「アクセシビリティ」の説明として、最も適切なものはどれか。",
+      c:["年齢や障がいの有無などにかかわらず、誰もが支障なく利用できる度合い",
+         "システムが停止せずに稼働し続ける度合い",
+         "情報が漏えいしないように保護されている度合い",
+         "画面のデザインが流行に合っている度合い"],
+      a:0,
+      e:"アクセシビリティは「誰もが利用できること」。文字サイズの変更、音声読み上げ対応などが具体策です。デジタルディバイド対策と表裏一体の概念で、令和4・7年度に出題されています。" }
+  ]
+};
+
+/* =====================================================
+   進捗の保存
+===================================================== */
+const APP_KEY = "strategyNote_v1";
+let storageOK = true;
+function loadP(){
+  try{
+    const raw = localStorage.getItem(APP_KEY);
+    return raw ? JSON.parse(raw) : { done:{}, tests:{} };
+  }catch(e){ storageOK = false; return { done:{}, tests:{} }; }
+}
+function saveP(){
+  try{ localStorage.setItem(APP_KEY, JSON.stringify(P)); }
+  catch(e){ storageOK = false; }
+}
+let P = loadP();
+if(!P.done) P.done = {};
+if(!P.tests) P.tests = {};
+
+/* =====================================================
+   ユーティリティ
+===================================================== */
+const $ = (id)=>document.getElementById(id);
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function shuffle(a){
+  const r = a.slice();
+  for(let i=r.length-1;i>0;i--){ const j = Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; }
+  return r;
+}
+function toast(msg){
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("show");
+  clearTimeout(toast._tm);
+  toast._tm = setTimeout(()=>t.classList.remove("show"), 2600);
+}
+function copyText(txt){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(txt).then(
+      ()=>toast("コピーしました。Claudeのチャットに貼り付けて質問してください"),
+      ()=>fallbackCopy(txt)
+    );
+  }else{ fallbackCopy(txt); }
+}
+function fallbackCopy(txt){
+  const ta = document.createElement("textarea");
+  ta.value = txt; ta.style.position="fixed"; ta.style.opacity="0";
+  document.body.appendChild(ta); ta.select();
+  try{ document.execCommand("copy"); toast("コピーしました。Claudeのチャットに貼り付けて質問してください"); }
+  catch(e){ toast("コピーできませんでした。質問文を手動で選択してコピーしてください"); }
+  document.body.removeChild(ta);
+}
+function findUnit(uid){
+  for(const ch of CHAPTERS){
+    const u = ch.units.find(x=>x.id===uid);
+    if(u) return { ...u, ch:ch.id, chName:ch.name };
+  }
+  return null;
+}
+function chapterDone(ch){ return ch.units.every(u=>P.done[u.id]); }
+function doneCount(){ return CHAPTERS.reduce((n,c)=>n+c.units.filter(u=>P.done[u.id]).length,0); }
+const TOTAL_UNITS = CHAPTERS.reduce((n,c)=>n+c.units.length,0);
+
+/* =====================================================
+   画面遷移
+===================================================== */
+let state = { view:"home", unit:null };
+let T = null; // テスト進行状態
+
+function go(view, unit){
+  state.view = view; state.unit = unit || null;
+  render();
+  window.scrollTo(0,0);
+}
+
+/* =====================================================
+   描画
+===================================================== */
+function render(){
+  const app = $("app");
+  if(state.view === "home") app.innerHTML = renderHome();
+  else if(state.view === "unit") app.innerHTML = renderUnit(state.unit);
+  else if(state.view === "test") app.innerHTML = renderTest();
+  bindEvents();
+}
+
+function renderHome(){
+  const dc = doneCount();
+  const pct = Math.round(dc / TOTAL_UNITS * 100);
+  let h = "";
+  h += '<header class="top">';
+  h += '<h1 class="title">ストラテジ攻略ノート</h1>';
+  h += '<div class="subtitle">ITパスポート試験 ── ストラテジ系</div>';
+  h += '<div class="progressline">修了 ' + dc + ' / ' + TOTAL_UNITS + ' 単元（' + pct + '%）</div>';
+  h += '<div class="bar"><i style="width:' + pct + '%"></i></div>';
+  h += '</header>';
+  if(!storageOK){
+    h += '<div class="banner">このブラウザでは進捗の自動保存が使えないようです（プライベートモード等）。学習はできますが、閉じると進捗が消える点にご注意ください。</div>';
+  }
+  for(const ch of CHAPTERS){
+    h += '<div class="card">';
+    h += '<div class="card-h"><div><span class="ch-no">第' + ch.id + '章</span><span class="ch-name">' + esc(ch.name) + '</span></div>';
+    const t = P.tests[ch.id];
+    if(t && t.passed) h += '<span class="stamp">合格</span>';
+    h += '</div>';
+    for(const u of ch.units){
+      if(ch.ready){
+        h += '<div class="unit-row" data-unit="' + u.id + '">';
+        h += '<span class="unit-no">' + u.no + '</span>';
+        h += '<span class="unit-name">' + esc(u.title) + '</span>';
+        h += '<span class="unit-state">' + (P.done[u.id] ? '<span class="stamp">済</span>' : '<span class="arrow">読む ›</span>') + '</span>';
+        h += '</div>';
+      }else{
+        h += '<div class="unit-row locked">';
+        h += '<span class="unit-no">' + u.no + '</span>';
+        h += '<span class="unit-name">' + esc(u.title) + '</span>';
+        h += '<span class="unit-state"><span class="soon">準備中</span></span>';
+        h += '</div>';
+      }
+    }
+    if(ch.ready){
+      const best = (P.tests[ch.id] && typeof P.tests[ch.id].best === "number") ? P.tests[ch.id].best : null;
+      h += '<div class="unit-row testrow" data-test="' + ch.id + '">';
+      h += '<span class="unit-no">試</span>';
+      h += '<span class="unit-name"><b>章末テスト</b>（四肢択一・5問／6割で合格）' + (chapterDone(ch) ? '' : '<br><small style="color:#9a9078">全単元の修了前でも挑戦できます</small>') + '</span>';
+      h += '<span class="unit-state">' + (best !== null ? '<small>最高 ' + best + '/5</small>' : '<span class="arrow">挑戦 ›</span>') + '</span>';
+      h += '</div>';
+    }
+    h += '</div>';
+  }
+  return h;
+}
+
+function renderUnit(uid){
+  const u = findUnit(uid);
+  const lec = LECTURES[uid] || "<p>（この単元の講義は準備中です）</p>";
+  let h = "";
+  h += '<a class="backlink" data-go="home">‹ ホームに戻る</a>';
+  h += '<div class="card"><div class="lecture">';
+  h += '<div class="lec-head"><div class="lec-ch">第' + u.ch + '章 ' + esc(u.chName) + '</div>';
+  h += '<div class="lec-title"><span>' + u.no + ' ' + esc(u.title) + '</span>' + (P.done[uid] ? '<span class="stamp">済</span>' : '') + '</div>';
+  h += '<div class="lec-meta">深掘り講義（目安 12〜15分）　<span class="kw">赤太字</span>＝頻出用語／緑の「なぜ？」枠＝理由までわかる解説（800点向け）</div></div>';
+  h += lec;
+  /* 質問コーナー */
+  h += '<div class="qa"><div class="qa-t">この単元について質問する</div>';
+  if(window.cowork && window.cowork.askClaude){
+    h += '<div class="qa-note">わからないことを入力すると、講師AIがこの場で答えます。</div>';
+    h += '<textarea id="qbox" placeholder="例：持株会社と事業部制の違いがよくわかりません"></textarea>';
+    h += '<div class="btn-row" style="justify-content:flex-start"><button class="btn blue" id="askBtn">講師AIに質問する</button><button class="btn sub" id="copyBtn">質問文をコピー</button></div>';
+    h += '<div id="aiAns"></div>';
+  }else{
+    h += '<div class="qa-note">質問を入力して「コピー」を押し、Claudeのチャットに貼り付けてください。単元名つきの質問文が作られます。</div>';
+    h += '<textarea id="qbox" placeholder="例：持株会社と事業部制の違いがよくわかりません"></textarea>';
+    h += '<div class="btn-row" style="justify-content:flex-start"><button class="btn blue" id="copyBtn">質問文をコピーする</button></div>';
+  }
+  h += '</div>';
+  /* 修了 */
+  h += '<div class="done-area">';
+  if(P.done[uid]){
+    h += '<div class="done-stamp-wrap"><span class="stamp big">済</span></div>';
+    h += '<div style="margin-bottom:10px;">この単元は修了済みです。おつかれさまでした。</div>';
+    h += '<span class="undo" id="undoBtn">修了を取り消す</span>';
+  }else{
+    h += '<div class="done-stamp-wrap" id="stampWrap"></div>';
+    h += '<button class="btn" id="doneBtn">この単元を修了する</button>';
+  }
+  h += '</div>';
+  h += '</div></div>';
+  h += '<div class="btn-row"><button class="btn sub" data-go="home">ホームに戻る</button></div>';
+  return h;
+}
+
+/* =====================================================
+   章末テスト
+===================================================== */
+function startTest(chId){
+  const pool = QUESTIONS[chId];
+  if(!pool || !pool.length){ toast("この章のテストは準備中です"); return; }
+  const picked = shuffle(pool).slice(0, Math.min(5, pool.length));
+  T = {
+    ch: chId,
+    main: picked,
+    idx: 0,
+    firstCorrect: 0,
+    wrong: [],
+    mode: "main",       // main | review
+    phase: "q",         // q | judged | result | reviewdone
+    queue: [],
+    lastJudge: null,
+    order: null
+  };
+  prepareOrder(T.main[0]);
+  go("test");
+}
+function prepareOrder(q){
+  T.order = shuffle([0,1,2,3]);
+}
+function currentQ(){
+  return T.mode === "main" ? T.main[T.idx] : T.queue[0];
+}
+function renderTest(){
+  if(!T) return renderHome();
+  const ch = CHAPTERS.find(c=>c.id===T.ch);
+  let h = "";
+  h += '<a class="backlink" data-go="home">‹ テストを中断してホームに戻る</a>';
+  h += '<div class="card"><div class="test-pane">';
+
+  if(T.phase === "result"){
+    const pass = T.firstCorrect >= 3;
+    h += '<div class="result-box">';
+    h += '<div class="t-head">第' + T.ch + '章 ' + esc(ch.name) + '　章末テスト 結果</div>';
+    h += '<div class="score">' + T.firstCorrect + ' <small>/ 5 問正解</small></div>';
+    if(pass){
+      h += '<div class="done-stamp-wrap"><span class="stamp big anim">合格</span></div>';
+      h += '<p>合格ラインの6割を超えました。おめでとうございます。</p>';
+    }else{
+      h += '<p style="margin:10px 0;">合格ラインは3問（6割）です。間違えた問題を復習して、もう一度挑戦しましょう。</p>';
+    }
+    if(T.wrong.length){
+      h += '<p style="font-size:14px;color:#7a7261;">間違えた ' + T.wrong.length + ' 問は、正解できるまで復習モードで再出題されます。</p>';
+      h += '<div class="btn-row"><button class="btn" id="startReview">復習モードへ進む</button><button class="btn sub" data-go="home">ホームに戻る</button></div>';
+    }else{
+      h += '<div class="btn-row"><button class="btn" id="retryTest">新しい問題で再挑戦</button><button class="btn sub" data-go="home">ホームに戻る</button></div>';
+    }
+    h += '</div>';
+    h += '</div></div>';
+    return h;
+  }
+
+  if(T.phase === "reviewdone"){
+    h += '<div class="result-box">';
+    h += '<div class="t-head">復習モード 完了</div>';
+    h += '<div class="done-stamp-wrap"><span class="stamp big anim">克服</span></div>';
+    h += '<p>間違えた問題をすべて正解できました。この調子です。</p>';
+    h += '<div class="btn-row"><button class="btn" id="retryTest">新しい問題で再挑戦</button><button class="btn sub" data-go="home">ホームに戻る</button></div>';
+    h += '</div></div></div>';
+    return h;
+  }
+
+  const q = currentQ();
+  const total = T.mode === "main" ? T.main.length : null;
+  h += '<div class="t-head">第' + T.ch + '章 ' + esc(ch.name) + '　章末テスト';
+  if(T.mode === "main") h += '　第' + (T.idx+1) + '問 / ' + total + '問';
+  else h += '<span class="rv-tag">復習モード　残り' + T.queue.length + '問</span>';
+  h += '</div>';
+  h += '<div class="t-q">' + q.q + '</div>';
+  h += '<div class="choices">';
+  const judged = (T.phase === "judged");
+  for(let pos=0; pos<4; pos++){
+    const ci = T.order[pos];
+    let cls = "choice";
+    if(judged){
+      if(ci === q.a) cls += (T.lastJudge && T.lastJudge.pick === ci) ? " sel-ok" : " reveal";
+      else if(T.lastJudge && T.lastJudge.pick === ci) cls += " sel-ng";
+    }
+    h += '<button class="' + cls + '" data-pick="' + ci + '" ' + (judged ? "disabled" : "") + '>';
+    h += '<span class="cno">' + ["ア","イ","ウ","エ"][pos] + '</span>' + q.c[ci] + '</button>';
+  }
+  h += '</div>';
+  if(judged){
+    const ok = T.lastJudge.ok;
+    h += '<div class="judge ' + (ok ? "ok" : "ng") + '">' + (ok ? "○ 正解！" : "× 不正解…") + '</div>';
+    h += '<div class="expl"><b>解説：</b>' + q.e + '</div>';
+    h += '<div class="btn-row" style="justify-content:flex-start"><button class="btn" id="nextQ">次へ</button></div>';
+  }
+  h += '</div></div>';
+  return h;
+}
+function pickAnswer(ci){
+  if(!T || T.phase !== "q") return;
+  const q = currentQ();
+  const ok = (ci === q.a);
+  T.lastJudge = { pick: ci, ok: ok };
+  T.phase = "judged";
+  if(T.mode === "main"){
+    if(ok) T.firstCorrect++;
+    else T.wrong.push(q);
+  }
+  /* 復習モードでは、キューの操作は「次へ」を押したときに行う */
+  render();
+}
+function nextQ(){
+  if(!T) return;
+  if(T.mode === "main"){
+    T.idx++;
+    if(T.idx >= T.main.length){
+      /* 1周目終了：成績を保存 */
+      const rec = P.tests[T.ch] || { best:0, passed:false, attempts:0 };
+      rec.attempts = (rec.attempts||0) + 1;
+      rec.best = Math.max(rec.best||0, T.firstCorrect);
+      rec.passed = rec.passed || (T.firstCorrect >= 3);
+      P.tests[T.ch] = rec;
+      saveP();
+      T.phase = "result";
+      render();
+      return;
+    }
+  }else{
+    if(T.lastJudge && T.lastJudge.ok) T.queue.shift();
+    else T.queue.push(T.queue.shift());
+    if(T.queue.length === 0){
+      T.phase = "reviewdone";
+      render();
+      return;
+    }
+  }
+  T.phase = "q";
+  prepareOrder(currentQ());
+  render();
+}
+function startReview(){
+  T.mode = "review";
+  T.queue = shuffle(T.wrong);
+  T.phase = "q";
+  prepareOrder(currentQ());
+  render();
+}
+
+/* =====================================================
+   質問コーナー
+===================================================== */
+function buildQuestionText(uid){
+  const u = findUnit(uid);
+  const box = $("qbox");
+  const txt = box ? box.value.trim() : "";
+  if(!txt){ toast("質問を入力してください"); return null; }
+  return "【ITパスポート ストラテジ系の質問】\n単元：第" + u.ch + "章" + u.no + "「" + u.title + "」\n質問：" + txt;
+}
+async function askAI(uid){
+  const u = findUnit(uid);
+  const box = $("qbox");
+  const txt = box ? box.value.trim() : "";
+  if(!txt){ toast("質問を入力してください"); return; }
+  const ansEl = $("aiAns");
+  ansEl.innerHTML = '<div class="ai-ans">講師AIが考えています…</div>';
+  try{
+    const tmp = document.createElement("div");
+    tmp.innerHTML = LECTURES[uid] || "";
+    const plain = (tmp.textContent || "").slice(0, 6000);
+    const prompt = "あなたはITパスポート試験の講師です。学習者は心理学系の大学院生でIT実務は未経験です。以下の講義内容を踏まえ、質問に日本語で簡潔に（300字程度で）答えてください。可能なら身近な企業の具体例を1つ添えてください。\n\n単元：" + u.title + "\n質問：" + txt;
+    const r = await window.cowork.askClaude(prompt, [plain]);
+    const ans = (typeof r === "string") ? r : (r && (r.text || r.content || JSON.stringify(r)));
+    ansEl.innerHTML = '<div class="ai-ans"><b style="color:var(--blue)">講師AIの回答</b>\n' + esc(ans) + '</div>';
+  }catch(e){
+    ansEl.innerHTML = '<div class="ai-ans">うまく回答を取得できませんでした。「質問文をコピー」でチャットに貼り付けて質問してください。</div>';
+  }
+}
+
+/* =====================================================
+   イベント
+===================================================== */
+function bindEvents(){
+  document.querySelectorAll("[data-go='home']").forEach(el=>{
+    el.onclick = ()=>go("home");
+  });
+  document.querySelectorAll("[data-unit]").forEach(el=>{
+    el.onclick = ()=>go("unit", el.getAttribute("data-unit"));
+  });
+  document.querySelectorAll("[data-test]").forEach(el=>{
+    el.onclick = ()=>startTest(Number(el.getAttribute("data-test")));
+  });
+  document.querySelectorAll("[data-pick]").forEach(el=>{
+    el.onclick = ()=>pickAnswer(Number(el.getAttribute("data-pick")));
+  });
+  const nq = $("nextQ"); if(nq) nq.onclick = nextQ;
+  const sr = $("startReview"); if(sr) sr.onclick = startReview;
+  const rt = $("retryTest"); if(rt) rt.onclick = ()=>startTest(T.ch);
+  const db = $("doneBtn");
+  if(db) db.onclick = ()=>{
+    P.done[state.unit] = true; saveP();
+    const w = $("stampWrap");
+    if(w){ w.innerHTML = '<span class="stamp big anim">済</span>'; }
+    db.style.display = "none";
+    setTimeout(()=>render(), 900);
+  };
+  const ub = $("undoBtn");
+  if(ub) ub.onclick = ()=>{ delete P.done[state.unit]; saveP(); render(); };
+  const cb = $("copyBtn");
+  if(cb) cb.onclick = ()=>{
+    const t = buildQuestionText(state.unit);
+    if(t) copyText(t);
+  };
+  const ab = $("askBtn");
+  if(ab) ab.onclick = ()=>askAI(state.unit);
+}
+
+render();
+/* ストラテジ攻略ノート v2.1 - 全3章18単元（補講3単元・問題54問収録） */
+</script>
+</body>
+</html>

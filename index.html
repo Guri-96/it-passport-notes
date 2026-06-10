@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ITパスポート攻略ノート</title>
+<style>
+:root{ color-scheme: light; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+  color:#2b3a42;
+  background-color:#fdfbf3;
+  background-image:
+    linear-gradient(rgba(125,160,195,.22) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(125,160,195,.22) 1px, transparent 1px);
+  background-size:22px 22px;
+  line-height:1.8;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:24px 16px;
+}
+.box{max-width:480px;width:100%;text-align:center;}
+h1{
+  font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+  font-size:26px;letter-spacing:.15em;
+  padding-bottom:12px;margin-bottom:6px;
+  border-bottom:3px double #d9d2bf;
+}
+.sub{font-size:13px;color:#7a7261;letter-spacing:.2em;margin-bottom:28px;}
+a.note{
+  display:flex;align-items:center;gap:14px;
+  background:#fffefa;border:1px solid #d9d2bf;border-radius:12px;
+  box-shadow:0 2px 6px rgba(90,80,50,.10);
+  padding:18px 20px;margin-bottom:14px;
+  text-decoration:none;color:#2b3a42;
+  transition:transform .08s;
+}
+a.note:active{transform:scale(.98);}
+.icon{
+  flex:0 0 auto;width:46px;height:46px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:"Hiragino Mincho ProN","Yu Mincho",serif;
+  font-size:20px;font-weight:700;color:#fff;
+}
+.i1{background:#b73a2e;}
+.i2{background:#3a6ea5;}
+.i3{background:#3c7a4e;}
+.t{text-align:left;}
+.t b{font-size:17px;display:block;}
+.t small{font-size:12.5px;color:#8a8268;}
+footer{margin-top:26px;font-size:11.5px;color:#a89e84;}
+</style>
+</head>
+<body>
+<div class="box">
+  <h1>攻略ノート</h1>
+  <div class="sub">ITパスポート試験 ── 全分野対応</div>
+  <a class="note" href="ストラテジ攻略ノート.html">
+    <span class="icon i1">戦</span>
+    <span class="t"><b>ストラテジ攻略ノート</b><small>企業と法務／経営戦略／システム戦略（18単元）</small></span>
+  </a>
+  <a class="note" href="マネジメント攻略ノート.html">
+    <span class="icon i2">管</span>
+    <span class="t"><b>マネジメント攻略ノート</b><small>開発技術／PM／サービスマネジメントと監査（6単元）</small></span>
+  </a>
+  <a class="note" href="テクノロジ攻略ノート.html">
+    <span class="icon i3">技</span>
+    <span class="t"><b>テクノロジ攻略ノート</b><small>基礎理論／ネットワークとDB／セキュリティ（10単元）</small></span>
+  </a>
+  <footer>進捗はこのブラウザに保存されます ─ 朱印を集めて合格へ</footer>
+</div>
+</body>
+</html>
