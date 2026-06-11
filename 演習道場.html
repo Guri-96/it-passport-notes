@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>演習道場｜ITパスポート</title>
+<style>
+:root{
+  color-scheme: light;
+  --ink:#2b3a42; --red:#b73a2e; --red-soft:#fbeeec; --blue:#3a6ea5;
+  --paper:#fdfbf3; --grid:rgba(125,160,195,.22); --card:#fffefa;
+  --line:#d9d2bf; --green:#3c7a4e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+  color:var(--ink); background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:22px 22px; line-height:1.9; font-size:16px;
+}
+.wrap{max-width:820px;margin:0 auto;padding:18px 16px 80px;}
+header.top{text-align:center;padding:18px 10px 14px;margin-bottom:18px;border-bottom:3px double var(--line);}
+h1.title{font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;font-size:30px;letter-spacing:.18em;}
+.subtitle{font-size:13px;color:#7a7261;letter-spacing:.25em;margin-top:2px;}
+.statline{margin-top:10px;font-size:13px;color:#6b6253;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 2px 6px rgba(90,80,50,.08);margin-bottom:20px;overflow:hidden;}
+.card-h{padding:12px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#faf6e9,#f5efdd);font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:18px;font-weight:700;letter-spacing:.08em;}
+.menu-row{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px dashed #e3dcc8;cursor:pointer;transition:background .15s;}
+.menu-row:hover{background:#faf5e6;}
+.menu-row:last-child{border-bottom:none;}
+.m-icon{flex:0 0 auto;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:15px;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;}
+.m-t{flex:1 1 auto;}
+.m-t b{font-size:15.5px;display:block;}
+.m-t small{font-size:12.5px;color:#8a8268;}
+.badge{flex:0 0 auto;min-width:34px;text-align:center;background:var(--red);color:#fff;border-radius:14px;padding:2px 10px;font-size:13px;font-weight:700;}
+.badge.zero{background:#b9b09a;}
+.btn{display:inline-block;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:12px 26px;border-radius:8px;background:var(--red);color:#fff;box-shadow:0 2px 0 #8e2c22;transition:transform .08s;}
+.btn:active{transform:translateY(2px);box-shadow:none;}
+.btn.sub{background:#fff;color:var(--ink);border:1.5px solid #c9c0a8;box-shadow:0 2px 0 #c9c0a8;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0 6px;}
+.backlink{display:inline-block;margin-bottom:14px;font-size:14px;color:var(--blue);cursor:pointer;border-bottom:1px dashed var(--blue);}
+.pane{padding:22px 20px 26px;}
+.t-head{font-size:13px;color:#8a8268;letter-spacing:.1em;margin-bottom:4px;}
+.src-tag{display:inline-block;font-size:11.5px;color:#fff;border-radius:4px;padding:1px 8px;margin-left:8px;vertical-align:middle;}
+.t-q{font-size:16.5px;font-weight:700;margin:10px 0 18px;line-height:1.8;}
+.choices{display:flex;flex-direction:column;gap:10px;}
+.choice{text-align:left;background:#fff;border:1.5px solid #c9c0a8;border-radius:8px;padding:12px 14px;font-size:15px;font-family:inherit;cursor:pointer;line-height:1.7;}
+.choice:hover{background:#faf5e6;}
+.choice .cno{font-weight:700;color:var(--blue);margin-right:8px;}
+.choice.sel-ok{border-color:var(--green);background:#eef7f0;}
+.choice.sel-ng{border-color:var(--red);background:var(--red-soft);}
+.choice.reveal{border-color:var(--green);background:#eef7f0;}
+.choice:disabled{cursor:default;}
+.judge{font-size:20px;font-weight:700;margin:16px 0 6px;}
+.judge.ok{color:var(--green);}
+.judge.ng{color:var(--red);}
+.expl{background:#f8f4e8;border:1px solid var(--line);border-radius:8px;padding:12px 16px;font-size:14.5px;margin:10px 0 8px;}
+.expl b{color:var(--red);}
+.weaknote{font-size:13px;color:var(--red);margin:6px 0 12px;}
+.weaknote.ok{color:var(--green);}
+.result-box{text-align:center;padding:10px 0;}
+.score{font-size:42px;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;margin:8px 0;}
+.score small{font-size:18px;}
+.stamp{display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:50%;border:4px solid rgba(183,58,46,.85);color:rgba(183,58,46,.92);font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;font-size:30px;transform:rotate(-12deg);background:radial-gradient(circle at 35% 30%, rgba(183,58,46,.10), rgba(183,58,46,.03));animation:stampIn .45s cubic-bezier(.2,1.6,.4,1) both;}
+@keyframes stampIn{0%{transform:rotate(-12deg) scale(2.4);opacity:0;}100%{transform:rotate(-12deg) scale(1);opacity:1;}}
+.w-group{padding:10px 18px 4px;font-size:14px;font-weight:700;color:#6b6253;background:#f7f2e3;border-bottom:1px solid #e3dcc8;}
+.w-item{padding:12px 18px;border-bottom:1px dashed #e3dcc8;}
+.w-item:last-child{border-bottom:none;}
+.w-q{font-size:14.5px;cursor:pointer;}
+.w-meta{font-size:12px;color:#9a9078;margin-top:4px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.w-detail{display:none;margin-top:10px;font-size:14px;background:#fbf8ee;border:1px dashed #b9ab84;border-radius:8px;padding:10px 14px;}
+.w-item.open .w-detail{display:block;}
+.w-link{color:var(--blue);text-decoration:none;border-bottom:1px dashed var(--blue);font-size:12.5px;}
+.miss-b{display:inline-block;background:var(--red);color:#fff;border-radius:10px;font-size:11.5px;padding:1px 8px;}
+.empty{padding:30px 18px;text-align:center;color:#8a8268;font-size:14.5px;}
+.loaderr{padding:26px 18px;font-size:14.5px;background:#fff4e0;border:1px solid #e0c890;border-radius:8px;margin-bottom:16px;line-height:1.9;}
+footer{margin-top:30px;text-align:center;font-size:12px;color:#a89e84;}
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:rgba(43,58,66,.95);color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:all .25s;max-width:90%;z-index:50;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media (max-width:480px){ body{font-size:15px;} h1.title{font-size:24px;} .pane{padding:18px 14px 22px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div id="app"><div class="empty">問題データを読み込んでいます…</div></div>
+  <footer>演習道場 ─ 3ノート横断演習＋自動・弱点対策ノート</footer>
+</div>
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* ===== 設定：問題の取得元（同じフォルダの3ノート） ===== */
+const SOURCES = [
+  { file:"ストラテジ攻略ノート.html",  app:"st", name:"ストラテジ",  color:"#b73a2e",
+    chapters:{1:"企業と法務",2:"経営戦略",3:"システム戦略"} },
+  { file:"マネジメント攻略ノート.html", app:"ma", name:"マネジメント", color:"#3a6ea5",
+    chapters:{1:"開発技術",2:"プロジェクトマネジメント",3:"サービスマネジメントとシステム監査"} },
+  { file:"テクノロジ攻略ノート.html",  app:"te", name:"テクノロジ",  color:"#3c7a4e",
+    chapters:{1:"基礎理論とコンピュータのしくみ",2:"ネットワークとデータベース",3:"セキュリティ"} }
+];
+/* 本番の出題比率（ストラテジ35：マネジメント20：テクノロジ45）に合わせた配分 */
+const MIX = { 10:{st:4,ma:2,te:4}, 20:{st:7,ma:4,te:9} };
+
+const WEAK_KEY = "ipWeakNotes_v1";
+const STAT_KEY = "ipDrillStats_v1";
+
+let ALL = [];            // 全問題（タグつき）
+let BYID = {};           // id → 問題
+let W = loadJSON(WEAK_KEY, {});     // 弱点ノート {id:{miss,app,ch,last}}
+let S = loadJSON(STAT_KEY, {ans:0, ok:0});
+let state = { view:"home" };
+let T = null;
+
+/* ===== ユーティリティ ===== */
+const $ = (id)=>document.getElementById(id);
+function loadJSON(k, def){ try{ const r=localStorage.getItem(k); return r?JSON.parse(r):def; }catch(e){ return def; } }
+function saveJSON(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+/* 演習結果を勉強計画シートへ自動送信（Google Apps Script経由） */
+const LOG_ENDPOINT = "https://script.google.com/macros/s/AKfycbyU3cjoEquXGQicR87zm2Jfa8HrUYdO5uT3TVmbj9S952d8uOWHJYe2q-wd7z8cLFfMSQ/exec";
+function sendLog(data){
+  if(!LOG_ENDPOINT) return;
+  try{
+    const body = new URLSearchParams();
+    for(const k in data) body.append(k, data[k]);
+    fetch(LOG_ENDPOINT, { method:"POST", mode:"no-cors", body: body });
+  }catch(e){}
+}
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function shuffle(a){ const r=a.slice(); for(let i=r.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [r[i],r[j]]=[r[j],r[i]]; } return r; }
+function hash(s){ let h=5381; for(let i=0;i<s.length;i++){ h=((h<<5)+h+s.charCodeAt(i))|0; } return (h>>>0).toString(36); }
+function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._tm); toast._tm=setTimeout(()=>t.classList.remove("show"),2400); }
+function weakCount(){ return Object.keys(W).length; }
+
+/* ===== 問題データの読み込み ===== */
+async function loadAll(){
+  for(const s of SOURCES){
+    const res = await fetch(s.file);
+    if(!res.ok) throw new Error(s.file + " を取得できません");
+    const txt = await res.text();
+    const i = txt.indexOf("const QUESTIONS = {");
+    if(i < 0) throw new Error(s.file + " から問題を読み取れません");
+    const j = txt.indexOf("\n};", i);
+    const objSrc = txt.slice(i + "const QUESTIONS = ".length, j + 2);
+    const obj = (new Function("return " + objSrc))();
+    for(const ch in obj){
+      obj[ch].forEach(q=>{
+        const item = { q:q.q, c:q.c, a:q.a, e:q.e, app:s.app, appName:s.name,
+                       ch:Number(ch), chName:s.chapters[ch], color:s.color,
+                       file:s.file, id:hash(s.app + ch + q.q) };
+        ALL.push(item); BYID[item.id] = item;
+      });
+    }
+  }
+}
+
+/* ===== 出題セットの作成 ===== */
+function pickMock(n){
+  const mix = MIX[n]; let set = [];
+  for(const s of SOURCES){
+    const pool = ALL.filter(x=>x.app===s.app);
+    set = set.concat(shuffle(pool).slice(0, mix[s.app]));
+  }
+  return shuffle(set);
+}
+function pickGenre(app, n){
+  return shuffle(ALL.filter(x=>x.app===app)).slice(0, n);
+}
+function pickWeak(n){
+  const ids = Object.keys(W).filter(id=>BYID[id]);
+  return shuffle(ids).slice(0, n).map(id=>BYID[id]);
+}
+
+/* ===== 弱点ノートの記録 ===== */
+function addWeak(item){
+  const w = W[item.id] || { miss:0, app:item.app, ch:item.ch };
+  w.miss += 1; w.last = new Date().toISOString().slice(0,10);
+  W[item.id] = w; saveJSON(WEAK_KEY, W);
+}
+function easeWeak(item){
+  const w = W[item.id]; if(!w) return false;
+  w.miss -= 1;
+  if(w.miss <= 0){ delete W[item.id]; saveJSON(WEAK_KEY, W); return true; }
+  saveJSON(WEAK_KEY, W); return false;
+}
+
+/* ===== テスト進行 ===== */
+function startDrill(mode, qs, label){
+  if(!qs.length){ toast("出題できる問題がありません"); return; }
+  T = { mode, label, qs, idx:0, ok:0, wrongs:[], phase:"q", order:shuffle([0,1,2,3]), last:null, gradMsg:"" };
+  state.view = "drill"; render(); window.scrollTo(0,0);
+}
+function pickAnswer(ci){
+  if(!T || T.phase!=="q") return;
+  const q = T.qs[T.idx];
+  const ok = (ci === q.a);
+  T.last = { pick:ci, ok };
+  T.phase = "judged";
+  S.ans += 1; if(ok) S.ok += 1; saveJSON(STAT_KEY, S);
+  T.gradMsg = "";
+  if(ok){
+    T.ok += 1;
+    if(T.mode === "weak"){
+      const grad = easeWeak(q);
+      T.gradMsg = grad ? "正解！ この問題は弱点ノートから卒業しました。"
+                       : "正解！ あと" + W[q.id].miss + "回正解すれば卒業です。";
+    }
+  }else{
+    T.wrongs.push(q);
+    addWeak(q);
+    T.gradMsg = "弱点対策ノートに自動登録しました（累計" + W[q.id].miss + "回ミス）。";
+  }
+  render();
+}
+function nextQ(){
+  if(!T) return;
+  T.idx += 1;
+  if(T.idx >= T.qs.length){
+    T.phase = "result";
+    sendLog({ app:"演習道場", label:T.label, score:T.ok, total:T.qs.length, weak:weakCount() });
+    render(); window.scrollTo(0,0); return;
+  }
+  T.phase = "q"; T.order = shuffle([0,1,2,3]); render(); window.scrollTo(0,0);
+}
+
+/* ===== 描画 ===== */
+function render(){
+  const app = $("app");
+  if(state.view==="home") app.innerHTML = renderHome();
+  else if(state.view==="drill") app.innerHTML = renderDrill();
+  else if(state.view==="weaklist") app.innerHTML = renderWeakList();
+  bind();
+}
+function renderHome(){
+  const wc = weakCount();
+  const rate = S.ans ? Math.round(S.ok/S.ans*100) : 0;
+  let h = "";
+  h += '<header class="top"><h1 class="title">演習道場</h1>';
+  h += '<div class="subtitle">ITパスポート ── 3ノート横断演習</div>';
+  h += '<div class="statline">これまで ' + S.ans + ' 問演習／正答率 ' + rate + '%　・　収録 ' + ALL.length + ' 問</div></header>';
+
+  h += '<div class="card"><div class="card-h">模擬演習（本番の出題比率で混合）</div>';
+  h += row("模", "#b73a2e", "10問クイック模試", "ストラテジ4・マネジメント2・テクノロジ4", "data-mock='10'");
+  h += row("模", "#8e2c22", "20問しっかり模試", "ストラテジ7・マネジメント4・テクノロジ9", "data-mock='20'");
+  h += '</div>';
+
+  h += '<div class="card"><div class="card-h">分野別演習（各10問）</div>';
+  h += row("戦", "#b73a2e", "ストラテジ演習", "経営・法務・システム戦略", "data-genre='st'");
+  h += row("管", "#3a6ea5", "マネジメント演習", "開発・PM・サービス・監査", "data-genre='ma'");
+  h += row("技", "#3c7a4e", "テクノロジ演習", "基礎理論・ネットワーク・セキュリティ", "data-genre='te'");
+  h += '</div>';
+
+  h += '<div class="card"><div class="card-h">弱点対策</div>';
+  h += '<div class="menu-row" data-weakdrill="1"><span class="m-icon" style="background:#b73a2e">弱</span><span class="m-t"><b>弱点復習（最大10問）</b><small>間違えた問題だけを出題。正解すると卒業に近づく</small></span><span class="badge' + (wc? '':' zero') + '">' + wc + '</span></div>';
+  h += '<div class="menu-row" data-weaklist="1"><span class="m-icon" style="background:#6b6253">帳</span><span class="m-t"><b>弱点対策ノートを見る</b><small>間違えた問題の一覧・解説・該当ノートへのリンク</small></span><span class="badge' + (wc? '':' zero') + '">' + wc + '</span></div>';
+  h += '</div>';
+  return h;
+}
+function row(icon, color, title, sub, attr){
+  return '<div class="menu-row" ' + attr + '><span class="m-icon" style="background:' + color + '">' + icon + '</span><span class="m-t"><b>' + title + '</b><small>' + sub + '</small></span><span style="color:#b9b09a">›</span></div>';
+}
+function renderDrill(){
+  let h = "";
+  if(T.phase==="result"){
+    const pass = T.ok >= Math.ceil(T.qs.length*0.6);
+    h += '<a class="backlink" data-home="1">‹ ホームに戻る</a>';
+    h += '<div class="card"><div class="pane"><div class="result-box">';
+    h += '<div class="t-head">' + esc(T.label) + ' 結果</div>';
+    h += '<div class="score">' + T.ok + ' <small>/ ' + T.qs.length + ' 問正解</small></div>';
+    if(pass) h += '<div style="margin:10px 0;"><span class="stamp">' + (T.ok===T.qs.length ? "皆伝" : "合格") + '</span></div>';
+    if(T.wrongs.length){
+      h += '<p style="font-size:14px;color:#7a7261;">間違えた' + T.wrongs.length + '問は弱点対策ノートに登録済みです。</p>';
+      h += '<div class="btn-row"><button class="btn" data-weakdrill="1">弱点復習に進む</button><button class="btn sub" data-weaklist="1">弱点ノートを見る</button><button class="btn sub" data-home="1">ホームへ</button></div>';
+    }else{
+      h += '<p>全問正解！この調子です。</p>';
+      h += '<div class="btn-row"><button class="btn" data-again="1">もう一度挑戦</button><button class="btn sub" data-home="1">ホームへ</button></div>';
+    }
+    h += '</div></div></div>';
+    return h;
+  }
+  const q = T.qs[T.idx];
+  const judged = (T.phase==="judged");
+  h += '<a class="backlink" data-home="1">‹ 中断してホームに戻る</a>';
+  h += '<div class="card"><div class="pane">';
+  h += '<div class="t-head">' + esc(T.label) + '　第' + (T.idx+1) + '問 / ' + T.qs.length + '問';
+  h += '<span class="src-tag" style="background:' + q.color + '">' + esc(q.appName) + '・第' + q.ch + '章</span></div>';
+  h += '<div class="t-q">' + q.q + '</div>';
+  h += '<div class="choices">';
+  for(let pos=0; pos<4; pos++){
+    const ci = T.order[pos];
+    let cls = "choice";
+    if(judged){
+      if(ci===q.a) cls += (T.last && T.last.pick===ci) ? " sel-ok" : " reveal";
+      else if(T.last && T.last.pick===ci) cls += " sel-ng";
+    }
+    h += '<button class="' + cls + '" data-pick="' + ci + '" ' + (judged?"disabled":"") + '><span class="cno">' + ["ア","イ","ウ","エ"][pos] + '</span>' + q.c[ci] + '</button>';
+  }
+  h += '</div>';
+  if(judged){
+    h += '<div class="judge ' + (T.last.ok?"ok":"ng") + '">' + (T.last.ok?"○ 正解！":"× 不正解…") + '</div>';
+    h += '<div class="expl"><b>解説：</b>' + q.e + '</div>';
+    if(T.gradMsg) h += '<div class="weaknote' + (T.last.ok?" ok":"") + '">' + esc(T.gradMsg) + '</div>';
+    h += '<div class="btn-row" style="justify-content:flex-start"><button class="btn" data-next="1">' + (T.idx+1>=T.qs.length ? "結果を見る" : "次へ") + '</button></div>';
+  }
+  h += '</div></div>';
+  return h;
+}
+function renderWeakList(){
+  const ids = Object.keys(W).filter(id=>BYID[id]);
+  let h = '<a class="backlink" data-home="1">‹ ホームに戻る</a>';
+  h += '<div class="card"><div class="card-h">弱点対策ノート（' + ids.length + '問）</div>';
+  if(!ids.length){
+    h += '<div class="empty">いまは弱点ゼロです。演習で間違えた問題が、ここに自動で追加されます。</div></div>';
+    return h;
+  }
+  /* ノート×章でグループ化 */
+  const groups = {};
+  ids.forEach(id=>{
+    const q = BYID[id];
+    const key = q.appName + "｜第" + q.ch + "章 " + q.chName;
+    (groups[key] = groups[key] || []).push(q);
+  });
+  Object.keys(groups).sort().forEach(key=>{
+    const qs = groups[key];
+    h += '<div class="w-group">' + esc(key) + '（' + qs.length + '問）　<a class="w-link" href="' + encodeURI(qs[0].file) + '">▶ 該当ノートで講義を読み直す</a></div>';
+    qs.sort((a,b)=>W[b.id].miss - W[a.id].miss).forEach(q=>{
+      const w = W[q.id];
+      h += '<div class="w-item" data-toggle="' + q.id + '">';
+      h += '<div class="w-q">' + q.q + '</div>';
+      h += '<div class="w-meta"><span class="miss-b">ミス' + w.miss + '回</span><span>最終ミス：' + esc(w.last||"-") + '</span><span style="color:#3a6ea5">タップで答えと解説を表示</span></div>';
+      h += '<div class="w-detail"><b style="color:var(--green)">正解：</b>' + q.c[q.a] + '<br><b style="color:var(--red)">解説：</b>' + q.e + '</div>';
+      h += '</div>';
+    });
+  });
+  h += '</div>';
+  h += '<div class="btn-row"><button class="btn" data-weakdrill="1">この弱点を復習する</button><button class="btn sub" data-clearweak="1">弱点ノートを全消去</button></div>';
+  return h;
+}
+
+/* ===== イベント ===== */
+function bind(){
+  document.querySelectorAll("[data-home]").forEach(el=>el.onclick=()=>{ state.view="home"; render(); });
+  document.querySelectorAll("[data-mock]").forEach(el=>el.onclick=()=>{
+    const n = Number(el.getAttribute("data-mock"));
+    startDrill("mock", pickMock(n), n + "問模試");
+  });
+  document.querySelectorAll("[data-genre]").forEach(el=>el.onclick=()=>{
+    const a = el.getAttribute("data-genre");
+    const s = SOURCES.find(x=>x.app===a);
+    startDrill("genre", pickGenre(a,10), s.name + "演習");
+  });
+  document.querySelectorAll("[data-weakdrill]").forEach(el=>el.onclick=()=>{
+    const qs = pickWeak(10);
+    if(!qs.length){ toast("弱点ノートは空です。まず模試や分野別演習を解いてみましょう"); return; }
+    startDrill("weak", qs, "弱点復習");
+  });
+  document.querySelectorAll("[data-weaklist]").forEach(el=>el.onclick=()=>{ state.view="weaklist"; render(); window.scrollTo(0,0); });
+  document.querySelectorAll("[data-pick]").forEach(el=>el.onclick=()=>pickAnswer(Number(el.getAttribute("data-pick"))));
+  document.querySelectorAll("[data-next]").forEach(el=>el.onclick=nextQ);
+  document.querySelectorAll("[data-again]").forEach(el=>el.onclick=()=>{
+    if(T.mode==="mock") startDrill("mock", pickMock(T.qs.length===20?20:10), T.label);
+    else if(T.mode==="genre"){ const a=T.qs[0].app; const s=SOURCES.find(x=>x.app===a); startDrill("genre", pickGenre(a,10), s.name+"演習"); }
+    else startDrill("weak", pickWeak(10), "弱点復習");
+  });
+  document.querySelectorAll("[data-clearweak]").forEach(el=>el.onclick=()=>{
+    if(confirm("弱点対策ノートをすべて消去します。よろしいですか？")){ W={}; saveJSON(WEAK_KEY,W); render(); }
+  });
+  document.querySelectorAll("[data-toggle]").forEach(el=>el.onclick=(ev)=>{
+    if(ev.target.closest("a")) return;
+    el.classList.toggle("open");
+  });
+}
+
+/* ===== 起動 ===== */
+loadAll().then(()=>{ state.view="home"; render(); }).catch(err=>{
+  $("app").innerHTML = '<header class="top"><h1 class="title">演習道場</h1></header>' +
+    '<div class="loaderr"><b>問題データを読み込めませんでした。</b><br>' +
+    'この演習道場は、3つの攻略ノートと同じ場所に置いて、ウェブサイト（GitHub Pagesなど）として開いたときに動作します。' +
+    'パソコンでファイルを直接開いた場合は動かないことがあります。スマホのホーム画面、またはサイトのURLから開いてください。<br>' +
+    '<small style="color:#9a9078">詳細：' + esc(err.message||String(err)) + '</small></div>';
+});
+</script>
+</body>
+</html>
