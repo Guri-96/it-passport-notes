@@ -1624,6 +1624,17 @@ let P = loadP();
 if(!P.done) P.done = {};
 if(!P.tests) P.tests = {};
 
+/* 章末テスト結果を勉強計画シートへ自動送信（Google Apps Script経由） */
+const LOG_ENDPOINT = "https://script.google.com/macros/s/AKfycbyU3cjoEquXGQicR87zm2Jfa8HrUYdO5uT3TVmbj9S952d8uOWHJYe2q-wd7z8cLFfMSQ/exec";
+function sendLog(data){
+  if(!LOG_ENDPOINT) return;
+  try{
+    const body = new URLSearchParams();
+    for(const k in data) body.append(k, data[k]);
+    fetch(LOG_ENDPOINT, { method:"POST", mode:"no-cors", body: body });
+  }catch(e){}
+}
+
 /* =====================================================
    ユーティリティ
 ===================================================== */
@@ -1898,6 +1909,7 @@ function nextQ(){
       rec.passed = rec.passed || (T.firstCorrect >= 3);
       P.tests[T.ch] = rec;
       saveP();
+      sendLog({ app:"ストラテジ", label:"第" + T.ch + "章 章末テスト", score:T.firstCorrect, total:T.main.length });
       T.phase = "result";
       render();
       return;
