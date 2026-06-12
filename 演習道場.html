@@ -227,6 +227,7 @@ function nextQ(){
 function render(){
   const app = $("app");
   if(state.view==="home") app.innerHTML = renderHome();
+  else if(state.view==="gmenu") app.innerHTML = renderGenreMenu();
   else if(state.view==="drill") app.innerHTML = renderDrill();
   else if(state.view==="weaklist") app.innerHTML = renderWeakList();
   bind();
@@ -244,10 +245,10 @@ function renderHome(){
   h += row("模", "#8e2c22", "20問しっかり模試", "ストラテジ7・マネジメント4・テクノロジ9", "data-mock='20'");
   h += '</div>';
 
-  h += '<div class="card"><div class="card-h">分野別演習（各10問）</div>';
-  h += row("戦", "#b73a2e", "ストラテジ演習", "経営・法務・システム戦略", "data-genre='st'");
-  h += row("管", "#3a6ea5", "マネジメント演習", "開発・PM・サービス・監査", "data-genre='ma'");
-  h += row("技", "#3c7a4e", "テクノロジ演習", "基礎理論・ネットワーク・セキュリティ", "data-genre='te'");
+  h += '<div class="card"><div class="card-h">分野別・章別演習</div>';
+  h += row("戦", "#b73a2e", "ストラテジ演習", "タップして章を選ぶ（分野全体の10問も可）", "data-gmenu='st'");
+  h += row("管", "#3a6ea5", "マネジメント演習", "タップして章を選ぶ（分野全体の10問も可）", "data-gmenu='ma'");
+  h += row("技", "#3c7a4e", "テクノロジ演習", "タップして章を選ぶ（分野全体の10問も可）", "data-gmenu='te'");
   h += '</div>';
 
   h += '<div class="card"><div class="card-h">弱点対策</div>';
@@ -258,6 +259,18 @@ function renderHome(){
 }
 function row(icon, color, title, sub, attr){
   return '<div class="menu-row" ' + attr + '><span class="m-icon" style="background:' + color + '">' + icon + '</span><span class="m-t"><b>' + title + '</b><small>' + sub + '</small></span><span style="color:#b9b09a">›</span></div>';
+}
+function renderGenreMenu(){
+  const s = SOURCES.find(x=>x.app===state.gapp);
+  let h = '<a class="backlink" data-home="1">‹ ホームに戻る</a>';
+  h += '<div class="card"><div class="card-h">' + esc(s.name) + '演習 ── 範囲を選ぶ</div>';
+  h += row("全", s.color, s.name + "全体から10問", "全章ミックスで腕試し", "data-genre='" + s.app + "'");
+  for(const ch in s.chapters){
+    const n = ALL.filter(x=>x.app===s.app && x.ch===Number(ch)).length;
+    h += row("章", s.color, "第" + ch + "章 " + s.chapters[ch], "この章だけから出題（収録" + n + "問・最大10問）", "data-chdrill='" + s.app + "-" + ch + "'");
+  }
+  h += '</div>';
+  return h;
 }
 function renderDrill(){
   let h = "";
@@ -349,6 +362,17 @@ function bind(){
     const s = SOURCES.find(x=>x.app===a);
     startDrill("genre", pickGenre(a,10), s.name + "演習");
   });
+  document.querySelectorAll("[data-gmenu]").forEach(el=>el.onclick=()=>{
+    state.gapp = el.getAttribute("data-gmenu");
+    state.view = "gmenu"; render(); window.scrollTo(0,0);
+  });
+  document.querySelectorAll("[data-chdrill]").forEach(el=>el.onclick=()=>{
+    const parts = el.getAttribute("data-chdrill").split("-");
+    const a = parts[0], c = Number(parts[1]);
+    const s = SOURCES.find(x=>x.app===a);
+    const qs = shuffle(ALL.filter(x=>x.app===a && x.ch===c)).slice(0,10);
+    startDrill("chapter", qs, s.name + "・第" + c + "章演習");
+  });
   document.querySelectorAll("[data-weakdrill]").forEach(el=>el.onclick=()=>{
     const qs = pickWeak(10);
     if(!qs.length){ toast("弱点ノートは空です。まず模試や分野別演習を解いてみましょう"); return; }
@@ -360,6 +384,7 @@ function bind(){
   document.querySelectorAll("[data-again]").forEach(el=>el.onclick=()=>{
     if(T.mode==="mock") startDrill("mock", pickMock(T.qs.length===20?20:10), T.label);
     else if(T.mode==="genre"){ const a=T.qs[0].app; const s=SOURCES.find(x=>x.app===a); startDrill("genre", pickGenre(a,10), s.name+"演習"); }
+    else if(T.mode==="chapter"){ const a=T.qs[0].app, c=T.qs[0].ch; const s=SOURCES.find(x=>x.app===a); const qs=shuffle(ALL.filter(x=>x.app===a && x.ch===c)).slice(0,10); startDrill("chapter", qs, s.name+"・第"+c+"章演習"); }
     else startDrill("weak", pickWeak(10), "弱点復習");
   });
   document.querySelectorAll("[data-clearweak]").forEach(el=>el.onclick=()=>{
