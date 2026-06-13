@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>過去問チャレンジ｜ITパスポート</title>
+<style>
+:root{
+  color-scheme: light;
+  --ink:#2b3a42; --red:#b73a2e; --red-soft:#fbeeec; --blue:#3a6ea5;
+  --paper:#fdfbf3; --grid:rgba(125,160,195,.22); --card:#fffefa;
+  --line:#d9d2bf; --green:#3c7a4e; --gold:#8a6d3b;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+  color:var(--ink); background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:22px 22px; line-height:1.85; font-size:16px;
+}
+.wrap{max-width:760px;margin:0 auto;padding:18px 16px 96px;}
+header.top{text-align:center;padding:18px 10px 14px;margin-bottom:16px;border-bottom:3px double var(--line);}
+h1.title{font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;font-size:28px;letter-spacing:.16em;}
+.subtitle{font-size:13px;color:#7a7261;letter-spacing:.22em;margin-top:2px;}
+.backlink{display:inline-block;margin-bottom:14px;font-size:14px;color:var(--blue);cursor:pointer;text-decoration:none;border-bottom:1px dashed var(--blue);}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 2px 6px rgba(90,80,50,.08);margin-bottom:18px;overflow:hidden;}
+.card-h{padding:12px 18px;border-bottom:1px solid var(--line);background:linear-gradient(180deg,#faf6e9,#f5efdd);font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:17px;font-weight:700;letter-spacing:.06em;}
+.pane{padding:16px 18px 20px;}
+.lead{font-size:13.5px;color:#6b6253;margin-bottom:12px;line-height:1.9;}
+.menu-row{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px dashed #e3dcc8;cursor:pointer;transition:background .15s;}
+.menu-row:hover{background:#faf5e6;} .menu-row:last-child{border-bottom:none;}
+.m-icon{flex:0 0 auto;width:40px;height:40px;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;}
+.m-t{flex:1 1 auto;} .m-t b{font-size:15.5px;display:block;} .m-t small{font-size:12px;color:#8a8268;}
+.chev{color:#b9b09a;}
+.btn{display:inline-block;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:11px 22px;border-radius:8px;background:var(--red);color:#fff;box-shadow:0 2px 0 #8e2c22;transition:transform .08s;}
+.btn:active{transform:translateY(2px);box-shadow:none;}
+.btn.sub{background:#fff;color:var(--ink);border:1.5px solid #c9c0a8;box-shadow:0 2px 0 #c9c0a8;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0;}
+.pdfrow{display:flex;align-items:center;gap:8px;padding:10px 18px;border-bottom:1px dashed #e3dcc8;font-size:14px;flex-wrap:wrap;}
+.pdfrow:last-child{border-bottom:none;}
+.pdfrow .yr{flex:1 1 auto;font-weight:700;}
+.pdflink{font-size:12.5px;color:var(--blue);text-decoration:none;border:1px solid #c9d4e0;border-radius:6px;padding:3px 10px;background:#f4f8fc;}
+.pdflink.ans{color:var(--green);border-color:#c2d8c6;background:#f1f8f2;}
+.note{font-size:11.5px;color:#a89e84;padding:0 18px 14px;line-height:1.8;}
+/* タイマー */
+.timer{display:flex;align-items:center;justify-content:center;gap:14px;padding:12px;background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:14px;}
+.tclock{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:30px;font-weight:700;letter-spacing:.04em;min-width:120px;text-align:center;}
+.tclock.warn{color:var(--red);}
+.tbtn{border:1.5px solid #c9c0a8;background:#fff;border-radius:7px;padding:7px 14px;font-size:13px;font-family:inherit;cursor:pointer;font-weight:700;}
+/* 解答グリッド */
+.grid{padding:6px 10px 10px;}
+.qrow{display:flex;align-items:center;gap:8px;padding:6px 6px;border-bottom:1px dashed #ece4d0;}
+.qrow:last-child{border-bottom:none;}
+.qno{flex:0 0 auto;width:46px;font-size:13px;color:#6b6253;font-weight:700;}
+.opts{display:flex;gap:5px;flex:1 1 auto;}
+.opt{flex:1 1 0;border:1.5px solid #c9c0a8;background:#fff;border-radius:7px;padding:7px 0;font-size:14.5px;font-family:inherit;cursor:pointer;text-align:center;color:var(--ink);transition:all .1s;}
+.opt:hover{background:#faf5e6;}
+.opt.sel{background:var(--blue);border-color:var(--blue);color:#fff;font-weight:700;}
+.opt.correct{background:#eef7f0;border-color:var(--green);color:var(--green);font-weight:700;}
+.opt.wrong{background:var(--red-soft);border-color:var(--red);color:var(--red);font-weight:700;}
+.mark{flex:0 0 auto;width:22px;text-align:center;font-weight:700;font-size:16px;}
+.mark.ok{color:var(--green);} .mark.ng{color:var(--red);}
+/* 採点バー（固定） */
+.actionbar{position:sticky;bottom:0;left:0;right:0;background:rgba(253,251,243,.96);border-top:1px solid var(--line);padding:10px 16px;display:flex;gap:10px;justify-content:center;backdrop-filter:blur(4px);margin:0 -16px;}
+.progress-mini{font-size:12px;color:#8a8268;text-align:center;margin-bottom:6px;}
+/* 結果 */
+.result{padding:18px;text-align:center;}
+.score{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:40px;font-weight:700;}
+.score small{font-size:16px;}
+.verdict{display:inline-block;margin:8px 0;padding:4px 16px;border-radius:20px;font-weight:700;font-size:15px;}
+.verdict.pass{background:#eef7f0;color:var(--green);border:1.5px solid var(--green);}
+.verdict.fail{background:var(--red-soft);color:var(--red);border:1.5px solid var(--red);}
+.fbreak{display:flex;gap:8px;margin:14px 0 4px;}
+.fcell{flex:1 1 0;border:1px solid var(--line);border-radius:8px;padding:8px 4px;background:#fff;}
+.fcell .fn{font-size:12px;color:#8a8268;} .fcell .fv{font-size:18px;font-weight:700;font-family:serif;}
+footer{margin-top:26px;text-align:center;font-size:12px;color:#a89e84;}
+#toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%) translateY(20px);background:rgba(43,58,66,.95);color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:all .25s;z-index:60;max-width:90%;text-align:center;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media (max-width:480px){ body{font-size:15px;} h1.title{font-size:23px;} .opt{font-size:14px;} .qno{width:40px;font-size:12px;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="backlink" href="index.html">‹ ホームに戻る</a>
+  <header class="top">
+    <h1 class="title">過去問チャレンジ</h1>
+    <div class="subtitle">ITパスポート ── IPA公式 本試験100問</div>
+  </header>
+  <div id="app"></div>
+  <footer>過去問チャレンジ ─ 公式過去問は出典明記で自由に利用できます（IPA）</footer>
+</div>
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* ===== 公式PDF（IPA：公表過去問は許諾・使用料不要） ===== */
+const PDFBASE = "https://www3.jitec.ipa.go.jp/JitesCbt/html/openinfo/pdf/questions/";
+const IPA_PAGE = "https://www3.jitec.ipa.go.jp/JitesCbt/html/openinfo/questions.html";
+function qsUrl(code){ return PDFBASE + code + "_ip_qs.pdf"; }
+function ansUrl(code){ return PDFBASE + code + "_ip_ans.pdf"; }
+
+/* 解答キーはIPA公式「解答例PDF」から転記（問1→問100の順, ア/イ/ウ/エ）。
+   採点モードは解答を取得できた年度のみ。最終確認は各年度の解答PDFでどうぞ。 */
+const YEARS = [
+  { id:"r07", label:"令和7年度", code:"2025r07",
+    key:"ウウイエウイイイウエエエウイアイアアアイイウウエアウイエイエイウアイエアエエアイエアアエアイエアウアエアイアアアイウアエウアウイアイイウイエエイウアウウイエアウエウウイイエウイアエエアウイウウアウウア" },
+  { id:"r06", label:"令和6年度", code:"2024r06",
+    key:"エイウイイエイウアイイアエアウイエウウイウウアウアアイアイエエイエエエアエイエアイイイアエエウイアエエアウウウイウエイイアエアイウエウウイウイウエエエウウアエアエイエエエウエアウアエウイアイウイイウイ" },
+  { id:"r05", label:"令和5年度", code:"2023r05", key:null },
+  { id:"r04", label:"令和4年度", code:"2022r04", key:null },
+  { id:"r03", label:"令和3年度", code:"2021r03", key:null }
+];
+const LETTERS = ["ア","イ","ウ","エ"];
+/* 分野の区切りは公開問題の標準的な並び順に基づく「目安」 */
+const FIELDS = [
+  { name:"ストラテジ", from:1,  to:35,  color:"#b73a2e" },
+  { name:"マネジメント", from:36, to:55,  color:"#3a6ea5" },
+  { name:"テクノロジ",  from:56, to:100, color:"#3c7a4e" }
+];
+const LOG_ENDPOINT = "https://script.google.com/macros/s/AKfycbyU3cjoEquXGQicR87zm2Jfa8HrUYdO5uT3TVmbj9S952d8uOWHJYe2q-wd7z8cLFfMSQ/exec";
+
+/* ===== 状態 ===== */
+const $ = (id)=>document.getElementById(id);
+let view = "home";          // home | grade
+let curYear = null;         // YEARS item
+let answers = {};           // qNo(1-100) -> 0-3
+let graded = false;
+let timer = { sec:120*60, running:false, h:null };
+
+function lsKey(id){ return "ipKako_" + id; }
+function loadAns(id){ try{ const r=localStorage.getItem(lsKey(id)); return r?JSON.parse(r):{}; }catch(e){ return {}; } }
+function saveAns(){ if(curYear){ try{ localStorage.setItem(lsKey(curYear.id), JSON.stringify(answers)); }catch(e){} } }
+function esc(s){ return String(s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;"); }
+function toast(m){ const t=$("toast"); t.textContent=m; t.classList.add("show"); clearTimeout(toast._t); toast._t=setTimeout(()=>t.classList.remove("show"),2400); }
+function sendLog(data){ try{ const b=new URLSearchParams(); for(const k in data) b.append(k,data[k]); fetch(LOG_ENDPOINT,{method:"POST",mode:"no-cors",body:b}); }catch(e){} }
+
+/* ===== タイマー ===== */
+function fmtClock(s){ const m=Math.floor(s/60), ss=s%60; return ("0"+m).slice(-2)+":"+("0"+ss).slice(-2); }
+function tick(){
+  if(!timer.running) return;
+  timer.sec--; updateClock();
+  if(timer.sec<=0){ timer.running=false; clearInterval(timer.h); toast("制限時間（120分）になりました。"); }
+}
+function updateClock(){ const c=$("clock"); if(c){ c.textContent=fmtClock(Math.max(0,timer.sec)); c.classList.toggle("warn", timer.sec<=300); } }
+function toggleTimer(){ timer.running=!timer.running; if(timer.running){ timer.h=setInterval(tick,1000); } else { clearInterval(timer.h); } renderTimerBtn(); }
+function resetTimer(){ timer.running=false; clearInterval(timer.h); timer.sec=120*60; updateClock(); renderTimerBtn(); }
+function renderTimerBtn(){ const b=$("tbtn"); if(b) b.textContent = timer.running ? "一時停止" : "開始"; }
+
+/* ===== 描画 ===== */
+function render(){
+  if(view==="home") $("app").innerHTML = renderHome();
+  else if(view==="grade") $("app").innerHTML = renderGrade();
+  bind();
+}
+function renderHome(){
+  let h = '<div class="card"><div class="card-h">採点モード（公式100問を解いて自動採点）</div><div class="pane">';
+  h += '<div class="lead">公式の<b>問題PDF</b>を開いて解き、下のボタンから年度を選んで解答を入力 → 採点します。正解はIPA公式の解答PDFから取り込み済みです（採点できるのは下記の年度）。</div>';
+  h += '</div>';
+  YEARS.filter(y=>y.key).forEach(y=>{
+    const done = Object.keys(loadAns(y.id)).length;
+    h += '<div class="menu-row" data-grade="' + y.id + '"><span class="m-icon" style="background:#7a4a6a">過</span><span class="m-t"><b>' + y.label + ' 採点モード</b><small>本試験100問' + (done? '・入力中 ' + done + '問':'' ) + '</small></span><span class="chev">›</span></div>';
+  });
+  h += '</div>';
+
+  h += '<div class="card"><div class="card-h">公式PDF（問題・解答）</div>';
+  YEARS.forEach(y=>{
+    h += '<div class="pdfrow"><span class="yr">' + y.label + '</span>';
+    h += '<a class="pdflink" href="' + qsUrl(y.code) + '" target="_blank" rel="noopener">問題PDF ↗</a>';
+    h += '<a class="pdflink ans" href="' + ansUrl(y.code) + '" target="_blank" rel="noopener">解答PDF ↗</a></div>';
+  });
+  h += '<div class="note">令和2年度以前の過去問もIPA公式にあります（<a class="pdflink" style="display:inline" href="' + IPA_PAGE + '" target="_blank" rel="noopener">一覧 ↗</a>）。出典：独立行政法人情報処理推進機構（IPA）。</div>';
+  h += '</div>';
+  return h;
+}
+function renderGrade(){
+  const y = curYear;
+  let h = '<a class="backlink" data-home="1">‹ 年度選択に戻る</a>';
+  h += '<div class="card"><div class="pane">';
+  h += '<div class="btn-row" style="justify-content:center"><a class="btn" href="' + qsUrl(y.code) + '" target="_blank" rel="noopener">' + y.label + ' 問題PDFを開く ↗</a><a class="btn sub" href="' + ansUrl(y.code) + '" target="_blank" rel="noopener">解答PDF ↗</a></div>';
+  h += '<div class="timer"><div class="tclock' + (timer.sec<=300?' warn':'') + '" id="clock">' + fmtClock(Math.max(0,timer.sec)) + '</div><button class="tbtn" id="tbtn">' + (timer.running?'一時停止':'開始') + '</button><button class="tbtn" data-treset="1">リセット</button></div>';
+  h += '<div class="progress-mini">本番は120分。問題PDFを見ながら、ア〜エで解答を入力してください。</div>';
+  h += '</div></div>';
+
+  const done = Object.keys(answers).length;
+  h += '<div class="card"><div class="card-h">解答入力（' + done + ' / 100）</div><div class="grid" id="grid">' + gridHTML() + '</div></div>';
+
+  if(graded){
+    h += resultHTML();
+  }
+
+  h += '<div class="actionbar">';
+  if(!graded) h += '<button class="btn" data-grade-now="1">採点する</button><button class="btn sub" data-clear="1">入力クリア</button>';
+  else h += '<button class="btn sub" data-regrade="1">もう一度採点</button><button class="btn sub" data-clear="1">入力クリア</button><button class="btn sub" data-home="1">年度選択へ</button>';
+  h += '</div>';
+  return h;
+}
+function gridHTML(){
+  const key = curYear.key;
+  let h = "";
+  for(let n=1;n<=100;n++){
+    const ua = answers[n];
+    const correctIdx = graded ? LETTERS.indexOf(key[n-1]) : -1;
+    h += '<div class="qrow"><span class="qno">問' + n + '</span><div class="opts">';
+    for(let i=0;i<4;i++){
+      let cls = "opt";
+      if(graded){
+        if(i===correctIdx) cls += " correct";
+        else if(ua===i) cls += " wrong";
+      }else if(ua===i){ cls += " sel"; }
+      h += '<button class="' + cls + '" data-q="' + n + '" data-opt="' + i + '"' + (graded?' disabled':'') + '>' + LETTERS[i] + '</button>';
+    }
+    h += '</div><span class="mark' + (graded ? (ua===correctIdx?' ok':' ng') : '') + '">' + (graded ? (ua===correctIdx?'○':'×') : '') + '</span></div>';
+  }
+  return h;
+}
+function gradeNow(){
+  const key = curYear.key;
+  let correct = 0, answered = 0;
+  const fcorr = FIELDS.map(()=>0), ftot = FIELDS.map(f=>f.to-f.from+1);
+  for(let n=1;n<=100;n++){
+    const ci = LETTERS.indexOf(key[n-1]);
+    if(answers[n]!==undefined) answered++;
+    if(answers[n]===ci){
+      correct++;
+      const fi = FIELDS.findIndex(f=>n>=f.from && n<=f.to);
+      if(fi>=0) fcorr[fi]++;
+    }
+  }
+  graded = true;
+  window._lastResult = { correct, answered, fcorr, ftot };
+  sendLog({ app:"過去問", label:curYear.label+" 過去問採点", score:correct, total:100 });
+  render(); window.scrollTo(0,0);
+}
+function resultHTML(){
+  const r = window._lastResult; if(!r) return "";
+  const pct = Math.round(r.correct/100*100);
+  // 合否目安：総合60%以上 かつ 各分野おおむね30%以上
+  const fieldOK = r.fcorr.every((c,i)=> (c/r.ftot[i]) >= 0.30 );
+  const pass = pct>=60 && fieldOK;
+  let h = '<div class="card"><div class="card-h">採点結果（目安）</div><div class="result">';
+  h += '<div class="score">' + r.correct + ' <small>/ 100 問正解</small></div>';
+  h += '<div>正答率 ' + pct + '%</div>';
+  h += '<div class="verdict ' + (pass?'pass':'fail') + '">' + (pass? '合格圏の目安（総合6割＋各分野3割）' : 'もう一歩（総合6割＋各分野3割が目安）') + '</div>';
+  h += '<div class="fbreak">';
+  FIELDS.forEach((f,i)=>{
+    h += '<div class="fcell" style="border-top:3px solid ' + f.color + '"><div class="fn">' + f.name + '</div><div class="fv">' + r.fcorr[i] + '/' + r.ftot[i] + '</div><div class="fn">' + Math.round(r.fcorr[i]/r.ftot[i]*100) + '%</div></div>';
+  });
+  h += '</div>';
+  h += '<div class="note" style="padding:8px 4px 0">※ 本試験は項目応答理論（IRT）で1000点満点に換算されるため、ここでの正答率・判定は<b>目安</b>です。分野の区切りも標準的な並び順に基づく目安です。正解はIPA公式解答PDFと照合できます。</div>';
+  h += '</div></div>';
+  return h;
+}
+
+/* ===== イベント ===== */
+function bind(){
+  document.querySelectorAll("[data-home]").forEach(el=>el.onclick=()=>{ view="home"; render(); window.scrollTo(0,0); });
+  document.querySelectorAll("[data-grade]").forEach(el=>el.onclick=()=>{
+    const id = el.getAttribute("data-grade");
+    curYear = YEARS.find(y=>y.id===id);
+    answers = loadAns(id); graded=false; resetTimer();
+    view="grade"; render(); window.scrollTo(0,0);
+  });
+  const grid = $("grid");
+  if(grid) grid.onclick = (ev)=>{
+    const b = ev.target.closest("[data-opt]"); if(!b || graded) return;
+    const n = Number(b.getAttribute("data-q")), i = Number(b.getAttribute("data-opt"));
+    answers[n] = (answers[n]===i ? undefined : i);
+    if(answers[n]===undefined) delete answers[n];
+    saveAns(); $("grid").innerHTML = gridHTML();
+    const hd = grid.closest(".card").querySelector(".card-h"); if(hd) hd.textContent = "解答入力（" + Object.keys(answers).length + " / 100）";
+  };
+  const tb = $("tbtn"); if(tb) tb.onclick = toggleTimer;
+  document.querySelectorAll("[data-treset]").forEach(el=>el.onclick=resetTimer);
+  document.querySelectorAll("[data-grade-now]").forEach(el=>el.onclick=()=>{
+    const n = Object.keys(answers).length;
+    if(n<100 && !confirm("未入力が" + (100-n) + "問あります。このまま採点しますか？")) return;
+    timer.running=false; clearInterval(timer.h); gradeNow();
+  });
+  document.querySelectorAll("[data-regrade]").forEach(el=>el.onclick=()=>{ graded=false; gradeNow(); });
+  document.querySelectorAll("[data-clear]").forEach(el=>el.onclick=()=>{
+    if(!confirm("入力した解答を消去します。よろしいですか？")) return;
+    answers={}; graded=false; saveAns(); render(); window.scrollTo(0,0);
+  });
+}
+
+/* ===== 起動 ===== */
+render();
+</script>
+</body>
+</html>

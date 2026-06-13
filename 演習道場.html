@@ -41,6 +41,21 @@ h1.title{font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;font-s
 .btn-row{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:18px 0 6px;}
 .backlink{display:inline-block;margin-bottom:14px;font-size:14px;color:var(--blue);cursor:pointer;border-bottom:1px dashed var(--blue);}
 .pane{padding:22px 20px 26px;}
+.pbar{height:7px;background:#ece2c8;border-radius:5px;overflow:hidden;margin:2px 0 14px;}
+.pbar>span{display:block;height:100%;background:linear-gradient(90deg,#b73a2e,#d98b62);transition:width .3s;}
+.rankbar{background:#fffefa;border:1px solid var(--line);border-left:5px solid #8a6d3b;border-radius:8px;padding:10px 14px;margin-bottom:16px;}
+.rk-name{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;font-size:16px;letter-spacing:.08em;}
+.rk-prog{height:6px;background:#ece2c8;border-radius:4px;overflow:hidden;margin:7px 0 4px;}
+.rk-prog>span{display:block;height:100%;background:linear-gradient(90deg,#8a6d3b,#c9a86a);transition:width .3s;}
+.rk-sub{font-size:11.5px;color:#8a8268;}
+.stamp-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px 18px;}
+.stamp-cell{text-align:center;border:1px dashed #d9d2bf;border-radius:10px;padding:12px 6px 10px;background:#fbf8ee;opacity:.55;}
+.stamp-cell.got{opacity:1;background:#fff;border-style:solid;}
+.stamp-mark{width:46px;height:46px;margin:0 auto 6px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:21px;font-weight:700;color:#c2b9a2;border:2px dashed #cfc6ad;}
+.stamp-cell.got .stamp-mark{color:rgba(183,58,46,.92);border:3px solid rgba(183,58,46,.8);background:radial-gradient(circle at 35% 30%,rgba(183,58,46,.12),rgba(183,58,46,.03));transform:rotate(-8deg);}
+.stamp-name{font-size:13px;font-weight:700;}
+.stamp-cell.got .stamp-name{color:#b73a2e;}
+.stamp-desc{font-size:10.5px;color:#8a8268;line-height:1.5;margin-top:3px;}
 .t-head{font-size:13px;color:#8a8268;letter-spacing:.1em;margin-bottom:4px;}
 .src-tag{display:inline-block;font-size:11.5px;color:#fff;border-radius:4px;padding:1px 8px;margin-left:8px;vertical-align:middle;}
 .t-q{font-size:16.5px;font-weight:700;margin:10px 0 18px;line-height:1.8;}
@@ -110,6 +125,7 @@ let ALL = [];            // 全問題（タグつき）
 let BYID = {};           // id → 問題
 let W = loadJSON(WEAK_KEY, {});     // 弱点ノート {id:{miss,app,ch,last}}
 let S = loadJSON(STAT_KEY, {ans:0, ok:0});
+S.streak=S.streak||0; S.best=S.best||0; S.days=S.days||[]; S.badges=S.badges||[]; S.appOk=S.appOk||{st:0,ma:0,te:0}; S.everWeak=S.everWeak||false; S.manten=S.manten||false;
 let state = { view:"home" };
 let T = null;
 
@@ -138,6 +154,34 @@ function addDaysYMD(n){ const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.get
 function isDue(w){ return !w.due || w.due <= todayYMD(); }   // dueが無い旧データは復習どき扱い
 function dueIds(){ return Object.keys(W).filter(id=>BYID[id] && isDue(W[id])); }
 function fmtDue(s){ if(!s) return "未定"; const a=s.split("-"); return (+a[1])+"/"+(+a[2]); }
+/* ===== 段位・朱印（ゲーム要素） ===== */
+const RANKS = [
+  {min:0,name:"無級"},{min:20,name:"十級"},{min:50,name:"九級"},{min:90,name:"八級"},{min:140,name:"七級"},
+  {min:200,name:"六級"},{min:280,name:"五級"},{min:380,name:"四級"},{min:500,name:"三級"},{min:650,name:"二級"},
+  {min:820,name:"一級"},{min:1000,name:"初段"},{min:1250,name:"二段"},{min:1550,name:"三段"},{min:1900,name:"四段"},{min:2300,name:"皆伝"}
+];
+function rankInfo(){
+  let cur=RANKS[0], nxt=null;
+  for(let i=0;i<RANKS.length;i++){ if(S.ok>=RANKS[i].min){ cur=RANKS[i]; nxt=RANKS[i+1]||null; } }
+  const prog = nxt ? Math.round((S.ok-cur.min)/(nxt.min-cur.min)*100) : 100;
+  return { name:cur.name, next:nxt, toNext: nxt? nxt.min-S.ok : 0, prog };
+}
+const BADGES = [
+  {id:"hatsujin",icon:"初",name:"初陣",      desc:"はじめての演習",          test:()=>S.ans>=1},
+  {id:"hyaku",   icon:"百",name:"百問突破",  desc:"累計100問に解答",         test:()=>S.ans>=100},
+  {id:"gohyaku", icon:"五",name:"五百問突破",desc:"累計500問に解答",         test:()=>S.ans>=500},
+  {id:"ren10",   icon:"連",name:"十連正解",  desc:"連続10問正解",            test:()=>S.best>=10},
+  {id:"ren25",   icon:"烈",name:"二十五連",  desc:"連続25問正解",            test:()=>S.best>=25},
+  {id:"manten",  icon:"満",name:"満点皆伝",  desc:"10問以上の模試で全問正解",test:()=>S.manten===true},
+  {id:"nanoka",  icon:"精",name:"七日精進",  desc:"7日間、演習した",          test:()=>(S.days||[]).length>=7},
+  {id:"santo",   icon:"道",name:"三道踏破",  desc:"3分野すべてで20問正解",   test:()=>S.appOk&&S.appOk.st>=20&&S.appOk.ma>=20&&S.appOk.te>=20},
+  {id:"jakuten0",icon:"克",name:"弱点克服",  desc:"弱点ノートをゼロにした",  test:()=>S.everWeak&&weakCount()===0}
+];
+function checkBadges(){
+  const earned=[];
+  BADGES.forEach(b=>{ if(S.badges.indexOf(b.id)<0 && b.test()){ S.badges.push(b.id); earned.push(b); } });
+  if(earned.length){ saveJSON(STAT_KEY,S); earned.forEach(b=>toast("朱印獲得：「"+b.name+"」")); }
+}
 
 /* ===== 問題データの読み込み ===== */
 async function loadAll(){
@@ -213,7 +257,11 @@ function pickAnswer(ci){
   const ok = (ci === q.a);
   T.last = { pick:ci, ok };
   T.phase = "judged";
-  S.ans += 1; if(ok) S.ok += 1; saveJSON(STAT_KEY, S);
+  S.ans += 1; if(ok) S.ok += 1;
+  const _td = todayYMD(); if(S.days.indexOf(_td)<0) S.days.push(_td);
+  if(ok){ S.streak += 1; if(S.streak>S.best) S.best=S.streak; if(q.app && S.appOk) S.appOk[q.app]=(S.appOk[q.app]||0)+1; }
+  else { S.streak = 0; S.everWeak = true; }
+  saveJSON(STAT_KEY, S);
   T.gradMsg = "";
   if(ok){
     T.ok += 1;
@@ -229,6 +277,7 @@ function pickAnswer(ci){
       ? "もう一度、明日の復習に回しました。"
       : "弱点対策ノートに自動登録しました（累計" + W[q.id].miss + "回ミス）。";
   }
+  checkBadges();
   render();
 }
 function nextQ(){
@@ -236,6 +285,8 @@ function nextQ(){
   T.idx += 1;
   if(T.idx >= T.qs.length){
     T.phase = "result";
+    if(T.ok===T.qs.length && T.qs.length>=10) S.manten=true;
+    saveJSON(STAT_KEY,S); checkBadges();
     sendLog({ app:"演習道場", label:T.label, score:T.ok, total:T.qs.length, weak:weakCount() });
     render(); window.scrollTo(0,0); return;
   }
@@ -249,6 +300,7 @@ function render(){
   else if(state.view==="gmenu") app.innerHTML = renderGenreMenu();
   else if(state.view==="drill") app.innerHTML = renderDrill();
   else if(state.view==="weaklist") app.innerHTML = renderWeakList();
+  else if(state.view==="badges") app.innerHTML = renderBadges();
   bind();
 }
 function renderHome(){
@@ -258,6 +310,12 @@ function renderHome(){
   h += '<header class="top"><h1 class="title">演習道場</h1>';
   h += '<div class="subtitle">ITパスポート ── 3ノート横断演習</div>';
   h += '<div class="statline">これまで ' + S.ans + ' 問演習／正答率 ' + rate + '%　・　収録 ' + ALL.length + ' 問</div></header>';
+
+  const ri = rankInfo();
+  h += '<div class="rankbar"><div class="rk-name">段位　' + ri.name + '</div>';
+  h += ri.next ? '<div class="rk-prog"><span style="width:' + ri.prog + '%"></span></div><div class="rk-sub">次「' + ri.next.name + '」まで　正解あと ' + ri.toNext + ' 問</div>' : '<div class="rk-sub">最高位「皆伝」に到達！</div>';
+  h += '</div>';
+  h += '<div class="card"><div class="menu-row" data-badges="1"><span class="m-icon" style="background:#8a6d3b">印</span><span class="m-t"><b>朱印帳</b><small>達成すると朱印が押されます</small></span><span class="badge' + (S.badges.length? '':' zero') + '">' + S.badges.length + '/' + BADGES.length + '</span></div></div>';
 
   const dueN = dueIds().length;
   h += '<div class="card" style="border-color:#b73a2e;"><div class="card-h" style="background:linear-gradient(180deg,#fbeeec,#f7e3df);">今日の復習　─　間隔反復</div>';
@@ -307,19 +365,29 @@ function renderDrill(){
     if(pass) h += '<div style="margin:10px 0;"><span class="stamp">' + (T.ok===T.qs.length ? "皆伝" : "合格") + '</span></div>';
     if(T.wrongs.length){
       h += '<p style="font-size:14px;color:#7a7261;">間違えた' + T.wrongs.length + '問は弱点対策ノートに登録済みです。</p>';
-      h += '<div class="btn-row"><button class="btn" data-weakdrill="1">弱点復習に進む</button><button class="btn sub" data-weaklist="1">弱点ノートを見る</button><button class="btn sub" data-home="1">ホームへ</button></div>';
+      h += '<div class="btn-row"><button class="btn" data-review="1">間違えた問題を見直す</button><button class="btn sub" data-weakdrill="1">弱点復習に進む</button><button class="btn sub" data-home="1">ホームへ</button></div>';
     }else{
       h += '<p>全問正解！この調子です。</p>';
       h += '<div class="btn-row"><button class="btn" data-again="1">もう一度挑戦</button><button class="btn sub" data-home="1">ホームへ</button></div>';
     }
     h += '</div></div></div>';
+    if(T.showReview && T.wrongs.length){
+      h += '<div class="card"><div class="card-h">間違えた問題の見直し（' + T.wrongs.length + '問）</div>';
+      T.wrongs.forEach(q=>{
+        h += '<div class="w-item"><div class="w-q">' + q.q + '</div>';
+        h += '<div class="w-meta"><span class="src-tag" style="background:' + q.color + '">' + esc(q.appName) + '・第' + q.ch + '章</span></div>';
+        h += '<div class="w-detail" style="display:block"><b style="color:var(--green)">正解：</b>' + q.c[q.a] + '<br><b style="color:var(--red)">解説：</b>' + q.e + '</div></div>';
+      });
+      h += '</div>';
+    }
     return h;
   }
   const q = T.qs[T.idx];
   const judged = (T.phase==="judged");
   h += '<a class="backlink" data-home="1">‹ 中断してホームに戻る</a>';
   h += '<div class="card"><div class="pane">';
-  h += '<div class="t-head">' + esc(T.label) + '　第' + (T.idx+1) + '問 / ' + T.qs.length + '問';
+  h += '<div class="pbar"><span style="width:' + Math.round((T.idx + (judged?1:0)) / T.qs.length * 100) + '%"></span></div>';
+  h += '<div class="t-head">' + esc(T.label) + '　第' + (T.idx+1) + '問 / ' + T.qs.length + '問　<span style="color:var(--green)">正解 ' + T.ok + '</span>' + (S.streak>=2 ? '　<span style="color:#b73a2e">🔥連続' + S.streak + '</span>' : '');
   h += '<span class="src-tag" style="background:' + q.color + '">' + esc(q.appName) + '・第' + q.ch + '章</span></div>';
   h += '<div class="t-q">' + q.q + '</div>';
   h += '<div class="choices">';
@@ -333,6 +401,7 @@ function renderDrill(){
     h += '<button class="' + cls + '" data-pick="' + ci + '" ' + (judged?"disabled":"") + '><span class="cno">' + ["ア","イ","ウ","エ"][pos] + '</span>' + q.c[ci] + '</button>';
   }
   h += '</div>';
+  if(!judged) h += '<div style="font-size:11.5px;color:#a89e84;margin-top:10px;text-align:center;">PCはキー 1〜4 で解答／Enter・スペースで次へ</div>';
   if(judged){
     h += '<div class="judge ' + (T.last.ok?"ok":"ng") + '">' + (T.last.ok?"○ 正解！":"× 不正解…") + '</div>';
     h += '<div class="expl"><b>解説：</b>' + q.e + '</div>';
@@ -373,6 +442,17 @@ function renderWeakList(){
   h += '<div class="btn-row"><button class="btn" data-weakdrill="1">この弱点を復習する</button><button class="btn sub" data-clearweak="1">弱点ノートを全消去</button></div>';
   return h;
 }
+function renderBadges(){
+  let h = '<a class="backlink" data-home="1">‹ ホームに戻る</a>';
+  h += '<div class="card"><div class="card-h">朱印帳（' + S.badges.length + ' / ' + BADGES.length + '）</div>';
+  h += '<div class="stamp-grid">';
+  BADGES.forEach(b=>{
+    const got = S.badges.indexOf(b.id) >= 0;
+    h += '<div class="stamp-cell' + (got?' got':'') + '"><div class="stamp-mark">' + (got? b.icon : '？') + '</div><div class="stamp-name">' + esc(b.name) + '</div><div class="stamp-desc">' + esc(b.desc) + '</div></div>';
+  });
+  h += '</div></div>';
+  return h;
+}
 
 /* ===== イベント ===== */
 function bind(){
@@ -408,6 +488,7 @@ function bind(){
     startDrill("weak", qs, "弱点復習");
   });
   document.querySelectorAll("[data-weaklist]").forEach(el=>el.onclick=()=>{ state.view="weaklist"; render(); window.scrollTo(0,0); });
+  document.querySelectorAll("[data-review]").forEach(el=>el.onclick=()=>{ if(T){ T.showReview=true; render(); window.scrollTo(0,0); } });
   document.querySelectorAll("[data-pick]").forEach(el=>el.onclick=()=>pickAnswer(Number(el.getAttribute("data-pick"))));
   document.querySelectorAll("[data-next]").forEach(el=>el.onclick=nextQ);
   document.querySelectorAll("[data-again]").forEach(el=>el.onclick=()=>{
@@ -425,6 +506,18 @@ function bind(){
     el.classList.toggle("open");
   });
 }
+
+/* ===== キーボード操作（PC）===== */
+function onKey(e){
+  if(state.view!=="drill" || !T) return;
+  if(T.phase==="q"){
+    const m = {"1":0,"2":1,"3":2,"4":3};
+    if(e.key in m){ pickAnswer(T.order[m[e.key]]); e.preventDefault(); }
+  }else if(T.phase==="judged"){
+    if(e.key==="Enter" || e.key===" "){ nextQ(); e.preventDefault(); }
+  }
+}
+document.addEventListener("keydown", onKey);
 
 /* ===== 起動 ===== */
 loadAll().then(()=>{ state.view="home"; render(); }).catch(err=>{
