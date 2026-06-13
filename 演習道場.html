@@ -84,7 +84,7 @@ footer{margin-top:30px;text-align:center;font-size:12px;color:#a89e84;}
 <body>
 <div class="wrap">
   <div id="app"><div class="empty">問題データを読み込んでいます…</div></div>
-  <footer>演習道場 ─ 3ノート横断演習＋自動・弱点対策ノート</footer>
+  <footer>演習道場 ─ 横断演習＋間隔反復の弱点対策</footer>
 </div>
 <div id="toast"></div>
 
@@ -104,6 +104,7 @@ const MIX = { 10:{st:4,ma:2,te:4}, 20:{st:7,ma:4,te:9} };
 
 const WEAK_KEY = "ipWeakNotes_v1";
 const STAT_KEY = "ipDrillStats_v1";
+const SRS_INT = [1,3,7,14,30,60];   // 正解のたびに延びる復習間隔（日）
 
 let ALL = [];            // 全問題（タグつき）
 let BYID = {};           // id → 問題
@@ -131,6 +132,12 @@ function shuffle(a){ const r=a.slice(); for(let i=r.length-1;i>0;i--){ const j=M
 function hash(s){ let h=5381; for(let i=0;i<s.length;i++){ h=((h<<5)+h+s.charCodeAt(i))|0; } return (h>>>0).toString(36); }
 function toast(msg){ const t=$("toast"); t.textContent=msg; t.classList.add("show"); clearTimeout(toast._tm); toast._tm=setTimeout(()=>t.classList.remove("show"),2400); }
 function weakCount(){ return Object.keys(W).length; }
+function ymd(d){ return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2); }
+function todayYMD(){ return ymd(new Date()); }
+function addDaysYMD(n){ const d=new Date(); d.setHours(0,0,0,0); d.setDate(d.getDate()+n); return ymd(d); }
+function isDue(w){ return !w.due || w.due <= todayYMD(); }   // dueが無い旧データは復習どき扱い
+function dueIds(){ return Object.keys(W).filter(id=>BYID[id] && isDue(W[id])); }
+function fmtDue(s){ if(!s) return "未定"; const a=s.split("-"); return (+a[1])+"/"+(+a[2]); }
 
 /* ===== 問題データの読み込み ===== */
 async function loadAll(){
@@ -170,11 +177,15 @@ function pickWeak(n){
   const ids = Object.keys(W).filter(id=>BYID[id]);
   return shuffle(ids).slice(0, n).map(id=>BYID[id]);
 }
+function pickToday(n){   // 復習どき（due<=今日）の問題だけ
+  return shuffle(dueIds()).slice(0, n).map(id=>BYID[id]);
+}
 
 /* ===== 弱点ノートの記録 ===== */
 function addWeak(item){
   const w = W[item.id] || { miss:0, app:item.app, ch:item.ch };
   w.miss += 1; w.last = new Date().toISOString().slice(0,10);
+  w.stage = 0; w.due = addDaysYMD(SRS_INT[0]);   // 間違えたら間隔リセット＝翌日もう一度
   W[item.id] = w; saveJSON(WEAK_KEY, W);
 }
 function easeWeak(item){
@@ -182,6 +193,12 @@ function easeWeak(item){
   w.miss -= 1;
   if(w.miss <= 0){ delete W[item.id]; saveJSON(WEAK_KEY, W); return true; }
   saveJSON(WEAK_KEY, W); return false;
+}
+function srsAdvance(item){   // 復習で正解 → 次の間隔へ。最後の間隔を越えたら卒業
+  const w = W[item.id]; if(!w) return true;
+  w.stage = (w.stage||0) + 1;
+  if(w.stage >= SRS_INT.length){ delete W[item.id]; saveJSON(WEAK_KEY, W); return true; }
+  w.due = addDaysYMD(SRS_INT[w.stage]); saveJSON(WEAK_KEY, W); return false;
 }
 
 /* ===== テスト進行 ===== */
@@ -200,15 +217,17 @@ function pickAnswer(ci){
   T.gradMsg = "";
   if(ok){
     T.ok += 1;
-    if(T.mode === "weak"){
-      const grad = easeWeak(q);
-      T.gradMsg = grad ? "正解！ この問題は弱点ノートから卒業しました。"
-                       : "正解！ あと" + W[q.id].miss + "回正解すれば卒業です。";
+    if(T.mode === "weak" || T.mode === "today"){
+      const grad = srsAdvance(q);
+      T.gradMsg = grad ? "正解！ この問題は卒業しました（しっかり定着）。"
+                       : "正解！ 次の復習は " + fmtDue(W[q.id].due) + " ごろです。";
     }
   }else{
     T.wrongs.push(q);
     addWeak(q);
-    T.gradMsg = "弱点対策ノートに自動登録しました（累計" + W[q.id].miss + "回ミス）。";
+    T.gradMsg = (T.mode === "today" || T.mode === "weak")
+      ? "もう一度、明日の復習に回しました。"
+      : "弱点対策ノートに自動登録しました（累計" + W[q.id].miss + "回ミス）。";
   }
   render();
 }
@@ -240,6 +259,11 @@ function renderHome(){
   h += '<div class="subtitle">ITパスポート ── 3ノート横断演習</div>';
   h += '<div class="statline">これまで ' + S.ans + ' 問演習／正答率 ' + rate + '%　・　収録 ' + ALL.length + ' 問</div></header>';
 
+  const dueN = dueIds().length;
+  h += '<div class="card" style="border-color:#b73a2e;"><div class="card-h" style="background:linear-gradient(180deg,#fbeeec,#f7e3df);">今日の復習　─　間隔反復</div>';
+  h += '<div class="menu-row" data-today="1"><span class="m-icon" style="background:#b73a2e">習</span><span class="m-t"><b>今日の復習（' + dueN + '問）</b><small>復習どきの問題だけを出題。正解で次回は先送り、間違えると翌日もう一度</small></span><span class="badge' + (dueN? '':' zero') + '">' + dueN + '</span></div>';
+  h += '</div>';
+
   h += '<div class="card"><div class="card-h">模擬演習（本番の出題比率で混合）</div>';
   h += row("模", "#b73a2e", "10問クイック模試", "ストラテジ4・マネジメント2・テクノロジ4", "data-mock='10'");
   h += row("模", "#8e2c22", "20問しっかり模試", "ストラテジ7・マネジメント4・テクノロジ9", "data-mock='20'");
@@ -252,7 +276,7 @@ function renderHome(){
   h += '</div>';
 
   h += '<div class="card"><div class="card-h">弱点対策</div>';
-  h += '<div class="menu-row" data-weakdrill="1"><span class="m-icon" style="background:#b73a2e">弱</span><span class="m-t"><b>弱点復習（最大10問）</b><small>間違えた問題だけを出題。正解すると卒業に近づく</small></span><span class="badge' + (wc? '':' zero') + '">' + wc + '</span></div>';
+  h += '<div class="menu-row" data-weakdrill="1"><span class="m-icon" style="background:#b73a2e">弱</span><span class="m-t"><b>弱点まるごと復習（最大10問）</b><small>復習どきに関係なく、弱点をまとめて出題</small></span><span class="badge' + (wc? '':' zero') + '">' + wc + '</span></div>';
   h += '<div class="menu-row" data-weaklist="1"><span class="m-icon" style="background:#6b6253">帳</span><span class="m-t"><b>弱点対策ノートを見る</b><small>間違えた問題の一覧・解説・該当ノートへのリンク</small></span><span class="badge' + (wc? '':' zero') + '">' + wc + '</span></div>';
   h += '</div>';
   return h;
@@ -340,7 +364,7 @@ function renderWeakList(){
       const w = W[q.id];
       h += '<div class="w-item" data-toggle="' + q.id + '">';
       h += '<div class="w-q">' + q.q + '</div>';
-      h += '<div class="w-meta"><span class="miss-b">ミス' + w.miss + '回</span><span>最終ミス：' + esc(w.last||"-") + '</span><span style="color:#3a6ea5">タップで答えと解説を表示</span></div>';
+      h += '<div class="w-meta"><span class="miss-b">ミス' + w.miss + '回</span><span>次の復習：' + fmtDue(w.due) + '</span><span>最終ミス：' + esc(w.last||"-") + '</span><span style="color:#3a6ea5">タップで答えと解説</span></div>';
       h += '<div class="w-detail"><b style="color:var(--green)">正解：</b>' + q.c[q.a] + '<br><b style="color:var(--red)">解説：</b>' + q.e + '</div>';
       h += '</div>';
     });
@@ -373,6 +397,11 @@ function bind(){
     const qs = shuffle(ALL.filter(x=>x.app===a && x.ch===c)).slice(0,10);
     startDrill("chapter", qs, s.name + "・第" + c + "章演習");
   });
+  document.querySelectorAll("[data-today]").forEach(el=>el.onclick=()=>{
+    const qs = pickToday(20);
+    if(!qs.length){ toast("今日の復習はありません。よくできました！"); return; }
+    startDrill("today", qs, "今日の復習");
+  });
   document.querySelectorAll("[data-weakdrill]").forEach(el=>el.onclick=()=>{
     const qs = pickWeak(10);
     if(!qs.length){ toast("弱点ノートは空です。まず模試や分野別演習を解いてみましょう"); return; }
@@ -385,6 +414,7 @@ function bind(){
     if(T.mode==="mock") startDrill("mock", pickMock(T.qs.length===20?20:10), T.label);
     else if(T.mode==="genre"){ const a=T.qs[0].app; const s=SOURCES.find(x=>x.app===a); startDrill("genre", pickGenre(a,10), s.name+"演習"); }
     else if(T.mode==="chapter"){ const a=T.qs[0].app, c=T.qs[0].ch; const s=SOURCES.find(x=>x.app===a); const qs=shuffle(ALL.filter(x=>x.app===a && x.ch===c)).slice(0,10); startDrill("chapter", qs, s.name+"・第"+c+"章演習"); }
+    else if(T.mode==="today"){ const qs=pickToday(20); if(!qs.length){ toast("今日の復習はもうありません。お見事！"); state.view="home"; render(); return; } startDrill("today", qs, "今日の復習"); }
     else startDrill("weak", pickWeak(10), "弱点復習");
   });
   document.querySelectorAll("[data-clearweak]").forEach(el=>el.onclick=()=>{

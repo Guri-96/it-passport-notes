@@ -68,9 +68,9 @@ footer{margin-top:26px;font-size:11.5px;color:#a89e84;}
     <span class="icon i3">技</span>
     <span class="t"><b>テクノロジ攻略ノート</b><small>基礎理論／ネットワークとDB／セキュリティ（10単元・42問）</small></span>
   </a>
-  <a class="note" href="演習道場.html" style="border-width:2px;border-color:#b73a2e;">
+  <a class="note" id="dojo" href="演習道場.html" style="border-width:2px;border-color:#b73a2e;">
     <span class="icon" style="background:#2b3a42;">道</span>
-    <span class="t"><b>演習道場</b><small>3分野横断の模試・分野別演習｜間違えた問題は自動で弱点対策ノートへ</small></span>
+    <span class="t"><b>演習道場</b><small>3分野横断の模試・分野別演習｜間違えた問題は「今日の復習」で間隔反復</small></span>
   </a>
   <a class="note" href="学習ログ.html">
     <span class="icon" style="background:#4f7a6a;">録</span>
@@ -82,5 +82,21 @@ footer{margin-top:26px;font-size:11.5px;color:#a89e84;}
   </a>
   <footer>全34単元・142問収録｜令和4・5・7年度 過去問対応・略語フルスペル併記<br>進捗はこのブラウザに保存されます ─ 朱印を集めて合格へ</footer>
 </div>
+<script>
+/* 演習道場カードに「今日の復習」件数バッジを表示（localStorageから算出・安全動作） */
+(function(){ try{
+  var W = JSON.parse(localStorage.getItem("ipWeakNotes_v1") || "{}");
+  var d = new Date();
+  var t = d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0"+d.getDate()).slice(-2);
+  var due = Object.keys(W).filter(function(k){ var w=W[k]; return !w || !w.due || w.due<=t; }).length;
+  var a = document.getElementById("dojo");
+  if(due>0 && a){
+    var b = document.createElement("span");
+    b.textContent = "復習"+due;
+    b.style.cssText = "flex:0 0 auto;align-self:center;margin-left:auto;background:#b73a2e;color:#fff;border-radius:14px;padding:2px 11px;font-size:13px;font-weight:700;";
+    a.appendChild(b);
+  }
+}catch(e){} })();
+</script>
 </body>
 </html>
