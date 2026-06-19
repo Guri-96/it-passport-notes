@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>単語確認｜ITパスポート</title>
+<style>
+:root{
+  color-scheme: light;
+  --ink:#2b3a42; --red:#b73a2e; --red-soft:#fbeeec; --blue:#3a6ea5;
+  --paper:#fdfbf3; --grid:rgba(125,160,195,.22); --card:#fffefa;
+  --line:#d9d2bf; --green:#3c7a4e;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{-webkit-text-size-adjust:100%;}
+body{
+  font-family:"Hiragino Kaku Gothic ProN","Yu Gothic","Meiryo",sans-serif;
+  color:var(--ink); background-color:var(--paper);
+  background-image:linear-gradient(var(--grid) 1px, transparent 1px),linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:22px 22px; line-height:1.9; font-size:16px;
+}
+.wrap{max-width:760px;margin:0 auto;padding:18px 16px 80px;}
+.backlink{display:inline-block;margin-bottom:14px;font-size:14px;color:var(--blue);cursor:pointer;border-bottom:1px dashed var(--blue);}
+header.top{text-align:center;padding:14px 10px 14px;margin-bottom:18px;border-bottom:3px double var(--line);}
+h1.title{font-family:"Hiragino Mincho ProN","Yu Mincho","MS Mincho",serif;font-size:30px;letter-spacing:.18em;}
+.subtitle{font-size:13px;color:#7a7261;letter-spacing:.25em;margin-top:2px;}
+.statline{margin-top:10px;font-size:13px;color:#6b6253;}
+.statline b{font-weight:700;}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;box-shadow:0 2px 6px rgba(90,80,50,.08);margin-bottom:18px;overflow:hidden;}
+.pane{padding:18px 18px 22px;}
+.t-head{font-size:12.5px;color:#8a8268;letter-spacing:.1em;margin-bottom:7px;}
+.chips{display:flex;gap:8px;flex-wrap:wrap;}
+.chip{border:1.5px solid #c9c0a8;background:#fff;border-radius:18px;padding:6px 16px;font-size:14px;font-family:inherit;font-weight:700;color:var(--ink);cursor:pointer;transition:transform .08s;}
+.chip:active{transform:scale(.96);}
+.weaktoggle{display:inline-flex;align-items:center;gap:7px;margin-top:14px;font-size:14px;color:#6b6253;cursor:pointer;}
+.weaktoggle input{width:17px;height:17px;accent-color:var(--red);}
+.tabs{display:flex;gap:8px;margin-bottom:16px;}
+.tab{flex:1;padding:11px 6px;border:1.5px solid #c9c0a8;background:#fff;border-radius:9px;font-family:inherit;font-size:14.5px;font-weight:700;color:var(--ink);cursor:pointer;transition:transform .08s;}
+.tab:active{transform:translateY(1px);}
+.tab.on{background:var(--ink);color:#fff;border-color:var(--ink);}
+.btn{display:inline-block;border:none;cursor:pointer;font-family:inherit;font-size:15px;font-weight:700;padding:11px 22px;border-radius:8px;background:var(--red);color:#fff;box-shadow:0 2px 0 #8e2c22;transition:transform .08s;}
+.btn:active{transform:translateY(2px);box-shadow:none;}
+.btn.sub{background:#fff;color:var(--ink);border:1.5px solid #c9c0a8;box-shadow:0 2px 0 #c9c0a8;}
+.btn.sm{font-size:13.5px;padding:8px 14px;}
+.btn-row{display:flex;gap:9px;flex-wrap:wrap;justify-content:center;margin:14px 0 2px;}
+.pbar{height:7px;background:#ece2c8;border-radius:5px;overflow:hidden;margin:8px 0 4px;}
+.pbar>span{display:block;height:100%;background:linear-gradient(90deg,#b73a2e,#d98b62);transition:width .3s;}
+/* フラッシュカード */
+.fc-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+.ftag{display:inline-block;font-size:12px;color:#fff;border-radius:5px;padding:2px 11px;font-weight:700;letter-spacing:.05em;}
+.fc-dir{font-size:12.5px;color:#8a8268;}
+.fc{border:1px solid var(--line);border-radius:12px;background:linear-gradient(180deg,#fffdf6,#faf5e6);min-height:210px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px 20px;cursor:pointer;user-select:none;animation:pop .22s ease;}
+.fc.isback{background:linear-gradient(180deg,#fbf8ee,#f3eedd);}
+@keyframes pop{0%{opacity:.3;transform:scale(.985);}100%{opacity:1;transform:scale(1);}}
+.fc-label{font-size:11.5px;color:#a89e84;letter-spacing:.18em;margin-bottom:10px;}
+.fc-main{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:25px;font-weight:700;line-height:1.6;}
+.fc.isback .fc-main{font-size:18px;font-family:"Hiragino Kaku Gothic ProN","Yu Gothic",sans-serif;font-weight:600;}
+.fc-main .yomi{font-size:14px;color:#8a8268;font-weight:400;}
+.fc-ex{margin-top:14px;font-size:13.5px;color:#6b6253;background:#fff;border:1px dashed #cdbf95;border-radius:8px;padding:8px 12px;line-height:1.7;}
+.fc-hint{margin-top:16px;font-size:12px;color:#b3a98c;}
+.fc-prog{text-align:center;font-size:13px;color:#6b6253;margin-top:14px;}
+.mk{min-width:0;}
+/* 4択クイズ */
+.q-term{font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-size:23px;font-weight:700;text-align:center;margin:6px 0 4px;line-height:1.5;}
+.q-yomi{text-align:center;font-size:13px;color:#8a8268;margin-bottom:14px;}
+.q-ask{text-align:center;font-size:13px;color:#8a8268;margin-bottom:14px;}
+.choices{display:flex;flex-direction:column;gap:10px;}
+.choice{text-align:left;background:#fff;border:1.5px solid #c9c0a8;border-radius:8px;padding:12px 14px;font-size:14.5px;font-family:inherit;cursor:pointer;line-height:1.7;color:var(--ink);}
+.choice:hover{background:#faf5e6;}
+.choice .cno{font-weight:700;color:var(--blue);margin-right:8px;}
+.choice.reveal{border-color:var(--green);background:#eef7f0;}
+.choice.sel-ng{border-color:var(--red);background:var(--red-soft);}
+.choice:disabled{cursor:default;}
+.judge{font-size:19px;font-weight:700;margin:15px 0 6px;text-align:center;}
+.judge.ok{color:var(--green);}
+.judge.ng{color:var(--red);}
+.expl{background:#f8f4e8;border:1px solid var(--line);border-radius:8px;padding:11px 15px;font-size:14px;margin:8px 0;line-height:1.8;}
+.expl b{color:var(--red);}
+.q-prog{font-size:13px;color:#6b6253;text-align:center;margin-bottom:4px;}
+/* 結果 */
+.result-box{text-align:center;padding:8px 0;}
+.score{font-size:40px;font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;margin:6px 0;}
+.score small{font-size:17px;}
+.stamp{display:inline-flex;align-items:center;justify-content:center;width:84px;height:84px;border-radius:50%;border:4px solid rgba(183,58,46,.85);color:rgba(183,58,46,.92);font-family:"Hiragino Mincho ProN","Yu Mincho",serif;font-weight:700;font-size:30px;transform:rotate(-12deg);background:radial-gradient(circle at 35% 30%, rgba(183,58,46,.10), rgba(183,58,46,.03));animation:stampIn .45s cubic-bezier(.2,1.6,.4,1) both;margin:6px 0 12px;}
+@keyframes stampIn{0%{transform:rotate(-12deg) scale(2.4);opacity:0;}100%{transform:rotate(-12deg) scale(1);opacity:1;}}
+/* 単語リスト */
+.seg{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:6px;}
+.seg .btn{flex:1;min-width:120px;}
+.list-hint{font-size:12.5px;color:#8a8268;margin:8px 0 12px;}
+.vtable{width:100%;border-collapse:collapse;font-size:14.5px;}
+.vtable th,.vtable td{border-bottom:1px dashed #e3dcc8;padding:9px 7px;text-align:left;vertical-align:top;}
+.vtable th{font-size:11.5px;color:#8a8268;background:#f7f2e3;letter-spacing:.05em;font-weight:700;}
+.c-f{width:16px;padding-right:0;}
+.dot{display:inline-block;width:11px;height:11px;border-radius:50%;vertical-align:middle;}
+.c-t{font-weight:700;width:33%;}
+.c-t .yomi{display:block;font-size:11.5px;color:#8a8268;font-weight:400;}
+.c-star{width:26px;text-align:center;cursor:pointer;color:#cfc6ad;font-size:16px;user-select:none;}
+.c-star.on{color:var(--red);}
+.hm .c-m,.ht .c-t{color:transparent;background:#ece3cd;border-radius:5px;cursor:pointer;}
+.hm .c-m .yomi,.ht .c-t .yomi{color:transparent;}
+.hm .c-m.show,.ht .c-t.show{color:inherit;background:transparent;cursor:default;}
+.ht .c-t.show .yomi{color:#8a8268;}
+.empty{padding:30px 18px;text-align:center;color:#8a8268;font-size:14.5px;line-height:1.9;}
+footer{margin-top:28px;text-align:center;font-size:12px;color:#a89e84;}
+#toast{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(20px);background:rgba(43,58,66,.95);color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:all .25s;max-width:90%;z-index:50;}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+@media (max-width:480px){ body{font-size:15px;} h1.title{font-size:24px;} .pane{padding:16px 14px 20px;} .fc-main{font-size:22px;} .c-t{width:38%;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="backlink" id="back">← トップにもどる</div>
+  <header class="top">
+    <h1 class="title">単語確認</h1>
+    <div class="subtitle">ITパスポート ── 用語の一問一答</div>
+    <div class="statline" id="statline"></div>
+  </header>
+
+  <div class="card">
+    <div class="pane">
+      <div class="t-head">分野でしぼる</div>
+      <div class="chips" id="fieldChips"></div>
+      <label class="weaktoggle"><input type="checkbox" id="onlyWeak"> 苦手マークの語だけ</label>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab on" data-mode="card">フラッシュカード</button>
+    <button class="tab" data-mode="quiz">4択クイズ</button>
+    <button class="tab" data-mode="list">単語リスト</button>
+  </div>
+
+  <div id="paneCard"></div>
+  <div id="paneQuiz" hidden></div>
+  <div id="paneList" hidden></div>
+
+  <footer>単語確認 ─ 用語は「分野別要点まとめ」をもとに約75語収録<br>覚えた・苦手の記録はこのブラウザに保存されます</footer>
+</div>
+<div id="toast"></div>
+
+<script>
+"use strict";
+/* ===== データ：用語＋意味（＋読み・例）。分野 f = st/ma/te ===== */
+const FIELDS={
+  st:{name:"ストラテジ",color:"#b73a2e"},
+  ma:{name:"マネジメント",color:"#3a6ea5"},
+  te:{name:"テクノロジ",color:"#3c7a4e"}
+};
+const TERMS=[
+  /* ===== ストラテジ系（経営・法務） ===== */
+  {f:"st",t:"SWOT分析",m:"自社の強み・弱み（内部）と機会・脅威（外部）の4つに整理して戦略を考える手法。",ex:"例：強み＝立地、弱み＝人手不足、と整理する。"},
+  {f:"st",t:"PPM",m:"製品を「市場成長率×市場シェア」で4象限に分け、投資の優先度を判断する手法。",ex:"花形／金のなる木／問題児／負け犬の4つ。"},
+  {f:"st",t:"ファイブフォース分析",m:"業界の競争の激しさを5つの力（新規参入・代替品・買い手・売り手・競合）で分析する。"},
+  {f:"st",t:"BSC（バランススコアカード）",m:"財務・顧客・業務プロセス・学習と成長の4つの視点で業績を評価する手法。"},
+  {f:"st",t:"コアコンピタンス",m:"他社が簡単には真似できない、自社の中核となる強み。"},
+  {f:"st",t:"ベンチマーキング",m:"優れた他社のやり方を測って自社と比較し、改善の目標にすること。"},
+  {f:"st",t:"CRM",m:"顧客との関係を管理し、満足度や売上を高める仕組み（顧客関係管理）。"},
+  {f:"st",t:"SCM",m:"部品の調達から販売までの供給の流れ全体を最適化する仕組み（供給連鎖管理）。"},
+  {f:"st",t:"ERP",m:"人・モノ・カネ・情報の経営資源を一元管理する統合システム。"},
+  {f:"st",t:"アライアンス／M&A",m:"アライアンス＝企業同士の提携。M&A＝企業の合併・買収。"},
+  {f:"st",t:"知的財産権",y:"ちてきざいさんけん",m:"著作権（創作で自動発生）と産業財産権（特許など出願が必要）をまとめた権利。"},
+  {f:"st",t:"個人情報保護法",y:"こじんじょうほうほごほう",m:"個人情報の利用目的の明示・本人同意・安全管理を企業に義務づける法律。"},
+  {f:"st",t:"不正アクセス禁止法",y:"ふせいアクセスきんしほう",m:"他人のID・パスワードで無断ログインする行為などを禁止する法律。"},
+  {f:"st",t:"労働者派遣法（派遣と請負）",m:"派遣は派遣先が指揮命令、請負は受注した側が指揮命令する。この違いが頻出。"},
+  {f:"st",t:"損益分岐点",y:"そんえきぶんきてん",m:"売上と費用が等しくなる点。固定費 ÷（1−変動費率）で求める。"},
+  {f:"st",t:"財務諸表（BS・PL）",m:"BS＝貸借対照表（資産と負債）、PL＝損益計算書（もうけ）を表す。"},
+  {f:"st",t:"ROI",m:"投じた費用に対してどれだけ利益が出たかの割合。投資対効果のこと。"},
+  {f:"st",t:"RFP／RFI",m:"RFP＝提案依頼書（こう作ってと依頼）、RFI＝情報提供依頼。どちらも発注側が出す。"},
+  {f:"st",t:"SLA",m:"提供するサービスの品質（稼働率など）を数値で約束する合意書。"},
+  {f:"st",t:"CEO／CIO／CFO",m:"CEO＝最高経営責任者、CIO＝情報戦略の責任者、CFO＝財務の責任者。"},
+  {f:"st",t:"BPR",m:"業務のやり方を根本から見直して再設計し、大幅に効率化すること。"},
+  {f:"st",t:"EC／オムニチャネル",m:"EC＝ネット販売。オムニチャネル＝店舗とネットなど複数の販路を連携させること。"},
+  {f:"st",t:"IoT",m:"さまざまなモノをインターネットにつなぎ、データ収集や遠隔操作を行う仕組み。",ex:"例：スマート家電やセンサー機器。"},
+  {f:"st",t:"ビッグデータ／AI",m:"大量で多様なデータをAI（機械学習）で分析し、価値ある情報を生み出すこと。"},
+  {f:"st",t:"標準化（JIS・ISO・デファクト）",m:"JIS＝日本、ISO＝国際の規格。デファクトスタンダード＝事実上の標準。"},
+
+  /* ===== マネジメント系（開発・PM・運用） ===== */
+  {f:"ma",t:"ウォーターフォール",m:"要件定義→設計→製造→テストと上流から下流へ進み、後戻りしない開発手法。"},
+  {f:"ma",t:"アジャイル",m:"短い反復（イテレーション）で開発し、変更に柔軟に対応する手法。代表例がスクラム。"},
+  {f:"ma",t:"要件定義",y:"ようけんていぎ",m:"利用者が何を求めるかを明確にする最初の工程。ここのミスは後で大きな手戻りになる。"},
+  {f:"ma",t:"外部設計／内部設計",m:"外部＝利用者から見た画面など、内部＝プログラム内部の構造を決める設計。"},
+  {f:"ma",t:"UML",m:"オブジェクト指向開発で使う設計図の書き方。クラス図・ユースケース図など。"},
+  {f:"ma",t:"テスト工程（単体〜受入）",m:"部品→組合せ→全体→利用者確認の順に検証する。単体・結合・システム・受入。"},
+  {f:"ma",t:"ブラックボックス／ホワイトボックステスト",m:"前者は入出力（機能）に注目、後者は内部の処理構造に注目するテスト。"},
+  {f:"ma",t:"回帰テスト（リグレッション）",m:"修正後に、これまで正常だった部分が壊れていないか再確認するテスト。"},
+  {f:"ma",t:"レビュー",m:"成果物を複数人で点検し、欠陥を早い段階で見つける活動。"},
+  {f:"ma",t:"DevOps",m:"開発（Dev）と運用（Ops）が協力し、リリースを速く安定させる考え方。"},
+  {f:"ma",t:"WBS",m:"作業を階層的に細かく分解した一覧。作業の漏れ防止と見積りに使う。"},
+  {f:"ma",t:"ガントチャート",m:"作業の予定と進捗を横棒で表す図。スケジュール管理に使う。"},
+  {f:"ma",t:"アローダイアグラム",m:"作業の前後関係を矢印で表し、全体の日程や流れを見るための図。"},
+  {f:"ma",t:"クリティカルパス",m:"最も時間に余裕がない作業の経路。ここが遅れると全体が遅れる。"},
+  {f:"ma",t:"工数見積（ファンクションポイント法）",m:"機能の数と複雑さから開発の規模・工数を見積もる手法。"},
+  {f:"ma",t:"リスクマネジメント",m:"リスクを洗い出し、回避・低減・移転・受容のいずれかで対応すること。"},
+  {f:"ma",t:"ITIL",m:"ITサービスを上手に運用するためのベストプラクティス（成功事例）集。"},
+  {f:"ma",t:"インシデント管理",m:"障害発生時はまず復旧を最優先する。根本原因の究明は「問題管理」で行う。"},
+  {f:"ma",t:"SLM",m:"SLAで決めた品質を継続的に監視し、維持・改善していく活動。"},
+  {f:"ma",t:"サービスデスク",m:"利用者からの問い合わせや障害連絡を一手に受け付ける窓口。"},
+  {f:"ma",t:"変更管理／構成管理",m:"変更を計画的に行う／機器やソフトの構成情報を正しく記録・管理する。"},
+  {f:"ma",t:"BCP／BCM",m:"BCP＝災害時も事業を続ける計画。BCM＝それを平時から維持・運用する取組み。"},
+  {f:"ma",t:"システム監査",y:"システムかんさ",m:"独立した第三者がシステムを点検・評価すること。監査人の独立性が重要。"},
+  {f:"ma",t:"内部統制",y:"ないぶとうせい",m:"業務が適正に行われる仕組み。職務分掌（担当を分ける）がポイント。"},
+  {f:"ma",t:"バックアップ（フル・差分・増分）",m:"全部／前回フル以降／前回から、の3方式。復旧の速さと容量のバランスが違う。"},
+
+  /* ===== テクノロジ系（技術・セキュリティ） ===== */
+  {f:"te",t:"2進数／16進数",m:"コンピュータが扱う0と1の表現と、その短縮表記。基数の変換問題が頻出。"},
+  {f:"te",t:"論理演算（AND/OR/NOT/XOR）",m:"真偽（1か0）を組み合わせる演算。真理値表で結果を出せるようにする。"},
+  {f:"te",t:"文字コード（ASCII・Unicode）",m:"文字を数値に対応づけた規格。Unicodeは世界中の文字に対応している。"},
+  {f:"te",t:"CPU",m:"コンピュータの頭脳。命令を解釈して計算や制御を行う中心的な装置。"},
+  {f:"te",t:"記憶階層",y:"きおくかいそう",m:"レジスタ＞キャッシュ＞主記憶＞補助記憶の順。上ほど速いが小さく、下ほど遅いが大きい。"},
+  {f:"te",t:"補助記憶（SSD・HDD）",m:"電源を切っても消えない記憶装置。SSDは速く、HDDは大容量で安価。"},
+  {f:"te",t:"OSの役割",m:"メモリ・CPU・ファイルなどの資源を管理する基本ソフトウェア。"},
+  {f:"te",t:"稼働率（MTBF・MTTR）",y:"かどうりつ",m:"故障せず動いている割合。MTBF＝平均故障間隔、MTTR＝平均修復時間。"},
+  {f:"te",t:"フェールセーフ／フールプルーフ",m:"故障時に安全側へ倒す設計／誤操作してもミスが起きないようにする設計。"},
+  {f:"te",t:"RAID",m:"複数のディスクをまとめて、速度や信頼性（冗長化）を高める仕組み。"},
+  {f:"te",t:"クライアントサーバ",m:"サービスを頼む側（クライアント）と提供する側（サーバ）に役割を分けた構成。"},
+  {f:"te",t:"仮想化／クラウド（IaaS/PaaS/SaaS）",m:"設備をネット越しに利用。IaaS＝基盤、PaaS＝開発環境、SaaS＝完成ソフトを提供。"},
+  {f:"te",t:"TCP/IP",m:"インターネット通信の基本となるプロトコル（通信規約）の集まり。"},
+  {f:"te",t:"IPアドレス",m:"ネットワーク上の機器を識別する、住所のような番号。"},
+  {f:"te",t:"DNS",m:"ドメイン名（例 example.com）とIPアドレスを相互に変換する仕組み。"},
+  {f:"te",t:"HTTP／HTTPS",m:"Webの通信規約。HTTPSはSSL/TLSで暗号化されていて安全。"},
+  {f:"te",t:"LAN／WAN",m:"LAN＝社内など狭い範囲、WAN＝拠点間など広い範囲のネットワーク。"},
+  {f:"te",t:"情報セキュリティのCIA",m:"機密性・完全性・可用性の3つ。情報セキュリティの基本3要素。"},
+  {f:"te",t:"共通鍵暗号／公開鍵暗号",m:"同じ鍵で速い／鍵ペアを使い鍵配送が安全。SSLでは両方を組み合わせて使う。"},
+  {f:"te",t:"デジタル署名",m:"送信者の秘密鍵で署名し、本人確認と改ざん検知を行う仕組み。"},
+  {f:"te",t:"認証（多要素・生体認証）",m:"知識・所持・生体の3要素。2要素以上を組み合わせると多要素認証になる。"},
+  {f:"te",t:"マルウェア（ランサム・フィッシング・標的型）",m:"不正なソフトや攻撃手口の総称。それぞれの手口の区別が頻出。"},
+  {f:"te",t:"ファイアウォール／DMZ",m:"通信を制御する防壁／公開サーバを置いて内部を守る緩衝地帯。"},
+  {f:"te",t:"関係データベース／正規化",m:"データを表形式で管理する方式／重複をなくして整合性を保つ設計。"},
+  {f:"te",t:"SQL（SELECT・JOIN）",m:"データベース操作言語。SELECTで抽出、WHEREで条件、JOINで表を結合する。"}
+];
+
+/* ===== ユーティリティ ===== */
+const STAT_KEY="ipVocabStat_v1";
+const $=id=>document.getElementById(id);
+function loadJSON(k,d){try{const r=localStorage.getItem(k);return r?JSON.parse(r):d;}catch(e){return d;}}
+function saveJSON(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
+function esc(s){return String(s==null?"":s).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));const t=a[i];a[i]=a[j];a[j]=t;}return a;}
+function toast(m){const t=$("toast");t.textContent=m;t.classList.add("show");clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove("show"),1700);}
+
+let stat=loadJSON(STAT_KEY,{});
+let state={field:"all",onlyWeak:false,mode:"card",listHide:"none"};
+let card={list:[],i:0,flipped:false,dir:"t2m"};
+let quiz={list:[],i:0,score:0,cur:null,choices:[],answered:false,picked:-1,done:false};
+
+function target(){
+  return TERMS.filter(x=>(state.field==="all"||x.f===state.field)&&(!state.onlyWeak||stat[x.t]==="weak"));
+}
+function counts(){let k=0,w=0;TERMS.forEach(x=>{if(stat[x.t]==="known")k++;else if(stat[x.t]==="weak")w++;});return{k:k,w:w};}
+function renderStat(){const c=counts();$("statline").innerHTML='全'+TERMS.length+'語　／　<b style="color:var(--green)">覚えた '+c.k+'</b>　／　<b style="color:var(--red)">苦手 '+c.w+'</b>';}
+function emptyMsg(){return '<div class="card"><div class="empty">対象の用語がありません。<br>'+(state.onlyWeak?'「苦手マークの語だけ」のチェックを外すか、':'')+'分野のしぼり込みを変えてみてください。</div></div>';}
+
+/* ===== フィルタ（分野チップ・苦手だけ） ===== */
+function renderChips(){
+  const defs=[["all","全部","#6b6253"],["st","ストラテジ","#b73a2e"],["ma","マネジメント","#3a6ea5"],["te","テクノロジ","#3c7a4e"]];
+  $("fieldChips").innerHTML=defs.map(d=>{
+    const on=state.field===d[0];
+    const style=on?'style="background:'+d[2]+';color:#fff;border-color:'+d[2]+';"':'';
+    return '<button class="chip'+(on?' on':'')+'" data-f="'+d[0]+'" '+style+'>'+d[1]+'</button>';
+  }).join("");
+  $("fieldChips").querySelectorAll(".chip").forEach(b=>b.onclick=()=>{state.field=b.getAttribute("data-f");renderChips();refresh();});
+}
+
+/* ===== モード切替 ===== */
+function setMode(m){
+  state.mode=m;
+  document.querySelectorAll("#tabs .tab").forEach(t=>t.classList.toggle("on",t.getAttribute("data-mode")===m));
+  $("paneCard").hidden=m!=="card";
+  $("paneQuiz").hidden=m!=="quiz";
+  $("paneList").hidden=m!=="list";
+  refresh();
+}
+function refresh(){
+  if(state.mode==="card"){startCard();renderCard();}
+  else if(state.mode==="quiz"){startQuiz();renderQuiz();}
+  else{renderList();}
+  renderStat();
+}
+
+/* ===== フラッシュカード ===== */
+function startCard(){card.list=shuffle(target());card.i=0;card.flipped=false;}
+function renderCard(){
+  const pane=$("paneCard");
+  const list=card.list;
+  if(!list.length){pane.innerHTML=emptyMsg();return;}
+  if(card.i>=list.length)card.i=0;
+  const x=list[card.i];
+  const f=FIELDS[x.f];
+  const frontIsTerm=(card.dir==="t2m");
+  const showTerm=(frontIsTerm&&!card.flipped)||(!frontIsTerm&&card.flipped);
+  const mainText=showTerm?x.t:x.m;
+  const label=showTerm?"用語":"意味";
+  const yomi=(showTerm&&x.y)?'<small class="yomi">（'+esc(x.y)+'）</small>':'';
+  const exHtml=(!showTerm&&x.ex)?'<div class="fc-ex">'+esc(x.ex)+'</div>':'';
+  const st=stat[x.t]||"";
+  const stTag=st?'　<span style="color:'+(st==="known"?"var(--green)":"var(--red)")+'">'+(st==="known"?"✓覚えた":"△苦手")+'</span>':'';
+  pane.innerHTML=
+    '<div class="card"><div class="pane">'
+    +'<div class="fc-top"><span class="ftag" style="background:'+f.color+'">'+f.name+'</span>'
+      +'<span class="fc-dir">'+(frontIsTerm?"用語 → 意味":"意味 → 用語")+'</span></div>'
+    +'<div class="fc'+(card.flipped?" isback":"")+'" id="fc">'
+      +'<div class="fc-label">'+label+'</div>'
+      +'<div class="fc-main">'+esc(mainText)+yomi+'</div>'
+      +exHtml
+      +'<div class="fc-hint">'+(card.flipped?"もう一度タップで戻る":"タップで答えを見る")+'</div>'
+    +'</div>'
+    +'<div class="fc-prog">'+(card.i+1)+' / '+list.length+stTag+'</div>'
+    +'<div class="pbar"><span style="width:'+((card.i+1)/list.length*100)+'%"></span></div>'
+    +'<div class="btn-row">'
+      +'<button class="btn sub" id="cPrev">← 前へ</button>'
+      +'<button class="btn" id="cNext">次へ →</button>'
+    +'</div>'
+    +'<div class="btn-row">'
+      +'<button class="btn sub sm mk" id="cKnown">✓ 覚えた</button>'
+      +'<button class="btn sub sm mk" id="cWeak">△ 苦手</button>'
+      +'<button class="btn sub sm" id="cDir">↔ 向きをかえる</button>'
+      +'<button class="btn sub sm" id="cShuf">🔀 シャッフル</button>'
+    +'</div>'
+    +'</div></div>';
+  $("fc").onclick=()=>{card.flipped=!card.flipped;renderCard();};
+  $("cPrev").onclick=()=>{card.i=(card.i-1+list.length)%list.length;card.flipped=false;renderCard();};
+  $("cNext").onclick=()=>{card.i=(card.i+1)%list.length;card.flipped=false;renderCard();};
+  $("cKnown").onclick=()=>{stat[x.t]="known";saveJSON(STAT_KEY,stat);toast("「覚えた」に記録しました");card.i=(card.i+1)%list.length;card.flipped=false;renderCard();renderStat();};
+  $("cWeak").onclick=()=>{stat[x.t]="weak";saveJSON(STAT_KEY,stat);toast("「苦手」に記録しました");renderCard();renderStat();};
+  $("cDir").onclick=()=>{card.dir=(card.dir==="t2m")?"m2t":"t2m";card.flipped=false;renderCard();};
+  $("cShuf").onclick=()=>{startCard();renderCard();toast("シャッフルしました");};
+}
+
+/* ===== 4択クイズ ===== */
+function startQuiz(){quiz.list=shuffle(target());quiz.i=0;quiz.score=0;quiz.done=false;quizLoad();}
+function quizLoad(){
+  if(!quiz.list.length){quiz.cur=null;return;}
+  const x=quiz.list[quiz.i];
+  quiz.cur=x;quiz.answered=false;quiz.picked=-1;
+  const pool=(target().length>=4?target():TERMS).filter(o=>o.m!==x.m);
+  const ds=shuffle(pool).slice(0,3).map(o=>o.m);
+  quiz.choices=shuffle([x.m].concat(ds));
+}
+function renderQuiz(){
+  const pane=$("paneQuiz");
+  if(!quiz.list.length){pane.innerHTML=emptyMsg();return;}
+  if(quiz.done){renderResult();return;}
+  const x=quiz.cur,f=FIELDS[x.f],total=quiz.list.length;
+  let ch="";
+  quiz.choices.forEach((m,idx)=>{
+    let cls="choice";
+    if(quiz.answered){if(m===x.m)cls+=" reveal";else if(idx===quiz.picked)cls+=" sel-ng";}
+    ch+='<button class="'+cls+'" data-i="'+idx+'"'+(quiz.answered?" disabled":"")+'><span class="cno">'+(idx+1)+'.</span>'+esc(m)+'</button>';
+  });
+  let fb="";
+  if(quiz.answered){
+    const ok=(quiz.choices[quiz.picked]===x.m);
+    fb='<div class="judge '+(ok?"ok":"ng")+'">'+(ok?"○ 正解":"× 不正解")+'</div>'
+      +'<div class="expl"><b>'+esc(x.t)+'</b> … '+esc(x.m)+(x.ex?'<br>'+esc(x.ex):'')+'</div>'
+      +'<div class="btn-row"><button class="btn" id="qNext">'+(quiz.i>=total-1?"結果を見る":"次の問題 →")+'</button></div>';
+  }
+  pane.innerHTML=
+    '<div class="card"><div class="pane">'
+    +'<div class="q-prog">'+(quiz.i+1)+' / '+total+'　（正解 '+quiz.score+'）</div>'
+    +'<div class="pbar"><span style="width:'+((quiz.i+(quiz.answered?1:0))/total*100)+'%"></span></div>'
+    +'<div class="fc-top"><span class="ftag" style="background:'+f.color+'">'+f.name+'</span><span class="fc-dir">用語の意味は？</span></div>'
+    +'<div class="q-term">'+esc(x.t)+'</div>'
+    +(x.y?'<div class="q-yomi">（'+esc(x.y)+'）</div>':'')
+    +'<div class="choices">'+ch+'</div>'
+    +fb
+    +'</div></div>';
+  if(!quiz.answered){
+    pane.querySelectorAll(".choice").forEach(b=>b.onclick=()=>answerQuiz(parseInt(b.getAttribute("data-i"),10)));
+  }else{
+    $("qNext").onclick=()=>{if(quiz.i>=quiz.list.length-1){quiz.done=true;}else{quiz.i++;quizLoad();}renderQuiz();};
+  }
+}
+function answerQuiz(idx){
+  if(quiz.answered)return;
+  quiz.answered=true;quiz.picked=idx;
+  const x=quiz.cur;
+  if(quiz.choices[idx]===x.m){quiz.score++;if(stat[x.t]!=="known"){/* 正解でも自動既知にはしない */}}
+  else{stat[x.t]="weak";saveJSON(STAT_KEY,stat);}
+  renderQuiz();renderStat();
+}
+function renderResult(){
+  const pane=$("paneQuiz");
+  const total=quiz.list.length,sc=quiz.score,pct=Math.round(sc/total*100);
+  const mark=pct>=90?"優":pct>=70?"良":pct>=50?"可":"再";
+  const msg=pct>=90?"お見事！ほぼ完璧です。":pct>=70?"good！あと少しで満点。":pct>=50?"半分以上！苦手を復習しよう。":"ここからが伸びどき。苦手だけ回そう。";
+  pane.innerHTML=
+    '<div class="card"><div class="pane"><div class="result-box">'
+    +'<div class="stamp">'+mark+'</div>'
+    +'<div class="score">'+sc+'<small> / '+total+'</small></div>'
+    +'<div style="font-size:15px;color:#6b6253;margin-bottom:6px;">正答率 '+pct+'%</div>'
+    +'<div style="font-size:14px;color:#8a8268;">'+msg+'</div>'
+    +'<div class="btn-row">'
+      +'<button class="btn" id="rRetry">もう一度</button>'
+      +'<button class="btn sub" id="rWeak">苦手だけ復習</button>'
+      +'<button class="btn sub" id="rCard">カードで確認</button>'
+    +'</div></div></div></div>';
+  $("rRetry").onclick=()=>{startQuiz();renderQuiz();};
+  $("rWeak").onclick=()=>{state.onlyWeak=true;$("onlyWeak").checked=true;startQuiz();renderQuiz();renderStat();};
+  $("rCard").onclick=()=>{setMode("card");};
+}
+
+/* ===== 単語リスト（かくす機能） ===== */
+function renderList(){
+  const pane=$("paneList");
+  const list=target();
+  if(!list.length){pane.innerHTML=emptyMsg();return;}
+  const hideCls=state.listHide==="m"?"hm":state.listHide==="t"?"ht":"";
+  let rows="";
+  list.forEach(x=>{
+    const f=FIELDS[x.f];
+    const star=stat[x.t]==="weak";
+    const yomi=x.y?'<span class="yomi">'+esc(x.y)+'</span>':'';
+    rows+='<tr>'
+      +'<td class="c-f"><span class="dot" style="background:'+f.color+'" title="'+f.name+'"></span></td>'
+      +'<td class="c-t" data-t="'+esc(x.t)+'">'+esc(x.t)+yomi+'</td>'
+      +'<td class="c-m">'+esc(x.m)+'</td>'
+      +'<td class="c-star'+(star?" on":"")+'" data-t="'+esc(x.t)+'" title="苦手マーク">'+(star?"★":"☆")+'</td>'
+      +'</tr>';
+  });
+  pane.innerHTML=
+    '<div class="card"><div class="pane">'
+    +'<div class="seg">'
+      +'<button class="btn '+(state.listHide==="m"?"":"sub")+' sm" data-h="m">意味をかくす</button>'
+      +'<button class="btn '+(state.listHide==="t"?"":"sub")+' sm" data-h="t">用語をかくす</button>'
+      +'<button class="btn '+(state.listHide==="none"?"":"sub")+' sm" data-h="none">両方表示</button>'
+    +'</div>'
+    +'<div class="list-hint">'+(state.listHide==="none"?"覚えたい列を「かくす」で隠して、自分でテストできます。":"かくした部分を<b>タップ</b>すると、その語だけ答えが見えます。☆で苦手マーク。")+'</div>'
+    +'<table class="vtable '+hideCls+'"><thead><tr><th></th><th>用語</th><th>意味</th><th></th></tr></thead><tbody>'+rows+'</tbody></table>'
+    +'</div></div>';
+  pane.querySelectorAll(".seg .btn").forEach(b=>b.onclick=()=>{state.listHide=b.getAttribute("data-h");renderList();});
+  pane.querySelectorAll(".c-m,.c-t").forEach(td=>td.onclick=()=>{td.classList.toggle("show");});
+  pane.querySelectorAll(".c-star").forEach(td=>td.onclick=(e)=>{
+    e.stopPropagation();
+    const t=td.getAttribute("data-t");
+    if(stat[t]==="weak"){delete stat[t];}else{stat[t]="weak";}
+    saveJSON(STAT_KEY,stat);renderList();renderStat();
+  });
+}
+
+/* ===== 起動 ===== */
+(function init(){
+  $("back").onclick=()=>{location.href="index.html";};
+  renderChips();
+  renderStat();
+  document.querySelectorAll("#tabs .tab").forEach(t=>t.onclick=()=>setMode(t.getAttribute("data-mode")));
+  $("onlyWeak").onchange=function(){state.onlyWeak=this.checked;refresh();};
+  setMode("card");
+})();
+</script>
+</body>
+</html>
