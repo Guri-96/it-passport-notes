@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -228,6 +228,49 @@ footer{margin-top:30px;text-align:center;font-size:12px;color:#a89e84;}
   .lecture{padding:18px 14px 22px;}
   .test-pane{padding:18px 14px 22px;}
 }
+/* ===== ダークモード（切替対応・初期ダーク） ===== */
+:root[data-theme=dark]{
+  color-scheme:dark;
+  --ink:#e7e1d3; --paper:#1b1f25; --card:#242a31; --line:#3a424d;
+  --grid:rgba(130,160,190,.05); --red:#ec7d72; --red-soft:#3a2622;
+  --blue:#84b3e6; --green:#85c997;
+}
+:root[data-theme=dark] .subtitle{color:#a89e84;}
+:root[data-theme=dark] .progressline{color:#b4ab95;}
+:root[data-theme=dark] .bar{background:#33373f;}
+:root[data-theme=dark] .banner{background:#2c2a1c;border-color:#5c5430;color:var(--ink);}
+:root[data-theme=dark] .card-h{background:linear-gradient(180deg,#2b323b,#242a31);}
+:root[data-theme=dark] .card-h .ch-no{color:#a59c87;}
+:root[data-theme=dark] .unit-no{background:#333a44;color:#d2cab7;}
+:root[data-theme=dark] .unit-row{border-bottom-color:#343b45;}
+:root[data-theme=dark] .unit-row:hover{background:#2b323b;}
+:root[data-theme=dark] .arrow{color:#8d8676;}
+:root[data-theme=dark] .soon{color:#a89e84;border-color:#4a525c;}
+:root[data-theme=dark] .testrow{background:#222831;}
+:root[data-theme=dark] .btn.sub{background:#242a31;color:var(--ink);border-color:#4a525c;box-shadow:0 2px 0 #11151a;}
+:root[data-theme=dark] .lec-ch{color:#a59c87;}
+:root[data-theme=dark] .lec-meta{color:#b0a78f;}
+:root[data-theme=dark] .lecture h3.sec{background:linear-gradient(90deg,#322a22,transparent);}
+:root[data-theme=dark] .ex{background:#212d38;border-color:#36506b;}
+:root[data-theme=dark] .pt{background:var(--red-soft);border-color:#7a4036;}
+:root[data-theme=dark] .why{background:#1f2c24;border-color:#3a5a44;}
+:root[data-theme=dark] .tbl{background:#222831;}
+:root[data-theme=dark] .tbl th,:root[data-theme=dark] .tbl td{border-color:#3f4751;}
+:root[data-theme=dark] .tbl th{background:#2c333c;}
+:root[data-theme=dark] .qa{background:#23272f;border-color:#5a5238;}
+:root[data-theme=dark] .qa-note{color:#a59c87;}
+:root[data-theme=dark] .qa textarea{background:#1b1f25;border-color:#4a525c;color:var(--ink);}
+:root[data-theme=dark] .ai-ans{background:#222831;border-color:#36506b;}
+:root[data-theme=dark] .undo{color:#b0a78f;}
+:root[data-theme=dark] .t-head{color:#a59c87;}
+:root[data-theme=dark] .choice{background:#242a31;border-color:#4a525c;}
+:root[data-theme=dark] .choice:hover{background:#2b323b;}
+:root[data-theme=dark] .choice.sel-ok,:root[data-theme=dark] .choice.reveal{background:#203026;border-color:var(--green);}
+:root[data-theme=dark] .choice.sel-ng{background:var(--red-soft);border-color:var(--red);}
+:root[data-theme=dark] .expl{background:#262219;border-color:var(--line);}
+:root[data-theme=dark] footer{color:#8d8676;}
+#themeBtn{position:fixed;top:10px;right:10px;z-index:999;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:18px;padding:5px 12px;font-size:12.5px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.18);font-family:inherit;line-height:1.4;}
+#themeBtn:active{transform:translateY(1px);}
 </style>
 </head>
 <body>
@@ -266,6 +309,23 @@ const LECTURES = {
 <p>テクノロジ系の出発点は「コンピュータはなぜ0と1だけで動くのか」。ここが腑に落ちると、この後のすべての単元（データ、通信、暗号）が同じ土台の話だと分かります。計算は手順さえ覚えれば確実に取れる得点源です。</p>
 
 <h3 class="sec">1. 2進数 ── 0と1だけの数の世界</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 560 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="2進数の位の重み。8 4 2 1で1101が13" style="width:100%;height:auto;max-width:500px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<text x="280" y="20" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">2進数 ── 位ごとの「重み」で考える</text>
+<text x="170" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#5a8fc7">8</text>
+<text x="240" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#5a8fc7">4</text>
+<text x="310" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#5a8fc7">2</text>
+<text x="380" y="68" text-anchor="middle" font-size="13" font-weight="700" fill="#5a8fc7">1</text>
+<text x="100" y="100" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.6">重み→</text>
+<rect x="140" y="78" width="60" height="52" rx="6" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/><text x="170" y="112" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">1</text>
+<rect x="210" y="78" width="60" height="52" rx="6" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/><text x="240" y="112" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">1</text>
+<rect x="280" y="78" width="60" height="52" rx="6" fill="rgba(125,120,110,.14)" stroke="currentColor" stroke-opacity="0.25"/><text x="310" y="112" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">0</text>
+<rect x="350" y="78" width="60" height="52" rx="6" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/><text x="380" y="112" text-anchor="middle" font-size="20" font-weight="700" fill="currentColor">1</text>
+<text x="275" y="162" text-anchor="middle" font-size="13" fill="currentColor">8 ＋ 4 ＋ 0 ＋ 1 ＝ <tspan font-weight="700">13</tspan></text>
+<text x="275" y="190" text-anchor="middle" font-size="12.5" fill="currentColor" fill-opacity="0.85">2進 1101 ＝ 10進 13 ＝ 16進 D</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：各桁は <b>8・4・2・1</b> の重み。1の桁を足すと10進に、4ビットまとめると16進（0〜F）。</div>
+</div>
 <p>私たちが使う10進数は0〜9の10種類の数字で数えますが、<span class="kw">2進数</span>は0と1の2種類だけで数えます。1の次は桁が上がって10（イチゼロ）、その次は11、100……という具合です。2進数の1桁が<span class="kw">ビット</span>（bit）、8ビットをまとめたものが<span class="kw">バイト</span>（byte）です。</p>
 <div class="why"><div class="why-t">なぜ？ ── コンピュータは2進数を使うのか</div>
 電子回路にとって、「電圧が高い／低い」「電流が流れている／いない」という<b>2つの状態の区別は、ノイズが混ざっても安定して判定できる</b>からです。もし10進数を電圧の10段階で表すと、わずかなノイズで「6が7に化ける」誤りが頻発します。ON/OFFの2択なら、多少電圧が揺れても誤読しません。つまり2進数は数学の趣味ではなく、<b>物理的な信頼性の要請</b>なのです。あらゆるデータ（文字も画像も音も）が最終的にビット列になるのは、この土台の上にすべてが築かれているからです。</div>
@@ -336,6 +396,35 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <p>この単元はコンピュータの「体のつくり」です。インフラ系エンジニアを目指すぐりさんにとって、サーバのスペック表（CPU・メモリ・ストレージ）を読めることは日常スキルになります。部品の名前と役割を、たとえ話で体に入れましょう。</p>
 
 <h3 class="sec">1. コンピュータの五大装置</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 600 330" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="コンピュータの五大装置。入力・記憶・演算・制御・出力とデータと制御の流れ" style="width:100%;height:auto;max-width:540px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs>
+<marker id="u5d" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5a8fc7"/></marker>
+<marker id="u5c" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#9a927f"/></marker>
+</defs>
+<text x="300" y="20" text-anchor="middle" font-size="15.5" font-weight="700" fill="currentColor">コンピュータの五大装置 ── 制御装置が全体を指揮</text>
+<rect x="232" y="30" width="136" height="42" rx="8" fill="rgba(58,110,165,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="300" y="56" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">記憶装置</text>
+<rect x="206" y="150" width="188" height="96" rx="10" fill="rgba(58,110,165,.05)" stroke="currentColor" stroke-opacity="0.3" stroke-dasharray="4 3"/>
+<text x="300" y="167" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.7">CPU（中央処理装置）</text>
+<rect x="216" y="178" width="82" height="56" rx="6" fill="rgba(180,130,40,.15)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="257" y="211" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">制御装置</text>
+<rect x="302" y="178" width="82" height="56" rx="6" fill="rgba(180,130,40,.15)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="343" y="211" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">演算装置</text>
+<rect x="34" y="186" width="110" height="44" rx="6" fill="rgba(60,122,78,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="89" y="212" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">入力装置</text>
+<rect x="456" y="186" width="110" height="44" rx="6" fill="rgba(60,122,78,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="511" y="212" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">出力装置</text>
+<line x1="144" y1="206" x2="202" y2="206" stroke="#5a8fc7" stroke-width="2.2" marker-end="url(#u5d)"/>
+<line x1="396" y1="206" x2="452" y2="206" stroke="#5a8fc7" stroke-width="2.2" marker-end="url(#u5d)"/>
+<line x1="300" y1="74" x2="300" y2="146" stroke="#5a8fc7" stroke-width="2.2" marker-start="url(#u5d)" marker-end="url(#u5d)"/>
+<line x1="268" y1="178" x2="290" y2="74" stroke="#9a927f" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#u5c)"/>
+<line x1="216" y1="220" x2="148" y2="220" stroke="#9a927f" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#u5c)"/>
+<line x1="350" y1="232" x2="500" y2="226" stroke="#9a927f" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#u5c)"/>
+<text x="300" y="316" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.62">実線＝データの流れ　破線＝制御の流れ</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：5装置＝<b>入力・記憶・演算・制御・出力</b>。データは入力→記憶→演算→出力へ、制御装置が各装置を指揮する。</div>
+</div>
 <p>コンピュータの構成要素は伝統的に5つに整理されます。<b>入力装置</b>（キーボード、マウス）、<b>出力装置</b>（ディスプレイ、プリンタ）、<b>記憶装置</b>（メモリ、ディスク）、そして計算を行う<b>演算装置</b>と全体に指示を出す<b>制御装置</b>。演算と制御を担う中心部品が<span class="kw">CPU</span>（Central Processing Unit：中央処理装置）です。</p>
 <p>CPUの性能を左右する指標として、動作のテンポを刻む<span class="kw">クロック周波数</span>（GHz、高いほど1秒間の処理ステップが多い）と、頭脳の個数である<span class="kw">コア数</span>（マルチコア＝複数の処理を同時にこなせる）を押さえてください。また、3Dグラフィックスなどの<b>描画処理に特化した</b>プロセッサが<span class="kw">GPU</span>（Graphics Processing Unit）です。大量の単純計算を並列にこなすのが得意なため、近年は<b>AIの学習（ディープラーニング）の計算</b>にも広く使われています（令和7年度に出題）。</p>
 
@@ -347,6 +436,28 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <tr><td><span class="kw">主記憶（メインメモリ）</span></td><td>実行中のプログラムとデータを置く作業机</td><td><b>電源を切ると消える（揮発性）</b></td></tr>
 <tr><td><span class="kw">補助記憶</span>（SSD・HDD）</td><td>プログラムやファイルの保管庫</td><td>大容量、<b>電源を切っても消えない</b></td></tr>
 </table>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 600 380" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="記憶の階層のピラミッド。上からレジスタ、キャッシュメモリ、主記憶、補助記憶" style="width:100%;height:auto;max-width:520px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs><marker id="pyrA" markerWidth="9" markerHeight="9" refX="3" refY="3" orient="auto"><path d="M0,3 L7,0 L7,6 Z" fill="#9a927f"/></marker></defs>
+<text x="300" y="26" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">記憶の階層 ── 上ほど速い・高価・小容量</text>
+<polygon points="300,48 258,118 342,118" fill="#b73a2e"/>
+<polygon points="258,118 342,118 385,190 215,190" fill="#cb6b56"/>
+<polygon points="215,190 385,190 428,262 172,262" fill="#e0a48f"/>
+<polygon points="172,262 428,262 470,334 130,334" fill="#f1ddd1"/>
+<text x="300" y="111" text-anchor="middle" font-size="11" font-weight="700" fill="#ffffff">レジスタ</text>
+<text x="300" y="162" text-anchor="middle" font-size="12.5" font-weight="700" fill="#ffffff">キャッシュメモリ</text>
+<text x="300" y="232" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b3a42">主記憶（メモリ）</text>
+<text x="300" y="304" text-anchor="middle" font-size="12.5" font-weight="700" fill="#2b3a42">補助記憶（SSD・HDD）</text>
+<text x="486" y="100" font-size="11" fill="currentColor" fill-opacity="0.66">最速・極小</text>
+<text x="486" y="166" font-size="11" fill="currentColor" fill-opacity="0.66">速度差を埋める</text>
+<text x="486" y="236" font-size="11" fill="currentColor" fill-opacity="0.66">揮発性＝消える</text>
+<text x="486" y="306" font-size="11" fill="currentColor" fill-opacity="0.66">大容量・不揮発</text>
+<line x1="80" y1="64" x2="80" y2="320" stroke="currentColor" stroke-opacity="0.4" stroke-width="1.2" marker-start="url(#pyrA)" marker-end="url(#pyrA)"/>
+<text x="80" y="54" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.66">速い・高価</text>
+<text x="80" y="336" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.66">遅い・大容量</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：上ほど速いが高価で小容量。キャッシュの役目は「CPUと主記憶の<b>速度差を埋める</b>」。</div>
+</div>
 <div class="why"><div class="why-t">なぜ？ ── 記憶装置は1種類ではなく「階層」になっているのか</div>
 理想は「超高速で超大容量で安いメモリ」ですが、物理的に<b>速さと容量と価格は両立しません</b>。速いメモリは桁違いに高価なのです。そこで、よく使うデータだけを少量の高速メモリ（キャッシュ）に置き、残りは安くて大きい装置に置く——「机の上に今使う本だけ、本棚にその他、倉庫に滅多に使わない物」という配置で、<b>全体として速くて大きい記憶があるかのように見せる</b>のが階層構造の知恵です。「キャッシュメモリの目的＝CPUと主記憶の速度差を埋める」は最頻出の論点です。</div>
 <p>補助記憶では、円盤を回す磁気ディスクの<span class="kw">HDD</span>（Hard Disk Drive）と、半導体メモリの<span class="kw">SSD</span>（Solid State Drive）の対比が問われます。SSDは可動部品がないため<b>高速・静音・衝撃に強い</b>のが利点。なおUSBメモリやSDカードも半導体（フラッシュメモリ）の仲間です。</p>
@@ -358,6 +469,35 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <p>ファイル管理では、フォルダ（ディレクトリ）の階層構造と、ファイルの場所の表し方——根元からの道順をすべて書く<span class="kw">絶対パス</span>と、現在地から見た道順で書く<span class="kw">相対パス</span>——を押さえましょう。住所の「東京都新宿区…」が絶対パス、「ここから2軒隣」が相対パスのイメージです。また、障害や誤操作に備えてデータの複製を取っておく<span class="kw">バックアップ</span>は、補助記憶の故障は「いつか必ず起きる」前提で運用する、という考え方ごと覚えてください。</p>
 
 <h3 class="sec">4. システム構成と信頼性 ── 止まらない仕組みの作り方</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 560 280" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="直列システムと並列システムの信頼性の違い" style="width:100%;height:auto;max-width:520px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs><marker id="relA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5a8fc7"/></marker></defs>
+<text x="280" y="20" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">直列と並列 ── 信頼性のちがい</text>
+<text x="40" y="62" font-size="12.5" font-weight="700" fill="currentColor">直列</text>
+<text x="40" y="80" font-size="10.5" fill="currentColor" fill-opacity="0.66">全部必要</text>
+<text x="112" y="76" text-anchor="middle" font-size="11.5" fill="currentColor" fill-opacity="0.7">入力</text>
+<rect x="150" y="52" width="52" height="38" rx="6" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/><text x="176" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">A</text>
+<rect x="234" y="52" width="52" height="38" rx="6" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/><text x="260" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">B</text>
+<rect x="318" y="52" width="52" height="38" rx="6" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/><text x="344" y="76" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">C</text>
+<text x="430" y="76" text-anchor="middle" font-size="11.5" fill="currentColor" fill-opacity="0.7">出力</text>
+<line x1="124" y1="71" x2="148" y2="71" stroke="#5a8fc7" stroke-width="2" marker-end="url(#relA)"/>
+<line x1="202" y1="71" x2="232" y2="71" stroke="#5a8fc7" stroke-width="2" marker-end="url(#relA)"/>
+<line x1="286" y1="71" x2="316" y2="71" stroke="#5a8fc7" stroke-width="2" marker-end="url(#relA)"/>
+<line x1="370" y1="71" x2="410" y2="71" stroke="#5a8fc7" stroke-width="2" marker-end="url(#relA)"/>
+<text x="260" y="116" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.66">1つでも壊れると停止（稼働率は掛け算で下がる）</text>
+<text x="40" y="186" font-size="12.5" font-weight="700" fill="currentColor">並列</text>
+<text x="40" y="204" font-size="10.5" fill="currentColor" fill-opacity="0.66">どれか1つ</text>
+<text x="112" y="200" text-anchor="middle" font-size="11.5" fill="currentColor" fill-opacity="0.7">入力</text>
+<rect x="190" y="168" width="52" height="36" rx="6" fill="rgba(60,122,78,.13)" stroke="currentColor" stroke-opacity="0.25"/><text x="216" y="191" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">A</text>
+<rect x="190" y="212" width="52" height="36" rx="6" fill="rgba(60,122,78,.13)" stroke="currentColor" stroke-opacity="0.25"/><text x="216" y="235" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">B</text>
+<path d="M140,196 L160,196 M160,186 L160,206 M160,186 L188,186 M160,206 L188,206" stroke="#5a8fc7" stroke-width="2" fill="none"/>
+<path d="M242,186 L270,186 M242,206 L270,206 M270,186 L270,206 M270,196 L296,196" stroke="#5a8fc7" stroke-width="2" fill="none"/>
+<line x1="296" y1="196" x2="408" y2="196" stroke="#5a8fc7" stroke-width="2" marker-end="url(#relA)"/>
+<text x="428" y="200" text-anchor="middle" font-size="11.5" fill="currentColor" fill-opacity="0.7">出力</text>
+<text x="300" y="266" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.66">どれか1つ動けば稼働＝冗長化で信頼性アップ</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：直列＝全部必要で弱くなる、並列＝冗長化でどれか動けば稼働＝強くなる。</div>
+</div>
 <p>サーバの世界では「故障しても止まらない」工夫が重視されます。令和の本試験で繰り返し出ている論点をまとめます。</p>
 <ul>
 <li><span class="kw">仮想化（仮想サーバ）</span>：1台の物理サーバの上で、複数の仮想的なサーバを動かす技術。サーバの台数を集約でき、資源の利用効率が上がる（令和4年度に出題）。クラウド（IaaS）の土台でもあります。</li>
@@ -366,6 +506,33 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <li><span class="kw">フールプルーフ</span>：人間は<b>誤操作するもの</b>という前提で、間違った操作をできなくする設計（例：電子レンジは扉を閉めないと動かない、確認ダイアログ）。令和5年度に出題。</li>
 <li><span class="kw">フェールセーフ</span>：故障したときに<b>安全側</b>に倒れる設計（例：故障した信号機は赤のまま止まる、石油ストーブは転倒すると消火）。</li>
 </ul>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 560 160" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="稼働率の公式。MTBFをMTBFとMTTRの和で割る" style="width:100%;height:auto;max-width:500px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<text x="280" y="22" text-anchor="middle" font-size="15.5" font-weight="700" fill="currentColor">稼働率 ── 動いている時間の割合</text>
+<text x="120" y="92" font-size="17" font-weight="700" fill="currentColor">稼働率 ＝</text>
+<text x="262" y="74" text-anchor="middle" font-size="15" font-weight="700" fill="#57a673">MTBF</text>
+<line x1="196" y1="86" x2="360" y2="86" stroke="currentColor" stroke-opacity="0.6" stroke-width="1.5"/>
+<text x="278" y="108" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">MTBF ＋ <tspan fill="#d6584c">MTTR</tspan></text>
+<text x="280" y="142" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.72">MTBF＝平均故障間隔（動く時間）／MTTR＝平均修復時間（直す時間）</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：故障の間隔（MTBF）が長く、修復（MTTR）が速いほど稼働率は高くなる。</div>
+</div>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 520 175" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="RAID1ミラーリング。同じデータを2台のディスクに複製する" style="width:100%;height:auto;max-width:480px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs><marker id="rdA" markerWidth="9" markerHeight="9" refX="6" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9a927f"/></marker></defs>
+<text x="260" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">RAID1（ミラーリング） ── 同じ内容を2台に</text>
+<rect x="108" y="54" width="120" height="64" rx="8" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="168" y="82" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">ディスクA</text>
+<text x="168" y="103" text-anchor="middle" font-size="11.5" fill="currentColor" fill-opacity="0.8">データ</text>
+<rect x="292" y="54" width="120" height="64" rx="8" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="352" y="82" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">ディスクB</text>
+<text x="352" y="103" text-anchor="middle" font-size="11.5" fill="currentColor" fill-opacity="0.8">同じデータ</text>
+<line x1="230" y1="86" x2="290" y2="86" stroke="#9a927f" stroke-width="1.6" marker-start="url(#rdA)" marker-end="url(#rdA)"/>
+<text x="260" y="78" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.72">複製（ミラー）</text>
+<text x="260" y="150" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.72">1台壊れてもデータは残る ／ 使える容量は半分</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：RAID1は同じデータを2台に複製。耐障害性は上がるが、使える容量は半分になる。</div>
+</div>
 <div class="why"><div class="why-t">なぜ？ ── 「人間が悪い」ではなく「設計が悪い」と考えるのか</div>
 フールプルーフの思想は、ヒューマンエラー研究の結論そのものです。注意や訓練でミスを減らすには限界があり、疲労や慌てで誰でも間違える。ならば<b>間違えても事故にならない構造を作るほうが確実</b>です（認知心理学でいうエラーの設計的予防）。フェールセーフも同じ発想を機械側に適用したもので、「故障をなくす」のではなく「故障しても被害を出さない」を目指します。完璧な人間も完璧な機械も存在しない、という前提から出発する——セキュリティの多層防御にも通じる、エンジニアリングの基本哲学です。</div>
 
@@ -392,6 +559,24 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <p>建物やフロア内などの限られた範囲のネットワークが<span class="kw">LAN</span>（Local Area Network）、電気通信事業者の回線を使って離れた拠点同士を結ぶ広域のネットワークが<span class="kw">WAN</span>（Wide Area Network）です。家の中のWi-Fiや会社のフロア内がLAN、東京本社と大阪支社を結ぶのがWAN、と覚えましょう。LANへの接続には、ケーブルでつなぐ有線LAN（イーサネット）と、電波でつなぐ<span class="kw">無線LAN</span>（Wi-Fi）があります。</p>
 
 <h3 class="sec">2. プロトコル ── 通信の「共通の約束事」</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 560 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="TCP/IPの4階層モデル。アプリケーション層、トランスポート層、インターネット層、ネットワークインタフェース層" style="width:100%;height:auto;max-width:520px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<text x="280" y="20" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">TCP/IP ── 4つの層で役割分担</text>
+<rect x="60" y="32" width="440" height="50" rx="8" fill="rgba(58,110,165,.14)" stroke="currentColor" stroke-opacity="0.22"/>
+<text x="78" y="62" font-size="13" font-weight="700" fill="currentColor">アプリケーション層</text>
+<text x="482" y="62" text-anchor="end" font-size="11.5" fill="currentColor" fill-opacity="0.72">HTTP・DNS・メール</text>
+<rect x="60" y="90" width="440" height="50" rx="8" fill="rgba(60,122,78,.14)" stroke="currentColor" stroke-opacity="0.22"/>
+<text x="78" y="120" font-size="13" font-weight="700" fill="currentColor">トランスポート層</text>
+<text x="482" y="120" text-anchor="end" font-size="11.5" fill="currentColor" fill-opacity="0.72">TCP（確実）・UDP（高速）</text>
+<rect x="60" y="148" width="440" height="50" rx="8" fill="rgba(180,130,40,.14)" stroke="currentColor" stroke-opacity="0.22"/>
+<text x="78" y="178" font-size="13" font-weight="700" fill="currentColor">インターネット層</text>
+<text x="482" y="178" text-anchor="end" font-size="11.5" fill="currentColor" fill-opacity="0.72">IP（IPアドレスで宛先指定）</text>
+<rect x="60" y="206" width="440" height="50" rx="8" fill="rgba(125,120,110,.15)" stroke="currentColor" stroke-opacity="0.22"/>
+<text x="78" y="236" font-size="12.5" font-weight="700" fill="currentColor">ネットワークインタフェース層</text>
+<text x="482" y="236" text-anchor="end" font-size="11.5" fill="currentColor" fill-opacity="0.72">Ethernet・無線LAN</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：上の層ほどアプリ寄り、下ほど物理寄り。送信は上→下へ包み（<b>カプセル化</b>）、受信は下→上へ開く。</div>
+</div>
 <p><span class="kw">プロトコル</span>とは、機器同士が通信するための約束事（手順や形式の取り決め）です。インターネットの標準は<span class="kw">TCP/IP</span>（Transmission Control Protocol／Internet Protocol）というプロトコルの集まりで、メーカーもOSも違う機器同士が会話できるのは、全員がこの共通の約束に従っているからです。</p>
 <div class="why"><div class="why-t">なぜ？ ── 「約束事」をそこまで重視するのか</div>
 通信は、相手がいて初めて成立します。手紙が届くのは「宛名は表に、郵便番号はここに書く」という全員共通のルールがあるからで、書式が人それぞれなら配達できません。ネットワークも同じで、<b>データの包み方・宛先の書き方・受け取り確認の方法</b>がそろって初めて、世界中の機器がつながります。ストラテジ系で学んだ「標準化が互換性を生む」（デファクト／デジュレ標準）の、最も成功した実例がTCP/IPです。</div>
@@ -429,6 +614,28 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <p>前の単元で「データの届け方」を学んだので、今度はインターネット上の各サービス——ウェブ閲覧、メール——が裏で何をしているかを見ていきます。URLを打ってからページが表示されるまでの数秒に、この単元の用語が総出演します。</p>
 
 <h3 class="sec">1. DNS ── 名前と住所の電話帳</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 600 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="DNSの名前解決。PCがDNSサーバにドメイン名を問い合わせIPアドレスを得てWebサーバへ接続" style="width:100%;height:auto;max-width:540px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs><marker id="dnsA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5a8fc7"/></marker></defs>
+<text x="300" y="20" text-anchor="middle" font-size="15.5" font-weight="700" fill="currentColor">DNS ── ドメイン名をIPアドレスに変換</text>
+<rect x="38" y="96" width="112" height="56" rx="8" fill="rgba(125,120,110,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="94" y="120" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">PC</text>
+<text x="94" y="138" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">あなた</text>
+<rect x="250" y="36" width="150" height="52" rx="8" fill="rgba(58,110,165,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="325" y="58" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">DNSサーバ</text>
+<text x="325" y="76" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">名前↔IPの電話帳</text>
+<rect x="476" y="96" width="112" height="56" rx="8" fill="rgba(60,122,78,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="532" y="120" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">Webサーバ</text>
+<text x="532" y="138" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">203.0.113.5</text>
+<line x1="150" y1="108" x2="252" y2="70" stroke="#5a8fc7" stroke-width="2" marker-end="url(#dnsA)"/>
+<text x="188" y="86" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">①名前を問合せ</text>
+<line x1="252" y1="82" x2="150" y2="124" stroke="#5a8fc7" stroke-width="2" marker-end="url(#dnsA)"/>
+<text x="214" y="118" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">②IPを回答</text>
+<line x1="152" y1="140" x2="474" y2="140" stroke="#5a8fc7" stroke-width="2" marker-end="url(#dnsA)"/>
+<text x="312" y="132" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.72">③そのIPアドレスへ接続</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：DNSは「ドメイン名↔IPアドレス」の電話帳。名前で問い合わせIPを得てから、その住所へ接続する。</div>
+</div>
 <p>人間は「www.example.co.jp」のような<span class="kw">ドメイン名</span>でサイトを覚えますが、機械の世界の住所は数字のIPアドレスです。この<b>名前⇔IPアドレスの変換</b>を担う仕組みが<span class="kw">DNS</span>（Domain Name System）です。ブラウザにURLを入力すると、まずDNSへの問い合わせ（名前解決）が行われ、返ってきたIPアドレス宛てに通信が始まります。</p>
 <div class="why"><div class="why-t">なぜ？ ── 名前と住所の二本立てになっているのか</div>
 数字の羅列は人間が覚えられず、覚えやすい名前は機械の経路選択に向かない——両者の得意が違うからです。さらに二本立てには実用上の利点があります。サーバを引っ越してIPアドレスが変わっても、<b>DNSの対応表を書き換えれば利用者は同じ名前でアクセスし続けられる</b>のです。電話帳（DNS）があるから、友人の電話番号（IP）が変わっても「名前で探せば」つながる、という関係です。「DNS＝ドメイン名とIPアドレスの対応づけ」は、テクノロジ系で最も出題されてきた論点の1つです。</div>
@@ -449,6 +656,32 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <p>そのほかのサービスも一言ずつ。<span class="kw">FTP</span>（File Transfer Protocol）＝サーバとの間でファイルを転送するプロトコル（令和7年度に出題）。<span class="kw">VoIP</span>（Voice over Internet Protocol）＝インターネット上で音声通話を実現する技術で、LINE通話やIP電話の正体（令和5年度に出題）。<span class="kw">RSS</span>＝ウェブサイトの更新情報を配信するための仕組み（令和7年度に出題）。</p>
 
 <h3 class="sec">4. モバイルとIoTの通信</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 580 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="IoTと無線通信を距離で使い分ける。近距離から広域まで" style="width:100%;height:auto;max-width:540px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs><marker id="iotA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9a927f"/></marker></defs>
+<text x="290" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">IoT・無線通信 ── 距離で使い分ける</text>
+<rect x="18" y="46" width="128" height="84" rx="8" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="82" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">NFC・BLE</text>
+<text x="82" y="96" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">数cm〜数m</text>
+<text x="82" y="113" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">近距離・RFID</text>
+<rect x="158" y="46" width="128" height="84" rx="8" fill="rgba(60,122,78,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="222" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">Wi-Fi</text>
+<text x="222" y="96" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">構内・数十m</text>
+<text x="222" y="113" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">無線LAN</text>
+<rect x="298" y="46" width="128" height="84" rx="8" fill="rgba(180,130,40,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="362" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">LPWA</text>
+<text x="362" y="96" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">省電力で遠くへ</text>
+<text x="362" y="113" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">IoT向け</text>
+<rect x="438" y="46" width="128" height="84" rx="8" fill="rgba(183,58,46,.12)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="502" y="74" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">4G・5G</text>
+<text x="502" y="96" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">広域・高速</text>
+<text x="502" y="113" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">モバイル通信</text>
+<line x1="40" y1="160" x2="544" y2="160" stroke="#9a927f" stroke-width="1.6" marker-end="url(#iotA)"/>
+<text x="40" y="180" text-anchor="start" font-size="10.5" fill="currentColor" fill-opacity="0.7">近い</text>
+<text x="544" y="180" text-anchor="end" font-size="10.5" fill="currentColor" fill-opacity="0.7">遠い（広域）</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：通信は距離と用途で使い分け。近距離(NFC/BLE)→構内(Wi-Fi)→広域(LPWA省電力・5G高速)。</div>
+</div>
 <ul>
 <li><span class="kw">5G</span>：高速大容量・低遅延・多数同時接続が特徴の移動通信規格。</li>
 <li><span class="kw">LPWA</span>：低消費電力で広域をカバーする、IoT向けの無線通信。速度は遅いが電池が長持ちし、センサーを何年も置きっぱなしにできる。</li>
@@ -470,11 +703,66 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <p>企業のデータの心臓部、データベースです。Excelの表と何が違うのか？——この問いに答えられるようになるのが本単元のゴール。ストラテジ系で学んだPOSデータやビッグデータも、足元ではここで学ぶ仕組みが支えています。</p>
 
 <h3 class="sec">1. 関係データベース ── 表で持ち、表をつなぐ</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 500 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="結合JOIN。注文表と顧客表を顧客IDでつなぎ結合結果を得る" style="width:100%;height:auto;max-width:480px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs><marker id="jnA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5a8fc7"/></marker></defs>
+<text x="250" y="20" text-anchor="middle" font-size="15.5" font-weight="700" fill="currentColor">結合（JOIN） ── 共通キーで表をつなぐ</text>
+<rect x="20" y="42" width="150" height="76" rx="8" fill="rgba(125,120,110,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="95" y="60" text-anchor="middle" font-size="11.5" font-weight="700" fill="currentColor">注文表</text>
+<text x="32" y="80" font-size="10.5" fill="currentColor" fill-opacity="0.75">注文 ｜ 顧客ID</text>
+<text x="32" y="98" font-size="10.5" fill="currentColor">1001 ｜ <tspan fill="#5a8fc7" font-weight="700">C01</tspan></text>
+<text x="32" y="112" font-size="10.5" fill="currentColor">1002 ｜ <tspan fill="#5a8fc7" font-weight="700">C02</tspan></text>
+<rect x="20" y="130" width="150" height="76" rx="8" fill="rgba(125,120,110,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="95" y="148" text-anchor="middle" font-size="11.5" font-weight="700" fill="currentColor">顧客表</text>
+<text x="32" y="168" font-size="10.5" fill="currentColor" fill-opacity="0.75">顧客ID ｜ 名前</text>
+<text x="32" y="186" font-size="10.5" fill="currentColor"><tspan fill="#5a8fc7" font-weight="700">C01</tspan> ｜ 田中</text>
+<text x="32" y="200" font-size="10.5" fill="currentColor"><tspan fill="#5a8fc7" font-weight="700">C02</tspan> ｜ 佐藤</text>
+<line x1="174" y1="124" x2="232" y2="124" stroke="#5a8fc7" stroke-width="2" marker-end="url(#jnA)"/>
+<text x="203" y="115" text-anchor="middle" font-size="10" fill="#5a8fc7" font-weight="700">顧客IDで結合</text>
+<rect x="240" y="74" width="170" height="96" rx="8" fill="rgba(60,122,78,.12)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="325" y="94" text-anchor="middle" font-size="11.5" font-weight="700" fill="currentColor">結合結果</text>
+<text x="254" y="116" font-size="10.5" fill="currentColor" fill-opacity="0.75">注文 ｜ 顧客名</text>
+<text x="254" y="136" font-size="10.5" fill="currentColor">1001 ｜ 田中</text>
+<text x="254" y="152" font-size="10.5" fill="currentColor">1002 ｜ 佐藤</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：2つの表を共通キー（顧客ID）でつなぐのが結合（JOIN）。離れた情報を1つに合わせて取り出せる。</div>
+</div>
 <p>現在主流の<span class="kw">関係データベース</span>は、データを<b>表（テーブル）</b>の形で管理します。表の横1行が1件のデータ（行・レコード）、縦の項目が列（フィールド）です。そして表の中で<b>行を一意に特定できる列</b>を<span class="kw">主キー</span>と呼びます（学籍番号、社員番号など。重複や空欄は許されません）。他の表の主キーを参照する列が<span class="kw">外部キー</span>で、これにより表と表がつながります。</p>
 <div class="ex"><div class="ex-t">具体例</div>通販サイトなら「顧客表（主キー：顧客ID）」と「注文表（主キー：注文ID、外部キー：顧客ID）」に分かれ、注文表の顧客IDをたどれば誰の注文かが分かる——この「表を分けて、キーでつなぐ」が関係データベースの基本形です。</div>
 <p>データの管理を担うソフトウェアが<span class="kw">DBMS</span>（DataBase Management System：データベース管理システム）で、データの検索や操作には<span class="kw">SQL</span>（Structured Query Language）という言語を使います（検索はSELECT文）。</p>
 
 <h3 class="sec">2. 正規化 ── なぜ表を分けるのか</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 580 290" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="正規化の前後。重複した顧客名を別表に分けてIDで参照する" style="width:100%;height:auto;max-width:540px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs><marker id="nmA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5a8fc7"/></marker></defs>
+<text x="290" y="20" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">正規化 ── 重複をなくして表を分ける</text>
+<text x="128" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">正規化前</text>
+<rect x="28" y="60" width="200" height="166" rx="8" fill="rgba(125,120,110,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="128" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">注文表</text>
+<text x="40" y="106" font-size="11" fill="currentColor" fill-opacity="0.75">注文 ｜ 顧客名 ｜ 商品</text>
+<text x="40" y="130" font-size="11" fill="currentColor">1001 ｜ <tspan fill="#d6584c" font-weight="700">田中</tspan> ｜ りんご</text>
+<text x="40" y="154" font-size="11" fill="currentColor">1002 ｜ <tspan fill="#d6584c" font-weight="700">田中</tspan> ｜ みかん</text>
+<text x="40" y="178" font-size="11" fill="currentColor">1003 ｜ 佐藤 ｜ パン</text>
+<text x="128" y="210" text-anchor="middle" font-size="11" font-weight="700" fill="#d6584c">「田中」が何度も重複！</text>
+<line x1="236" y1="140" x2="286" y2="140" stroke="#5a8fc7" stroke-width="2" marker-end="url(#nmA)"/>
+<text x="261" y="131" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">分割</text>
+<text x="438" y="50" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">正規化後</text>
+<rect x="300" y="60" width="130" height="130" rx="8" fill="rgba(58,110,165,.12)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="365" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">注文表</text>
+<text x="312" y="106" font-size="11" fill="currentColor" fill-opacity="0.75">注文 ｜ 顧客ID</text>
+<text x="312" y="130" font-size="11" fill="currentColor">1001 ｜ C01</text>
+<text x="312" y="152" font-size="11" fill="currentColor">1002 ｜ C01</text>
+<text x="312" y="174" font-size="11" fill="currentColor">1003 ｜ C02</text>
+<rect x="446" y="60" width="118" height="104" rx="8" fill="rgba(60,122,78,.12)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="505" y="82" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">顧客表</text>
+<text x="458" y="106" font-size="11" fill="currentColor" fill-opacity="0.75">顧客ID ｜ 名前</text>
+<text x="458" y="130" font-size="11" fill="currentColor">C01 ｜ 田中</text>
+<text x="458" y="152" font-size="11" fill="currentColor">C02 ｜ 佐藤</text>
+<line x1="430" y1="118" x2="446" y2="118" stroke="#9a927f" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#nmA)"/>
+<text x="432" y="208" text-anchor="middle" font-size="11" font-weight="700" fill="#57a673">顧客名は1か所だけ</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：重複（田中が何度も）を顧客表に切り出し、注文は<b>顧客IDで参照</b>＝正規化。更新ミスや矛盾を防ぐ。</div>
+</div>
 <p>1枚の大きな表にすべてを詰め込まず、重複がないよう表を分割・整理することを<span class="kw">正規化</span>といいます。</p>
 <div class="why"><div class="why-t">なぜ？ ── Excelのように1枚の表にまとめてはいけないのか</div>
 注文のたびに顧客の住所も一緒に記録する「全部入りの表」を想像してください。同じ顧客が10回注文すると、住所が10か所に重複して書かれます。この顧客が引っ越したら？　<b>10か所すべてを直さないと、古い住所と新しい住所が混在する</b>（更新漏れによる矛盾）。正規化して「顧客表」に住所を1か所だけ持てば、修正は1回で済み、矛盾は構造的に起きません。つまり正規化の目的は<b>「重複をなくし、データの矛盾（不整合）を防ぐ」</b>こと。試験でこの目的を問う問題は確実に取りましょう。</div>
@@ -553,15 +841,78 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <p><span class="kw">共通鍵暗号方式</span>は、暗号化と復号に<b>同じ鍵</b>を使う方式です。処理が高速という利点がありますが、致命的な弱点があります。<b>その鍵を相手にどうやって安全に渡すのか？</b>　鍵をメールで送れば盗聴されるかもしれず、暗号化して送ろうにもその鍵がまた必要……という堂々巡り（鍵配送問題）です。さらに、通信相手が増えるごとに相手別の鍵が必要になり、鍵の管理数が爆発します。</p>
 
 <h3 class="sec">2. 公開鍵暗号 ── 「南京錠」の発明</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="公開鍵暗号の流れ。受信者の公開鍵で暗号化し受信者の秘密鍵で復号する" style="width:100%;height:auto;max-width:540px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs><marker id="pkA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#5a8fc7"/></marker></defs>
+<text x="300" y="20" text-anchor="middle" font-size="15.5" font-weight="700" fill="currentColor">公開鍵暗号 ── 受信者の鍵ペアで守る</text>
+<rect x="20" y="94" width="84" height="46" rx="7" fill="rgba(125,120,110,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="62" y="121" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">送信者</text>
+<rect x="128" y="84" width="150" height="64" rx="8" fill="rgba(180,130,40,.15)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="203" y="112" text-anchor="middle" font-size="11.5" font-weight="700" fill="currentColor">受信者の公開鍵で</text>
+<text x="203" y="130" text-anchor="middle" font-size="11.5" font-weight="700" fill="currentColor">暗号化🔒</text>
+<rect x="340" y="84" width="150" height="64" rx="8" fill="rgba(60,122,78,.15)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="415" y="112" text-anchor="middle" font-size="11.5" font-weight="700" fill="currentColor">受信者の秘密鍵で</text>
+<text x="415" y="130" text-anchor="middle" font-size="11.5" font-weight="700" fill="currentColor">復号🔑</text>
+<rect x="508" y="94" width="84" height="46" rx="7" fill="rgba(125,120,110,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="550" y="121" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">受信者</text>
+<line x1="106" y1="117" x2="126" y2="117" stroke="#5a8fc7" stroke-width="2.2" marker-end="url(#pkA)"/>
+<line x1="278" y1="117" x2="338" y2="117" stroke="#5a8fc7" stroke-width="2.2" marker-end="url(#pkA)"/>
+<line x1="490" y1="117" x2="506" y2="117" stroke="#5a8fc7" stroke-width="2.2" marker-end="url(#pkA)"/>
+<text x="308" y="106" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">暗号文</text>
+<text x="300" y="200" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.66">公開鍵＝誰でも入手OK（南京錠）／秘密鍵＝受信者だけが持つ（鍵）</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：相手（受信者）の公開鍵で施錠して送り、開けられるのは秘密鍵を持つ受信者だけ。</div>
+</div>
 <p><span class="kw">公開鍵暗号方式</span>は、<b>対になる2つの鍵</b>（公開鍵と秘密鍵）を使います。公開鍵で暗号化したものは、対になる秘密鍵でしか復号できません。</p>
 <div class="why"><div class="why-t">なぜ？ ── 鍵を「公開」してしまって安全なのか</div>
 公開鍵は<b>「開いた南京錠」</b>だと考えてください。私は開いた南京錠を世界中に配ります（公開鍵の公開）。あなたは荷物を箱に入れ、その南京錠をパチンと閉めて送る（公開鍵で暗号化）。<b>南京錠は誰でも閉められますが、開けられるのは鍵（秘密鍵）を持つ私だけ</b>。閉める道具と開ける道具が別だから、閉める道具は公開してよいのです。これで鍵配送問題は解決しますが、公開鍵暗号は計算が複雑で<b>処理が遅い</b>という弱点があります。そこで実際の通信（HTTPSの<span class="kw">TLS</span>＝Transport Layer Security など）では、<b>最初だけ公開鍵暗号で「共通鍵」を安全に受け渡し、以降の大量データは高速な共通鍵暗号で</b>やり取りする合わせ技（ハイブリッド方式）が使われます。2方式は競合ではなく分業の関係——ここまで理解すると応用問題も解けます。</div>
 
 <h3 class="sec">3. デジタル署名 ── 「本人が書いた・改ざんなし」の証明</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 580 250" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="デジタル署名の仕組み。送信者は秘密鍵で署名し受信者は公開鍵で検証する" style="width:100%;height:auto;max-width:540px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<defs><marker id="dsA" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="#9a927f"/></marker></defs>
+<text x="290" y="20" text-anchor="middle" font-size="15.5" font-weight="700" fill="currentColor">デジタル署名 ── 本人性＋改ざん検知</text>
+<rect x="28" y="48" width="250" height="160" rx="9" fill="rgba(180,130,40,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="153" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">送信者（署名する）</text>
+<text x="44" y="104" font-size="11.5" fill="currentColor">① 文書からハッシュ値を計算</text>
+<text x="44" y="130" font-size="11.5" fill="currentColor">② ハッシュを<tspan fill="#d6584c" font-weight="700">秘密鍵</tspan>で暗号化</text>
+<text x="44" y="152" font-size="11.5" fill="currentColor" fill-opacity="0.85">　 ＝ デジタル署名</text>
+<text x="44" y="182" font-size="11.5" fill="currentColor">③ 文書＋署名 を送る</text>
+<rect x="302" y="48" width="250" height="160" rx="9" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="427" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">受信者（検証する）</text>
+<text x="318" y="104" font-size="11.5" fill="currentColor">① 署名を<tspan fill="#5a8fc7" font-weight="700">公開鍵</tspan>で復号→ハッシュA</text>
+<text x="318" y="130" font-size="11.5" fill="currentColor">② 文書から再計算→ハッシュB</text>
+<text x="318" y="156" font-size="11.5" fill="currentColor">③ A＝B なら</text>
+<text x="318" y="182" font-size="11.5" font-weight="700" fill="#57a673">　 本人＆改ざんなし ✓</text>
+<line x1="278" y1="128" x2="302" y2="128" stroke="#9a927f" stroke-width="2" marker-end="url(#dsA)"/>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：<b>秘密鍵で署名・公開鍵で検証</b>。ハッシュ値が一致すれば「本人が作成」かつ「改ざんなし」。</div>
+</div>
 <p>公開鍵のペアは、逆向きに使うと「証明」の道具になります。<b>秘密鍵で署名（暗号化）したものは、対になる公開鍵でしか検証（復号）できない</b>——秘密鍵は本人しか持っていないので、検証に成功すれば「本人が作成した」ことの証拠になります。これが<span class="kw">デジタル署名</span>で、文書の<b>なりすまし防止（本人性）と改ざん検知（完全性）</b>を同時に実現します。改ざん検知には、データから固定長の要約値を作る<span class="kw">ハッシュ関数</span>が使われます（内容が1文字でも変わるとハッシュ値が大きく変わるため、値を比べれば改ざんが分かる）。</p>
 <p>ただし、まだ穴があります。「この公開鍵は本当に本人のものか？」——攻撃者が他人になりすまして偽の公開鍵を配っていたら、すべてが崩れます。そこで、信頼できる第三者機関（<span class="kw">認証局：CA</span>＝Certification Authority）が「この公開鍵は確かにこの人・この会社のものです」と<span class="kw">電子証明書</span>を発行して保証します。この信頼の仕組み全体を<span class="kw">PKI</span>（Public Key Infrastructure：公開鍵基盤）と呼びます。ブラウザの鍵マークの裏では、サーバ証明書の検証が毎回行われているのです。なお、秘密鍵の漏えいなどで<b>有効期限前に失効させられた証明書の一覧</b>は<span class="kw">CRL</span>（Certificate Revocation List：証明書失効リスト）に掲載され、検証の際に照合されます（令和7年度に出題）。</p>
 
 <h3 class="sec">4. 認証 ── 「あなたは誰？」を確かめる3つの方法</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 560 220" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="認証の3要素。知識・所有・生体" style="width:100%;height:auto;max-width:520px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<text x="280" y="22" text-anchor="middle" font-size="15.5" font-weight="700" fill="currentColor">認証の3要素 ── 違う2つ以上で多要素認証</text>
+<rect x="24" y="46" width="160" height="104" rx="8" fill="rgba(58,110,165,.13)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="104" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">① 知識</text>
+<text x="104" y="94" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">知っているもの</text>
+<text x="104" y="120" text-anchor="middle" font-size="11" fill="currentColor">パスワード・PIN</text>
+<text x="104" y="138" text-anchor="middle" font-size="11" fill="currentColor">秘密の質問</text>
+<rect x="210" y="46" width="160" height="104" rx="8" fill="rgba(180,130,40,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="290" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">② 所有</text>
+<text x="290" y="94" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">持っているもの</text>
+<text x="290" y="120" text-anchor="middle" font-size="11" fill="currentColor">ICカード・トークン</text>
+<text x="290" y="138" text-anchor="middle" font-size="11" fill="currentColor">スマホのコード</text>
+<rect x="396" y="46" width="160" height="104" rx="8" fill="rgba(60,122,78,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="476" y="74" text-anchor="middle" font-size="13" font-weight="700" fill="currentColor">③ 生体</text>
+<text x="476" y="94" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">本人自身</text>
+<text x="476" y="120" text-anchor="middle" font-size="11" fill="currentColor">指紋・顔・虹彩</text>
+<text x="280" y="196" text-anchor="middle" font-size="11.5" fill="currentColor" fill-opacity="0.72">異なる要素を2つ以上＝<tspan font-weight="700">多要素認証</tspan>（同じ要素2つは不可）</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：知識・所有・生体の3種類。違う種類を2つ以上組み合わせると多要素認証。</div>
+</div>
 <p>本人確認（認証）の要素は3種類に分類されます。</p>
 <table class="tbl">
 <tr><th>要素</th><th>例</th></tr>
@@ -630,6 +981,27 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 <p>最終単元は、攻撃から守る技術の道具箱です。たくさん出てきますが、どれも「<b>どこで・何を防ぐ道具か</b>」という配置図で覚えると混ざりません。城の防御（堀・門番・見張り・金庫）にたとえながら整理しましょう。</p>
 
 <h3 class="sec">1. 境界を守る ── ファイアウォールとDMZ</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 600 230" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="ファイアウォールとDMZ。公開サーバを中間地帯に置き内部を守る" style="width:100%;height:auto;max-width:540px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<text x="300" y="22" text-anchor="middle" font-size="15" font-weight="700" fill="currentColor">ファイアウォールとDMZ ── 公開サーバは中間地帯へ</text>
+<rect x="24" y="66" width="120" height="100" rx="8" fill="rgba(183,58,46,.12)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="84" y="110" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">インターネット</text>
+<text x="84" y="130" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">外部・危険</text>
+<rect x="212" y="66" width="176" height="100" rx="8" fill="rgba(180,130,40,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="300" y="104" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">DMZ（中間地帯）</text>
+<text x="300" y="126" text-anchor="middle" font-size="11" fill="currentColor">公開サーバ</text>
+<text x="300" y="144" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.8">Web・メール</text>
+<rect x="456" y="66" width="120" height="100" rx="8" fill="rgba(60,122,78,.14)" stroke="currentColor" stroke-opacity="0.25"/>
+<text x="516" y="110" text-anchor="middle" font-size="12.5" font-weight="700" fill="currentColor">社内ネット</text>
+<text x="516" y="130" text-anchor="middle" font-size="10.5" fill="currentColor" fill-opacity="0.7">内部・守る</text>
+<rect x="174" y="72" width="10" height="88" rx="3" fill="rgba(214,88,76,.55)"/>
+<text x="179" y="182" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">FW</text>
+<rect x="416" y="72" width="10" height="88" rx="3" fill="rgba(214,88,76,.55)"/>
+<text x="421" y="182" text-anchor="middle" font-size="10" fill="currentColor" fill-opacity="0.72">FW</text>
+<text x="300" y="206" text-anchor="middle" font-size="11" fill="currentColor" fill-opacity="0.72">FW＝ファイアウォール（関所）。公開サーバを乗っ取られても社内へ侵入されにくい</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：公開サーバはDMZ（中間地帯）に置き、内部はファイアウォールで守る。</div>
+</div>
 <p><span class="kw">ファイアウォール</span>は、社内ネットワークとインターネットの<b>境界</b>に置かれ、あらかじめ決めたルールに基づいて通信を<b>通す／遮断する</b>関所です。城でいえば堀と門番にあたります。</p>
 <p>ここで問題がひとつ。ウェブサーバやメールサーバは<b>外部に公開しなければ意味がない</b>のに、社内ネットワークに置いて公開したら、そこを踏み台に社内へ侵入されかねません。そこで、外部とも内部とも区切られた<b>中間地帯</b>に公開サーバを置きます。これが<span class="kw">DMZ</span>（DeMilitarized Zone：非武装地帯）です。</p>
 <div class="why"><div class="why-t">なぜ？ ── DMZという「中間地帯」を作るのか</div>
@@ -646,6 +1018,24 @@ ITパスポートのプログラミング問題は、特定の言語ではなく
 </ul>
 
 <h3 class="sec">3. 通信と無線LANを守る</h3>
+<div style="margin:16px auto;padding:14px 12px 10px;background:var(--card);border:1px solid var(--line);border-radius:10px;">
+<svg viewBox="0 0 560 196" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="無線LANの暗号化規格。WEPは不可、WPA2とWPA3が安全" style="width:100%;height:auto;max-width:520px;display:block;margin:0 auto;color:var(--ink);font-family:'Hiragino Kaku Gothic ProN','Yu Gothic','Meiryo',sans-serif;">
+<text x="280" y="22" text-anchor="middle" font-size="16" font-weight="700" fill="currentColor">無線LANの暗号化 ── 古いWEPは使わない</text>
+<rect x="36" y="42" width="488" height="40" rx="8" fill="rgba(183,58,46,.12)" stroke="currentColor" stroke-opacity="0.22"/>
+<text x="66" y="67" font-size="13" font-weight="700" fill="currentColor">WEP</text>
+<text x="150" y="67" font-size="11.5" fill="currentColor" fill-opacity="0.8">古い規格。解読が容易 → 使わない</text>
+<text x="500" y="68" text-anchor="end" font-size="16" font-weight="700" fill="#d6584c">✕</text>
+<rect x="36" y="90" width="488" height="40" rx="8" fill="rgba(60,122,78,.13)" stroke="currentColor" stroke-opacity="0.22"/>
+<text x="66" y="115" font-size="13" font-weight="700" fill="currentColor">WPA2</text>
+<text x="150" y="115" font-size="11.5" fill="currentColor" fill-opacity="0.8">広く使われている安全な規格</text>
+<text x="500" y="116" text-anchor="end" font-size="15" font-weight="700" fill="#57a673">○</text>
+<rect x="36" y="138" width="488" height="40" rx="8" fill="rgba(60,122,78,.13)" stroke="currentColor" stroke-opacity="0.22"/>
+<text x="66" y="163" font-size="13" font-weight="700" fill="currentColor">WPA3</text>
+<text x="150" y="163" font-size="11.5" fill="currentColor" fill-opacity="0.8">最新・さらに安全</text>
+<text x="500" y="164" text-anchor="end" font-size="15" font-weight="700" fill="#57a673">◎</text>
+</svg>
+<div style="text-align:center;font-size:12px;color:var(--ink);opacity:.72;margin-top:8px;line-height:1.6;">図：無線LANは <b>WPA2／WPA3</b> で暗号化。古い <b>WEP</b> は簡単に解読されるため使わない。</div>
+</div>
 <ul>
 <li><span class="kw">VPN</span>（Virtual Private Network）：公衆回線の上に、暗号化された<b>仮想的な専用線（トンネル）</b>を作る技術。テレワークで自宅から社内ネットワークへ安全につなぐ定番手段。</li>
 <li>無線LANの暗号化：規格は<span class="kw">WPA2／WPA3</span>（Wi-Fi Protected Access）を使う（古いWEPは解読が容易なため不可）。</li>
@@ -1340,6 +1730,13 @@ function bindEvents(){
 
 render();
 /* テクノロジ攻略ノート v1.0 - 全3章10単元 深掘り版 */
+</script>
+<button id="themeBtn" type="button" onclick="ipToggleTheme()" aria-label="ライト・ダーク切替">🌙 ダーク</button>
+<script>
+(function(){try{var t=localStorage.getItem('ipTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+function ipToggleTheme(){var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('ipTheme',n);}catch(e){}ipSyncThemeBtn();}
+function ipSyncThemeBtn(){var b=document.getElementById('themeBtn');if(!b)return;b.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'🌙 ダーク':'☀️ ライト';}
+ipSyncThemeBtn();
 </script>
 </body>
 </html>

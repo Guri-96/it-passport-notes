@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -50,6 +50,16 @@ a.note:active{transform:scale(.98);}
 .t b{font-size:17px;display:block;}
 .t small{font-size:12.5px;color:#8a8268;}
 footer{margin-top:26px;font-size:11.5px;color:#a89e84;}
+/* ===== ダークモード（切替対応・初期ダーク） ===== */
+:root[data-theme=dark]{color-scheme:dark;}
+[data-theme=dark] body{color:#e7e1d3;background-color:#1b1f25;background-image:linear-gradient(rgba(130,160,190,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(130,160,190,.05) 1px,transparent 1px);}
+[data-theme=dark] h1{border-bottom-color:#3a424d;}
+[data-theme=dark] .sub{color:#a89e84;}
+[data-theme=dark] a.note{background:#242a31;border-color:#3a424d;color:#e7e1d3;box-shadow:0 2px 8px rgba(0,0,0,.35);}
+[data-theme=dark] .t small{color:#a59c87;}
+[data-theme=dark] footer{color:#8d8676;}
+#themeBtn{position:fixed;top:10px;right:10px;z-index:999;border:1px solid #d9d2bf;background:#fffefa;color:#2b3a42;border-radius:18px;padding:5px 12px;font-size:12.5px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.18);font-family:inherit;line-height:1.4;}
+[data-theme=dark] #themeBtn{background:#242a31;color:#e7e1d3;border-color:#3a424d;}
 </style>
 </head>
 <body>
@@ -105,6 +115,13 @@ footer{margin-top:26px;font-size:11.5px;color:#a89e84;}
     a.appendChild(b);
   }
 }catch(e){} })();
+</script>
+<button id="themeBtn" type="button" onclick="ipToggleTheme()" aria-label="ライト・ダーク切替">🌙 ダーク</button>
+<script>
+(function(){try{var t=localStorage.getItem('ipTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+function ipToggleTheme(){var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('ipTheme',n);}catch(e){}ipSyncThemeBtn();}
+function ipSyncThemeBtn(){var b=document.getElementById('themeBtn');if(!b)return;b.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'🌙 ダーク':'☀️ ライト';}
+ipSyncThemeBtn();
 </script>
 </body>
 </html>

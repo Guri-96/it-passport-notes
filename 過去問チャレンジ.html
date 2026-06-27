@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-theme="dark">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -78,6 +78,36 @@ footer{margin-top:26px;text-align:center;font-size:12px;color:#a89e84;}
 #toast{position:fixed;left:50%;bottom:70px;transform:translateX(-50%) translateY(20px);background:rgba(43,58,66,.95);color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;opacity:0;pointer-events:none;transition:all .25s;z-index:60;max-width:90%;text-align:center;}
 #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 @media (max-width:480px){ body{font-size:15px;} h1.title{font-size:23px;} .opt{font-size:14px;} .qno{width:40px;font-size:12px;} }
+/* ===== ダークモード（切替対応・初期ダーク） ===== */
+:root[data-theme=dark]{
+  color-scheme:dark;
+  --ink:#e7e1d3; --paper:#1b1f25; --card:#242a31; --line:#3a424d;
+  --grid:rgba(130,160,190,.05); --red:#ec7d72; --red-soft:#3a2622;
+  --blue:#84b3e6; --green:#85c997; --gold:#c9a86a;
+}
+:root[data-theme=dark] .subtitle{color:#a89e84;}
+:root[data-theme=dark] .card-h{background:linear-gradient(180deg,#2b323b,#242a31);}
+:root[data-theme=dark] .lead,:root[data-theme=dark] .progress-mini,:root[data-theme=dark] .qno{color:#b4ab95;}
+:root[data-theme=dark] .menu-row{border-bottom-color:#343b45;}
+:root[data-theme=dark] .menu-row:hover{background:#2b323b;}
+:root[data-theme=dark] .m-t small,:root[data-theme=dark] .note,:root[data-theme=dark] .fcell .fn{color:#a59c87;}
+:root[data-theme=dark] .chev{color:#8d8676;}
+:root[data-theme=dark] .btn.sub,:root[data-theme=dark] .tbtn,:root[data-theme=dark] .opt{background:#242a31;border-color:#4a525c;color:var(--ink);}
+:root[data-theme=dark] .opt:hover{background:#2b323b;}
+:root[data-theme=dark] .opt.sel{color:#12161c;}
+:root[data-theme=dark] .pdfrow{border-bottom-color:#343b45;}
+:root[data-theme=dark] .pdflink{background:#222d38;border-color:#36506b;}
+:root[data-theme=dark] .pdflink.ans{background:#1f2c24;border-color:#3a5a44;}
+:root[data-theme=dark] .timer{background:#242a31;border-color:var(--line);}
+:root[data-theme=dark] .qrow{border-bottom-color:#2f3640;}
+:root[data-theme=dark] .opt.correct{background:#203026;border-color:var(--green);}
+:root[data-theme=dark] .opt.wrong{background:var(--red-soft);border-color:var(--red);}
+:root[data-theme=dark] .actionbar{background:rgba(27,31,37,.96);border-top-color:var(--line);}
+:root[data-theme=dark] .verdict.pass{background:#203026;}
+:root[data-theme=dark] .fcell{background:#242a31;border-color:var(--line);}
+:root[data-theme=dark] footer{color:#8d8676;}
+#themeBtn{position:fixed;top:10px;right:10px;z-index:999;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:18px;padding:5px 12px;font-size:12.5px;cursor:pointer;box-shadow:0 1px 4px rgba(0,0,0,.18);font-family:inherit;line-height:1.4;}
+#themeBtn:active{transform:translateY(1px);}
 </style>
 </head>
 <body>
@@ -286,6 +316,13 @@ function bind(){
 
 /* ===== 起動 ===== */
 render();
+</script>
+<button id="themeBtn" type="button" onclick="ipToggleTheme()" aria-label="ライト・ダーク切替">🌙 ダーク</button>
+<script>
+(function(){try{var t=localStorage.getItem('ipTheme');if(t)document.documentElement.setAttribute('data-theme',t);}catch(e){}})();
+function ipToggleTheme(){var n=document.documentElement.getAttribute('data-theme')==='dark'?'light':'dark';document.documentElement.setAttribute('data-theme',n);try{localStorage.setItem('ipTheme',n);}catch(e){}ipSyncThemeBtn();}
+function ipSyncThemeBtn(){var b=document.getElementById('themeBtn');if(!b)return;b.textContent=document.documentElement.getAttribute('data-theme')==='dark'?'🌙 ダーク':'☀️ ライト';}
+ipSyncThemeBtn();
 </script>
 </body>
 </html>
